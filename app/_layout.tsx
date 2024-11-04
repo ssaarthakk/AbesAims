@@ -27,7 +27,6 @@ export default function Layout() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const data = useStore((state: any) => state.userData);
-    const [dataUser, setDataUser] = useState<StudentData | null>(null);
     React.useEffect(() => {
 
         const checkLoginStatus = async () => {
@@ -35,7 +34,6 @@ export default function Layout() {
             if (!userData) {
                 setIsLoggedIn(false);
             } else {
-                setDataUser(userData);
                 setIsLoggedIn(true);
             }
         }
@@ -65,7 +63,7 @@ export default function Layout() {
                     drawerStyle: { backgroundColor: color_three },
                     drawerLabelStyle: { marginLeft: -20, fontFamily: "Montserrat" },
                 }}
-                drawerContent={CustomDrawerContent}
+                    drawerContent={CustomDrawerContent}
                 >
                     <Drawer.Screen
                         name="index"

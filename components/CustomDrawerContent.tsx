@@ -1,21 +1,26 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React from 'react'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import useStore, { useApiStore } from '@/utils/store'
 import { removeData } from '@/utils/storage'
-import { router } from 'expo-router'
+import * as Updates from 'expo-updates';
 
 export default function CustomDrawerContent(props: any) {
     const setUserData = useStore((state: any) => state.addUserData);
     const setApiData = useApiStore((state: any) => state.addData);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         removeData('userData');
         setUserData(null);
         setApiData([]);
         console.log("Logout");
-        router.replace('/');
+        try {
+            await Updates.reloadAsync();
+        } catch (error) {
+            console.log("Error while reloading app in Logout");
+            ToastAndroid.show("Please try again", ToastAndroid.LONG);
+        }
     }
 
     return (
@@ -25,13 +30,14 @@ export default function CustomDrawerContent(props: any) {
                     <Text className='text-center text-color_five text-3xl font-montserratBold'>Menu</Text>
                 </View>
                 <DrawerItemList {...props} />
-                {/* <DrawerItem
+                <DrawerItem
                     label="Logout"
                     onPress={handleLogout}
-                    inactiveTintColor='#fa2323'
+                    inactiveTintColor='red'
+                    activeTintColor='red'
                     style={{ marginBottom: '5%' }}
-                    icon={({ size }) => <Ionicons name="log-out-outline" color={'#fa2323'} size={size} />}
-                /> */}
+                    icon={({ size }) => <Ionicons name="log-out-outline" color={'red'} size={size} />}
+                />
             </DrawerContentScrollView>
         </View>
     )

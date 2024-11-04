@@ -18,7 +18,7 @@ export default function AttendanceDetails() {
 
   return (
     <LinearGradient className='flex-1 justify-center items-center' colors={[color_four, color_three]} start={{ x: 0.4, y: 0.4 }} end={{ x: 1, y: 1 }} >
-      <View className='flex-1 p-4'>
+      <View className='flex-1 p-4 justify-center items-center'>
         {
           (apiData.length === 0) ? (
             <LoadinSvg loading={apiData.length === 0} color='black' size={96} />

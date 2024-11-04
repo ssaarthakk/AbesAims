@@ -52,7 +52,8 @@ export default function HomePage() {
   useEffect(() => {
     const checkLogin = async () => {
 
-      if (dataApi.length === 0) {
+      const data: StudentData = await getData('userData') as StudentData;
+      if (dataApi.length === 0 && data) {
         const apiData = await getSubjectDetailsAndAttendance();
         if (apiData.length > 0 && attendance === null) {
           setAttendance(apiData[apiData!.length - 1].attendance_summary);
@@ -60,7 +61,6 @@ export default function HomePage() {
         setDataApi(apiData);
       }
 
-      const data: StudentData = await getData('userData') as StudentData;
       if (data) {
         setUserData(data);
       }
@@ -68,7 +68,7 @@ export default function HomePage() {
     }
 
     checkLogin();
-  }, []);
+  }, [dataApi]);
 
   useEffect(() => {
     if (dataApi.length > 0 && attendance === null) {
