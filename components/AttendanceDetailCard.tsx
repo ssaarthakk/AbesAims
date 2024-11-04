@@ -8,12 +8,12 @@ export default function AttendanceDetailCard({ formattedDate, facultyName, statu
         <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl flex gap-2 mb-3'>
             <View className='flex flex-row items-center gap-2'>
                 <Ionicons name="calendar-clear-outline" size={24} color={color_three} />
-                <Text className='text-xl font-semibold'>{formattedDate}</Text>
+                <Text className='text-xl font-montserratSemiBold'>{formattedDate}</Text>
             </View>
             <View className='flex flex-row items-center gap-2'>
                 <Ionicons name="person-circle-outline" size={24} color={color_three} />
-                <Text className='text-xl font-semibold'>Faculty Name:</Text>
-                <Text className='text-xl'>{facultyName}</Text>
+                <Text className='text-xl font-montserratSemiBold'>Faculty Name:</Text>
+                <Text className='text-xl font-montserrat'>{facultyName}</Text>
             </View>
             <View className='flex flex-row items-center gap-2'>
                 {
@@ -23,8 +23,8 @@ export default function AttendanceDetailCard({ formattedDate, facultyName, statu
                         <Ionicons name="close-circle-outline" size={24} color="#fa2323" />
                     )
                 }
-                <Text className='text-xl font-semibold'>Status:</Text>
-                <Text className='text-xl'>{status}</Text>
+                <Text className='text-xl font-montserratSemiBold'>Status:</Text>
+                <Text className='text-xl font-montserrat'>{status}</Text>
             </View>
         </View>
     )

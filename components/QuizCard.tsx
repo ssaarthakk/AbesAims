@@ -10,14 +10,17 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
         console.log('Pressed');
         if (href) {
             Linking.canOpenURL(href)
-            .then((supported) => {
-                if (supported) {
-                    Linking.openURL(href);
-                } else {
+                .then((supported) => {
+                    if (supported) {
+                        Linking.openURL(href);
+                    } else {
+                        ToastAndroid.show('Cannot open link', ToastAndroid.LONG);
+                    }
+                })
+                .catch((err) => {
                     ToastAndroid.show('Cannot open link', ToastAndroid.LONG);
-                }
-            })
-            .catch((err) => console.error('An error occurred', err));
+                    console.log("Error while opening link ", err);
+                });
         } else {
             ToastAndroid.show('Invalid Quiz Link', ToastAndroid.LONG);
         }
@@ -25,13 +28,13 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
 
     return (
         <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl flex gap-2 mb-3'>
-            <Text className='font-semibold text-2xl'>{courseCode}</Text>
+            <Text className='font-montserratSemiBold text-2xl'>{courseCode}</Text>
             <View>
-                <Text className='text-lg'>Quiz UC: {quizUc}</Text>
-                <Text className='text-lg'>Marks Obtained: {markOb}</Text>
-                <Text className='text-lg'>Correct Answers: {CorrectA}</Text>
-                <Text className='text-lg'>Incorrect Answers: {IncorrectA}</Text>
-                <Text className='text-lg'>Not Attempted: {NotAttempted}</Text>
+                <Text className='text-lg font-montserrat'>Quiz UC: {quizUc}</Text>
+                <Text className='text-lg font-montserrat'>Marks Obtained: {markOb}</Text>
+                <Text className='text-lg font-montserrat'>Correct Answers: {CorrectA}</Text>
+                <Text className='text-lg font-montserrat'>Incorrect Answers: {IncorrectA}</Text>
+                <Text className='text-lg font-montserrat'>Not Attempted: {NotAttempted}</Text>
             </View>
             <CustomButton title='View Details' onPress={handlePress} containerStyles='py-2 self-center w-full mt-2' />
         </View>

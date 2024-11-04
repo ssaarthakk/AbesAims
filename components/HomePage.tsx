@@ -6,6 +6,9 @@ import { useApiStore } from '@/utils/store';
 import AttendanceOverview from './AttendanceOverview';
 import UserDataCard from './UserDataCard';
 import AttendanceTable from './AttendanceTable';
+import { ScrollView } from 'react-native-gesture-handler';
+import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
+import LoadinSvg from './LoadinSvg';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -21,10 +24,10 @@ export default function HomePage() {
     let count = 0;
 
     if (((attendance!.Present / attendance!.Total) * 100) > 75) {
-      while(true) {
-        if(percent <= 75){
+      while (true) {
+        if (percent <= 75) {
           break;
-        } else if ( percent > 75 ) {
+        } else if (percent > 75) {
           total++;
           count++;
           percent = (p / total) * 100;
@@ -52,7 +55,7 @@ export default function HomePage() {
       if (dataApi.length === 0) {
         const apiData = await getSubjectDetailsAndAttendance();
         if (apiData.length > 0 && attendance === null) {
-          setAttendance(apiData[apiData!.length - 1].attendance_summary);      
+          setAttendance(apiData[apiData!.length - 1].attendance_summary);
         }
         setDataApi(apiData);
       }
@@ -69,7 +72,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (dataApi.length > 0 && attendance === null) {
-      setAttendance(dataApi[dataApi!.length - 1].attendance_summary);      
+      setAttendance(dataApi[dataApi!.length - 1].attendance_summary);
     }
     if (attendance) {
       extraAttendance();
@@ -78,15 +81,38 @@ export default function HomePage() {
 
   if (attendance) {
     return (
-      <View className='flex-1 items-center gap-2 p-4 justify-between'>
-        <UserDataCard userData={userData} />
-        <AttendanceOverview attendance={attendance} classCount={classCount} />
-        <AttendanceTable attendance={attendance}/>
-      </View>
+      <ScrollView>
+        <View className='flex-1 items-center gap-2 p-4 justify-between'>
+          <Animated.View
+            entering={FadeInDown.delay(300)
+              .mass(0.5)
+              .stiffness(80)
+              .springify(20)}
+          >
+            <UserDataCard userData={userData} />
+          </Animated.View>
+          <Animated.View
+            entering={FadeIn.delay(300)
+              .mass(0.5)
+              .stiffness(80)
+              .springify(20)}
+          >
+            <AttendanceOverview attendance={attendance} classCount={classCount} />
+          </Animated.View>
+          <Animated.View
+            entering={FadeInUp.delay(300)
+              .mass(0.5)
+              .stiffness(80)
+              .springify(20)}
+          >
+            <AttendanceTable attendance={attendance} />
+          </Animated.View>
+        </View>
+      </ScrollView>
     )
   } else return (
-    <View className='flex-1 items-center gap-4 p-5'>
-        <UserDataCard userData={userData} />
+    <View className='flex-1 items-center justify-center h-screen'>
+      <LoadinSvg loading={!attendance} color={'black'} size={96} />
     </View>
   )
 }

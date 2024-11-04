@@ -1,5 +1,3 @@
-export const color_one = '#222831'
-export const color_two = '#393E46'
-export const color_three = '#1E2A5E'
-export const color_four = '#E1D7B7'
-export const color_five = '#F3F3E0'
+export const color_three = '#000'
+export const color_four = '#fff'
+export const color_five = '#fff'

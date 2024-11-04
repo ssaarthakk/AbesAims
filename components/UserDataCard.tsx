@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import React from 'react'
 import { BookIcon, CalendarIcon, HomeIcon, ProfileIcon } from '@/constants/SvgIcons'
 import { StudentData } from '@/utils/apicalls'
@@ -10,22 +10,22 @@ export default function UserDataCard({ userData }: { userData: StudentData }) {
             <View className='flex flex-row items-center justify-between gap-4 mb-4'>
 
                 <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-color_four rounded'>
+                    <View className='p-2 bg-gray-200 rounded'>
                         <ProfileIcon />
                     </View>
                     <View>
-                        <Text className='text-gray-500 text-sm'>Name</Text>
-                        <Text className='font-semibold text-xl'>{userData?.name}</Text>
+                        <Text className='text-gray-500 text-sm font-montserrat'>Name</Text>
+                        <Text className='font-montserratSemiBold text-xl break-all'>{userData?.name}</Text>
                     </View>
                 </View>
 
                 <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-color_four rounded'>
+                    <View className='p-2 bg-gray-200 rounded'>
                         <BookIcon />
                     </View>
                     <View>
-                        <Text className='text-gray-500 text-sm'>Branch</Text>
-                        <Text className='font-semibold text-xl'>{userData?.branch}</Text>
+                        <Text className='text-gray-500 text-sm font-montserrat'>Branch</Text>
+                        <Text className='font-montserratSemiBold text-xl'>{userData?.branch}</Text>
                     </View>
                 </View>
 
@@ -34,22 +34,22 @@ export default function UserDataCard({ userData }: { userData: StudentData }) {
             <View className='flex flex-row justify-between items-center gap-4'>
 
                 <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-color_four rounded'>
+                    <View className='p-2 bg-gray-200 rounded'>
                         <CalendarIcon />
                     </View>
                     <View>
-                        <Text className='text-gray-500 text-sm'>Semester</Text>
-                        <Text className='font-semibold text-xl'>{userData?.semester}</Text>
+                        <Text className='text-gray-500 text-sm font-montserrat'>Semester</Text>
+                        <Text className='text-xl font-montserratSemiBold'>{userData?.semester}</Text>
                     </View>
                 </View>
 
                 <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-color_four rounded'>
+                    <View className='p-2 bg-gray-200 rounded'>
                         <HomeIcon />
                     </View>
                     <View>
-                        <Text className='text-gray-500 text-sm'>Adm No.</Text>
-                        <Text className='font-semibold text-xl'>{userData?.username}</Text>
+                        <Text className='text-gray-500 text-sm font-montserrat'>Adm No.</Text>
+                        <Text className='text-xl font-montserratSemiBold'>{userData?.username}</Text>
                     </View>
                 </View>
 
@@ -57,5 +57,3 @@ export default function UserDataCard({ userData }: { userData: StudentData }) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({})

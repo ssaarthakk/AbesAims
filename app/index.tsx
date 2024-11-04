@@ -1,6 +1,5 @@
-import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { color_four, color_three, color_two } from '@/constants/Colors';
+import { color_four, color_three } from '@/constants/Colors';
 import HomePage from '@/components/HomePage';
 
 export default function Home() {

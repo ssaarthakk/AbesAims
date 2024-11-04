@@ -22,7 +22,7 @@ export default function CustomDrawerContent(props: any) {
         <View className='flex-1'>
             <DrawerContentScrollView {...props}>
                 <View className='flex flex-row justify-between items-center p-4'>
-                    <Text className='text-center text-color_four text-3xl font-bold'>Menu</Text>
+                    <Text className='text-center text-color_five text-3xl font-montserratBold'>Menu</Text>
                 </View>
                 <DrawerItemList {...props} />
                 {/* <DrawerItem

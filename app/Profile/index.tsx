@@ -3,6 +3,7 @@ import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { color_four, color_three } from '@/constants/Colors'
 import ProfileCard from '@/components/ProfileCard'
+import { ScrollView } from 'react-native-gesture-handler'
 
 export default function Profile() {
   return (

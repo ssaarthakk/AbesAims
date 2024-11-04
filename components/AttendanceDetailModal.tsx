@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import React from 'react'
 import Modal from './Modal'
 import { FlatList } from 'react-native-gesture-handler'
@@ -14,7 +14,7 @@ export default function AttendanceDetailModal({ data, setDataApi }: { data: any,
     <Modal isOpen={isOpen}>
       <SafeAreaView className='flex-1 p-4 bg-color_four'>
         <View className='flex-row justify-between'>
-          <Text className='font-bold text-2xl pb-2'>Subject Attendance Details</Text>
+          <Text className='font-montserratBold text-2xl pb-2'>Subject Attendance Details</Text>
           <Pressable onPress={() => {
             setIsOpen(false);
             setDataApi([]);
@@ -31,5 +31,3 @@ export default function AttendanceDetailModal({ data, setDataApi }: { data: any,
     </Modal>
   )
 }
-
-const styles = StyleSheet.create({})
