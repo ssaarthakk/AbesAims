@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getData } from '@/utils/storage';
 import { getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
@@ -7,8 +7,9 @@ import AttendanceOverview from './AttendanceOverview';
 import UserDataCard from './UserDataCard';
 import AttendanceTable from './AttendanceTable';
 import { ScrollView } from 'react-native-gesture-handler';
-import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 import LoadinSvg from './LoadinSvg';
+import TodaySchedule from './TodaySchedule';
+import ScheduleCard from './ScheduleCard';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -83,30 +84,9 @@ export default function HomePage() {
     return (
       <ScrollView>
         <View className='flex-1 items-center gap-2 p-4 justify-between'>
-          <Animated.View
-            entering={FadeInDown.delay(300)
-              .mass(0.5)
-              .stiffness(80)
-              .springify(20)}
-          >
-            <UserDataCard userData={userData} />
-          </Animated.View>
-          <Animated.View
-            entering={FadeIn.delay(300)
-              .mass(0.5)
-              .stiffness(80)
-              .springify(20)}
-          >
-            <AttendanceOverview attendance={attendance} classCount={classCount} />
-          </Animated.View>
-          <Animated.View
-            entering={FadeInUp.delay(300)
-              .mass(0.5)
-              .stiffness(80)
-              .springify(20)}
-          >
-            <AttendanceTable attendance={attendance} />
-          </Animated.View>
+          <UserDataCard userData={userData} />
+          <AttendanceOverview attendance={attendance} classCount={classCount} />
+          <TodaySchedule />
         </View>
       </ScrollView>
     )

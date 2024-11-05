@@ -24,25 +24,17 @@ export default function AttendanceDetails() {
             <LoadinSvg loading={apiData.length === 0} color='black' size={96} />
           ) : (
             <FlatList keyExtractor={item => String(item.id)} data={apiData} renderItem={({ item }) => (
-              <Animated.View
-                entering={FadeInDown.delay(300)
-                  .mass(0.5)
-                  .stiffness(80)
-                  .springify(20)}
-              >
-                <AttendanceCard
-                  id={Number(item.id)}
-                  subjectName={String(item.cdata.course_name)}
-                  subjectCode={String(item.cdata.course_code)}
-                  total={Number(item.attendance_summary.Total)}
-                  percent={String(item.attendance_summary.Percent)}
-                  leave={Number(item.attendance_summary.Leave)}
-                  exempt={Number(item.attendance_summary.Exempt)}
-                  absent={Number(item.attendance_summary.Absent)}
-                  present={Number(item.attendance_summary.Present)}
-                />
-
-              </Animated.View>
+              <AttendanceCard
+                id={Number(item.id)}
+                subjectName={String(item.cdata.course_name)}
+                subjectCode={String(item.cdata.course_code)}
+                total={Number(item.attendance_summary.Total)}
+                percent={String(item.attendance_summary.Percent)}
+                leave={Number(item.attendance_summary.Leave)}
+                exempt={Number(item.attendance_summary.Exempt)}
+                absent={Number(item.attendance_summary.Absent)}
+                present={Number(item.attendance_summary.Present)}
+              />
             )} />
           )
         }

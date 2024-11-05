@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native'
 import React from 'react';
 import * as Progress from 'react-native-progress';
+import AttendanceTable from './AttendanceTable';
 
 export default function AttendanceOverview({ attendance, classCount }: { attendance: { Present: number, Total: number, Percent: string }, classCount: number }) {
     const attendancePercent: number = Number(((attendance!.Present / attendance!.Total) * 100).toFixed(2));
@@ -28,6 +29,7 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
                     }
                 </Text>
             </View>
+            <AttendanceTable attendance={attendance}/>
         </View>
     )
 }
