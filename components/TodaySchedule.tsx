@@ -2,15 +2,12 @@ import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getSchedule } from '@/utils/apicalls';
 import ScheduleCard from './ScheduleCard';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import LoadinSvg from './LoadinSvg';
 
 export default function TodaySchedule() {
 
     const [data, setData] = useState<Array<any>>([]);
     const [date, _] = useState(new Date());
     const [arrayTimeDetails, setArrayTimeDetails] = useState<Array<any>>([]);
-    const [isLoading, setIsLoading] = useState(false);
 
     const setNewData = () => {
         const newData = data.slice(1);
@@ -41,7 +38,6 @@ export default function TodaySchedule() {
 
     useEffect(() => {
         const getData = async () => {
-            setIsLoading(true);
             if (data.length === 0) {
                 const apiData: Array<any> = await getSchedule();
                 await setData(apiData);
@@ -49,7 +45,6 @@ export default function TodaySchedule() {
             } else {
                 setNewData();
             }
-            setIsLoading(false);
         }
 
         getData();
@@ -60,8 +55,8 @@ export default function TodaySchedule() {
         <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>
             <Text className='font-montserratSemiBold text-2xl text-center mb-1'>Time Table for {date.toDateString()}</Text>
             {
-                arrayTimeDetails.length === 0 && isLoading ? (
-                    <LoadinSvg loading={isLoading} color='black' size={48} />
+                arrayTimeDetails.length === 0 ? (
+                    <Text className='text-center font-montserratSemiBold text-xl'>No Schedule to display</Text>
                 ) : (
                     arrayTimeDetails.map((item, index) => <ScheduleCard faculty={item.faculty} subjectName={item.subjectName} time={item.time} key={index} />)
                 )

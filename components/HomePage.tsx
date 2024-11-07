@@ -34,6 +34,9 @@ export default function HomePage() {
           percent = (p / total) * 100;
         }
       }
+      if (p / total < 75) {
+        count--;
+      }
       setClassCount(count);
     } else if (((attendance!.Present / attendance!.Total) * 100) <= 75) {
       while (true) {

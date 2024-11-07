@@ -125,7 +125,7 @@ export default function Layout() {
                             )
                         }}
                     />
-                    <Drawer.Screen
+                    {/* <Drawer.Screen
                         name="About/index"
                         options={{
                             drawerLabel: 'About',
@@ -136,7 +136,7 @@ export default function Layout() {
                                 <Ionicons name="information-circle-outline" size={size} color={color} />
                             )
                         }}
-                    />
+                    /> */}
                 </Drawer>
             </GestureHandlerRootView>
         ) : (
