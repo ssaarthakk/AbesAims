@@ -27,7 +27,7 @@ const CustomButton = ({
                     children
                 ) : (
                     <Text
-                        className={`text-xl ${textStyles} text-color_five font-montserratBold`}
+                        className={`text-xl ${textStyles} text-color_five font-montserratBold text-center`}
                     >
                         {title}
                     </Text>
