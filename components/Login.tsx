@@ -18,12 +18,12 @@ export default function Login() {
   const handleLogin = async () => {
     setLoggingIn(true)
     if (username === '' || password === '') {
-      ToastAndroid.show('Please enter your Addmission Number and password', ToastAndroid.LONG);
+      ToastAndroid.show('Please enter your Admission Number and password', ToastAndroid.LONG);
       setLoggingIn(false);
     } else {
       const result = await login(username, password) as StudentData | null;
       if (!result) {
-        ToastAndroid.show('Invalid Addmission Number or password', ToastAndroid.LONG);
+        ToastAndroid.show('Invalid Admission Number or password', ToastAndroid.LONG);
         setLoggingIn(false);
       } else {
         setUsername('');
@@ -42,7 +42,7 @@ export default function Login() {
   const handleReset = async () => {
     setReset(true);
     if (username === '') {
-      ToastAndroid.show('Please enter your username', ToastAndroid.LONG);
+      ToastAndroid.show('Please enter your Admission Number', ToastAndroid.LONG);
       setReset(false);
     } else {
       const result = await forgotPassoword(username) as { statusCode: number, message: string };
@@ -63,7 +63,7 @@ export default function Login() {
     <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md px-6 py-10'>
       <Text className='font-montserratBold text-4xl text-center'>ABES AIMS</Text>
       <Text className='font-montserratSemiBold text-2xl text-center pb-6'>Log In</Text>
-      <TextInput placeholder='Addmission Number' value={username} onChangeText={setUsername} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
+      <TextInput placeholder='Admission Number' value={username} onChangeText={setUsername} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
       <TextInput placeholder='Password' value={password} secureTextEntry onChangeText={setPassword} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
       <CustomButton onPress={!loggingIn? handleLogin : () => {}} title='Login'>
         {
@@ -85,8 +85,8 @@ export default function Login() {
               <CrossIcon />
             </TouchableOpacity>
           </View>
-          <Text className='font-montserrat text-lg pb-6'>Enter your Addmission number to reset your Password</Text>
-          <TextInput placeholder='Addmission Number' value={username} onChangeText={setUsername} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
+          <Text className='font-montserrat text-lg pb-6'>Enter your Admission number to reset your Password</Text>
+          <TextInput placeholder='Admission Number' value={username} onChangeText={setUsername} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
           <CustomButton onPress={!reset? handleReset : () => {}} title='Reset Password'>
             {
               reset && (
