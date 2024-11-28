@@ -12,11 +12,11 @@ export default function Modal({ isOpen, children }: Props) {
 
     return (
         <RNModal visible={isOpen} transparent animationType='fade' statusBarTranslucent>
-            <View className='flex-1 justify-center items-center bg-black/70'>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className='flex-1 justify-center items-center bg-black/70'>
                 <BlurView intensity={100} className='h-[80vh] w-screen flex-1 justify-center items-center' tint='dark'>
                     {children}
                 </BlurView>
-            </View>
+            </KeyboardAvoidingView>
         </RNModal>
     )
 }

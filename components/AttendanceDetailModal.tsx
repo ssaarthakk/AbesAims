@@ -13,12 +13,7 @@ export default function AttendanceDetailModal({ data, setDataApi }: { data: any,
   const handlePressablePress = () => {
     setIsOpen(false);
     setDataApi([]);
-    BackHandler.removeEventListener('hardwareBackPress', () => true);
-    return null;
   }
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handlePressablePress);
-  }, [])
   
   return (
     <Modal isOpen={isOpen}>
