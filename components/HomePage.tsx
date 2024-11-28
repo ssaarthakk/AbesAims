@@ -61,6 +61,8 @@ export default function HomePage() {
         const apiData = await getSubjectDetailsAndAttendance();
         if (apiData.length > 0 && attendance === null) {
           setAttendance(apiData[apiData!.length - 1].attendance_summary);
+        } else if (apiData.length === 0) {
+          checkLogin();
         }
         setDataApi(apiData);
       }

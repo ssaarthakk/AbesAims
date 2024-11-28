@@ -141,6 +141,6 @@ export const forgotPassoword = async ( username: string ) => {
         return result;
     } catch (error) {
         console.log("Cannot reset password", error);
-        return { statusCode: 404, message: "Please Enter Valid Username" };
+        return { statusCode: 404, message: "Cannot send link to forget password." };
     }
 }

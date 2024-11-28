@@ -14,6 +14,9 @@ export default function CompletedQuizzes() {
     const getQuizData = async () => {
       if (quizData.length === 0) {
         const data = await getQuizDetails();
+        if (data.length === 0) {
+          getQuizData();
+        }
         setQuizData(data);
       }
     }

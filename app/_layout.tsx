@@ -126,10 +126,10 @@ export default function Layout() {
                         }}
                     />
                     {/* <Drawer.Screen
-                        name="About/index"
+                        name="AboutDev/index"
                         options={{
-                            drawerLabel: 'About',
-                            headerTitle: 'About',
+                            drawerLabel: 'About Developer ',
+                            headerTitle: 'About Developer',
                             headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
                             headerTitleAlign: 'center',
                             drawerIcon: ({ size, color }) => (

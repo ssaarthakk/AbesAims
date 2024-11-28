@@ -7,15 +7,15 @@ export default function UserDataCard({ userData }: { userData: StudentData }) {
 
     return (
         <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>
-            <View className='flex flex-row items-center justify-between gap-4 mb-4'>
+            <View className='flex flex-row items-center justify-between gap-4 mb-4 break-words'>
 
-                <View className='flex-1 flex-row items-center gap-2'>
+                <View className='flex-1 flex-row items-center gap-2 w-[50%]'>
                     <View className='p-2 bg-gray-200 rounded'>
                         <ProfileIcon />
                     </View>
                     <View>
                         <Text className='text-gray-500 text-sm font-montserrat'>Name</Text>
-                        <Text className='font-montserratSemiBold text-xl break-all'>{userData?.name}</Text>
+                        <Text className='font-montserratSemiBold text-xl break-words'>{userData?.name?.split(' ').join('\n')}</Text>
                     </View>
                 </View>
 

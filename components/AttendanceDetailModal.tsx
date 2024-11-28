@@ -1,7 +1,7 @@
-import { Pressable, Text, View } from 'react-native'
-import React from 'react'
+import { Pressable, Text, View, BackHandler } from 'react-native'
+import React, { useEffect } from 'react'
 import Modal from './Modal'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 import AttendanceDetailCard from './AttendanceDetailCard'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { CrossIcon } from '@/constants/SvgIcons'
@@ -10,15 +10,22 @@ import { useModalOpen } from '@/utils/store'
 export default function AttendanceDetailModal({ data, setDataApi }: { data: any, setDataApi: any }) {
   const isOpen = useModalOpen((state: any) => state.isOpen);
   const setIsOpen = useModalOpen((state: any) => state.setIsOpen);
+  const handlePressablePress = () => {
+    setIsOpen(false);
+    setDataApi([]);
+    BackHandler.removeEventListener('hardwareBackPress', () => true);
+    return null;
+  }
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handlePressablePress);
+  }, [])
+  
   return (
     <Modal isOpen={isOpen}>
-      <SafeAreaView className='flex-1 p-4 bg-color_four'>
+      <SafeAreaView className='flex-1 p-4 bg-color_four h-[50%]'>
         <View className='flex-row justify-between'>
           <Text className='font-montserratBold text-2xl pb-2'>Subject Attendance Details</Text>
-          <Pressable onPress={() => {
-            setIsOpen(false);
-            setDataApi([]);
-          }}>
+          <Pressable onPress={handlePressablePress}>
             <CrossIcon />
           </Pressable>
         </View>

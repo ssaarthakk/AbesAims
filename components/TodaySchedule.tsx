@@ -40,6 +40,9 @@ export default function TodaySchedule() {
         const getData = async () => {
             if (data.length === 0) {
                 const apiData: Array<any> = await getSchedule();
+                if (apiData.length === 0) {
+                    getData();
+                }
                 await setData(apiData);
                 setNewData();
             } else {
