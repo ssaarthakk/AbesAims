@@ -16,7 +16,7 @@ export default function Login() {
     const [changingPin, setChangingPin] = useState(false);
 
     const handleChangePassword = async () => {
-        setChangingPass(true)
+        setChangingPass(true);
         const studentData: StudentData | null = await getData('userData')
         if (newPass === '' || password === '' || newCPass === '') {
             ToastAndroid.show('Please enter your password', ToastAndroid.LONG);
@@ -40,7 +40,8 @@ export default function Login() {
     }
 
     const handleChangePin = async () => {
-        setChangingPin(true)
+        setChangingPin(true);
+        const studentData: StudentData | null = await getData('userData');
         if (pin === '') {
             ToastAndroid.show('Please enter your PIN', ToastAndroid.LONG);
         } else {
@@ -48,6 +49,7 @@ export default function Login() {
             if (!result || result.statusCode !== 200) {
                 handleChangePin();
             } else {
+                await saveData('userData', { ...studentData, quizPin: pin });
                 ToastAndroid.show(result.statusCode === 200 ? "PIN changed successfully" : result.message, ToastAndroid.LONG);
             }
         }
