@@ -144,3 +144,35 @@ export const forgotPassoword = async ( username: string ) => {
         return { statusCode: 404, message: "Cannot send link to forget password." };
     }
 }
+
+export const changePassword = async ( password: string ) => {
+    try {
+        const studentData: StudentData | null = await getData('userData')
+        const response = await axios.patch(`https://abes.platform.simplifii.com/api/v1/cards`, { card_unique_code: studentData?.username, action:"ChangePassword", current_password: studentData?.password, password }, {
+            headers: {
+                Authorization: `Bearer ${studentData?.token}`
+            }
+        });
+        const result = { statusCode: response.status, message: response.data.msg };
+        return result;
+    } catch (error) {
+        console.log("Cannot change password", error);
+        return { statusCode: 404, message: "Cannot change password." };
+    }
+}
+
+export const changePin = async ( pin: string ) => {
+    try {
+        const studentData: StudentData | null = await getData('userData')
+        const response = await axios.patch(`https://abes.platform.simplifii.com/api/v1/cards`, { card_unique_code: studentData?.username, action:"SetPin", pin }, {
+            headers: {
+                Authorization: `Bearer ${studentData?.token}`
+            }
+        });
+        const result = { statusCode: response.status, message: response.data.msg };
+        return result;
+    } catch (error) {
+        console.log("Cannot change PIN", error);
+        return { statusCode: 404, message: "Cannot change PIN." };
+    }
+}

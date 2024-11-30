@@ -13,7 +13,7 @@ export async function saveData<T>(key: string, data: T): Promise<void> {
 export async function getData<T>(key: string): Promise<T | null> {
   try {
     const jsonData = await AsyncStorage.getItem(key);
-    return jsonData != null ? JSON.parse(jsonData) : null;
+    return jsonData !== null ? JSON.parse(jsonData) : null;
   } catch (error) {
     console.error('Error retrieving data from AsyncStorage', error);
     return null;

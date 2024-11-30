@@ -125,18 +125,18 @@ export default function Layout() {
                             )
                         }}
                     />
-                    {/* <Drawer.Screen
-                        name="AboutDev/index"
+                    <Drawer.Screen
+                        name="ChangePinPassword/index"
                         options={{
-                            drawerLabel: 'About Developer ',
-                            headerTitle: 'About Developer',
+                            drawerLabel: 'Change Pin/Password',
+                            headerTitle: 'Change Pin/Password',
                             headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
                             headerTitleAlign: 'center',
                             drawerIcon: ({ size, color }) => (
-                                <Ionicons name="information-circle-outline" size={size} color={color} />
+                                <Ionicons name="key-outline" size={size} color={color} />
                             )
                         }}
-                    /> */}
+                    />
                 </Drawer>
             </GestureHandlerRootView>
         ) : (
