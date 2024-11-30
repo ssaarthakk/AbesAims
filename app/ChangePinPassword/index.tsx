@@ -48,10 +48,10 @@ export default function Login() {
             if (!result || result.statusCode !== 200) {
                 handleChangePin();
             } else {
-                setPin('');
                 ToastAndroid.show(result.statusCode === 200 ? "PIN changed successfully" : result.message, ToastAndroid.LONG);
             }
         }
+        setPin('');
         setChangingPin(false);
     }
 
