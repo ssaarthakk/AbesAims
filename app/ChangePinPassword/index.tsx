@@ -26,8 +26,8 @@ export default function Login() {
             ToastAndroid.show('Passwords do not match', ToastAndroid.LONG);
         } else {
             const result = await changePassword(newPass);
-            if (!result) {
-                ToastAndroid.show('Something went wrong Please try again', ToastAndroid.LONG);
+            if (!result || result.statusCode !== 200) {
+                handleChangePassword();
             } else {
                 await saveData('userData', { ...studentData, password: newPass });
                 ToastAndroid.show(result.statusCode === 200 ? "Password changed successfully" : result.message, ToastAndroid.LONG);
@@ -45,8 +45,8 @@ export default function Login() {
             ToastAndroid.show('Please enter your PIN', ToastAndroid.LONG);
         } else {
             const result = await changePin(pin);
-            if (!result) {
-                ToastAndroid.show('Something went wrong Please try again', ToastAndroid.LONG);
+            if (!result || result.statusCode !== 200) {
+                handleChangePin();
             } else {
                 setPin('');
                 ToastAndroid.show(result.statusCode === 200 ? "PIN changed successfully" : result.message, ToastAndroid.LONG);
