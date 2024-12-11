@@ -119,22 +119,7 @@ export const getSubjectAttendance = async (subjectId: string) => {
     }
 }
 
-export const fetchQuiz = async (quizCode: string) => {
-    try {
-        const studentData: StudentData | null = await getData('userData')
-        const pin = studentData?.quizPin;
-        const user_unique_code = studentData?.username;
-        const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/fetchQuizDetails`, { pin, quiz_uc: quizCode, user_unique_code });
-        const message = response.data.msg;
-        const data: Array<any> = response.data.response.data;
-        return { message, data };
-    } catch (error) {
-        console.log("Cannot get quiz ", error);
-        return { message: "Cannot get quiz", data: [] };
-    }
-}
-
-export const forgotPassoword = async ( username: string ) => {
+export const forgotPassoword = async (username: string) => {
     try {
         const response = await axios.patch(`https://abes.platform.simplifii.com/api/v1/forgotpassword`, { username, reset_password_base_url: "https://abes.web.simplifii.com/reset_password.php" });
         const result = { statusCode: response.status, message: response.data.msg };
@@ -145,10 +130,10 @@ export const forgotPassoword = async ( username: string ) => {
     }
 }
 
-export const changePassword = async ( password: string ) => {
+export const changePassword = async (password: string) => {
     try {
         const studentData: StudentData | null = await getData('userData')
-        const response = await axios.patch(`https://abes.platform.simplifii.com/api/v1/cards`, { card_unique_code: studentData?.username, action:"ChangePassword", current_password: studentData?.password, password }, {
+        const response = await axios.patch(`https://abes.platform.simplifii.com/api/v1/cards`, { card_unique_code: studentData?.username, action: "ChangePassword", current_password: studentData?.password, password }, {
             headers: {
                 Authorization: `Bearer ${studentData?.token}`
             }
@@ -161,10 +146,10 @@ export const changePassword = async ( password: string ) => {
     }
 }
 
-export const changePin = async ( pin: string ) => {
+export const changePin = async (pin: string) => {
     try {
         const studentData: StudentData | null = await getData('userData')
-        const response = await axios.patch(`https://abes.platform.simplifii.com/api/v1/cards`, { card_unique_code: studentData?.username, action:"SetPin", pin }, {
+        const response = await axios.patch(`https://abes.platform.simplifii.com/api/v1/cards`, { card_unique_code: studentData?.username, action: "SetPin", pin }, {
             headers: {
                 Authorization: `Bearer ${studentData?.token}`
             }
@@ -174,5 +159,61 @@ export const changePin = async ( pin: string ) => {
     } catch (error) {
         console.log("Cannot change PIN", error);
         return { statusCode: 404, message: "Cannot change PIN." };
+    }
+}
+
+export const fetchQuiz = async (quizCode: string) => {
+    try {
+        const studentData: StudentData | null = await getData('userData');
+        const pin = studentData?.quizPin;
+        const user_unique_code = studentData?.username;
+        const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/fetchQuizDetails`, { pin, quiz_uc: quizCode, user_unique_code });
+        const message = response.data.msg || "Quiz fetched successfully";
+        const data: Array<any> = response.data.response.data;
+        return { message, data };
+    } catch (error) {
+        console.log("Cannot get quiz ", error);
+        return { message: "Cannot get quiz", data: [] };
+    }
+}
+
+export const getQuestionsForQuiz = async (quizCode: string) => {
+    try {
+        const studentData: StudentData | null = await getData('userData');
+        const pin = studentData?.quizPin;
+        const user_unique_code = studentData?.username;
+        const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/getQuestionsForQuiz`, { pin, quiz_uc: quizCode, user_unique_code });
+        const message = response.data.msg || "Questions fetched successfully";
+        const data: Array<any> = response.data.response.data;
+        return { message, data };
+    } catch (error) {
+        console.log("Cannot get questions for quiz", error);
+        return { message: "Cannot get questions for quiz", data: [] };
+    }
+}
+
+export const submitAnswer = async (quizCode: string, questionId: string, answer: number) => {
+    try {
+        const studentData: StudentData | null = await getData('userData');
+        const pin = studentData?.quizPin;
+        const user_unique_code = studentData?.username;
+        const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/submitAnswer`, { quiz_uc: quizCode, question_id: questionId, user_unique_code, answer, pin });
+        return response.data.msg || "Questions fetched successfully";
+    } catch (error) {
+        console.log("Cannot get questions for quiz", error);
+        return { message: "Cannot get questions for quiz", data: [] };
+    }
+}
+
+export const submitAndExitQuiz = async (quizCode: string) => {
+    try {
+        const studentData: StudentData | null = await getData('userData');
+        const pin = studentData?.quizPin;
+        const user_unique_code = studentData?.username;
+        const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/submitAnswer`, { "quiz_uc": quizCode, user_unique_code, pin });
+        return response.data.msg || "Questions fetched successfully";
+    } catch (error) {
+        console.log("Cannot get questions for quiz", error);
+        return { message: "Cannot get questions for quiz", data: [] };
     }
 }
