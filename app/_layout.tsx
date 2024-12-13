@@ -90,7 +90,7 @@ export default function Layout() {
                         }}
                     />
                     <Drawer.Screen
-                        name="AttendanceDetails/index"
+                        name="AttendanceDetails"
                         options={{
                             drawerLabel: 'Attendance Details',
                             headerTitle: 'Attendance Details',

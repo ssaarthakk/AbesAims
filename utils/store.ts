@@ -11,9 +11,9 @@ export const useApiStore = create((set) => ({
     addData: (newData: any) => set({ data: newData }),
 }));
 
-export const useModalOpen = create((set) => ({
-    isOpen: false,
-    setIsOpen: (newData: any) => set({ isOpen: newData }),
+export const useAttData = create((set) => ({
+    attData: [],
+    setAttData: (newData: any) => set({ attData: newData })
 }));
 
 export default useStore;
