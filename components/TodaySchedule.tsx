@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { getSchedule } from '@/utils/apicalls';
 import ScheduleCard from './ScheduleCard';
 
-export default function TodaySchedule() {
+export default function TodaySchedule({ scheduleData }: {scheduleData: Array<any>}) {
 
-    const [data, setData] = useState<Array<any>>([]);
     const [date, _] = useState(new Date());
     const [arrayTimeDetails, setArrayTimeDetails] = useState<Array<any>>([]);
 
     const setNewData = () => {
-        const newData = data.slice(1);
+        const newData = scheduleData.slice(1);
         const newDataFormatted: Array<{ faculty: string, subjectName: string, time: Array<string> }> = newData.map((item: any) => {
             const itemName = `c${date.getDate()}`;
             if (item[itemName].length === 0) {
@@ -36,23 +35,7 @@ export default function TodaySchedule() {
         setArrayTimeDetails(newDataFormatted)
     }
 
-    useEffect(() => {
-        const getData = async () => {
-            if (data.length === 0) {
-                const apiData: Array<any> = await getSchedule();
-                if (apiData.length === 0) {
-                    getData();
-                }
-                await setData(apiData);
-                setNewData();
-            } else {
-                setNewData();
-            }
-        }
-
-        getData();
-
-    }, [data]);
+    useEffect(setNewData, [scheduleData]);
 
     return (
         <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>

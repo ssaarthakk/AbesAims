@@ -58,13 +58,13 @@ export default function Login() {
     }
 
     return (
-        <LinearGradient className='flex-1' colors={[color_four, color_three]} start={{ x: 0.4, y: 0.4 }} end={{ x: 1, y: 1 }} >
+        <LinearGradient className='flex-1' colors={[color_three, color_four, color_three]}  >
             <View className='flex-1 justify-center items-center gap-4 h-screen'>
                 <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md px-6 py-3'>
                     <Text className='font-montserratBold text-3xl text-center pb-6'>Change Password</Text>
-                    <TextInput placeholder='Current Password' value={password} secureTextEntry onChangeText={setPassword} className='p-3 mb-3 border border-gray-300 rounded-md font-montserrat' />
-                    <TextInput placeholder='New Password' value={newPass} onChangeText={setNewPass} className='p-3 mb-3 border border-gray-300 rounded-md font-montserrat' />
-                    <TextInput placeholder='Confirm Password' value={newCPass} secureTextEntry onChangeText={setNewCPass} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
+                    <TextInput placeholder='Current Password' placeholderTextColor={'#141414'} value={password} secureTextEntry onChangeText={setPassword} className='p-3 mb-3 border border-gray-500 rounded-md font-montserrat' />
+                    <TextInput placeholder='New Password' placeholderTextColor={'#141414'} value={newPass} onChangeText={setNewPass} className='p-3 mb-3 border border-gray-500 rounded-md font-montserrat' />
+                    <TextInput placeholder='Confirm Password' placeholderTextColor={'#141414'} value={newCPass} secureTextEntry onChangeText={setNewCPass} className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat' />
                     <CustomButton onPress={!changingPass ? handleChangePassword : () => { }} title='Change Password'>
                         {
                             changingPass && (
@@ -73,9 +73,10 @@ export default function Login() {
                         }
                     </CustomButton>
                 </View>
+                <View><Text className='text-4xl font-montserratBold shadow-black'>OR</Text></View>
                 <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md px-6 py-3'>
                     <Text className='font-montserratBold text-3xl text-center pb-6'>Change PIN</Text>
-                    <TextInput placeholder='New PIN' value={pin} onChangeText={setPin} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
+                    <TextInput placeholder='New PIN' placeholderTextColor={'#141414'} value={pin} onChangeText={setPin} className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat' />
                     <CustomButton onPress={!changingPin ? handleChangePin : () => { }} title='Change PIN'>
                         {
                             changingPin && (

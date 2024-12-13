@@ -66,8 +66,8 @@ export const BookIcon = () => (
 export const CrossIcon = () => (
   <Svg
     viewBox="0 0 25 25"
-    height={15}
-    width={15}
+    height={20}
+    width={20}
   >
     <Path
       fill="#000"

@@ -1,15 +1,14 @@
 import { View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getData } from '@/utils/storage';
-import { getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
+import { getSchedule, getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
 import { useApiStore } from '@/utils/store';
 import AttendanceOverview from './AttendanceOverview';
 import UserDataCard from './UserDataCard';
-import AttendanceTable from './AttendanceTable';
 import { ScrollView } from 'react-native-gesture-handler';
 import LoadinSvg from './LoadinSvg';
 import TodaySchedule from './TodaySchedule';
-import ScheduleCard from './ScheduleCard';
+import NextClass from './NextClass';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -17,6 +16,7 @@ export default function HomePage() {
   const setDataApi = useApiStore((state: any) => state.addData);
   const [attendance, setAttendance] = useState<{ Present: number, Total: number, Percent: string }>(null as any);
   const [classCount, setClassCount] = useState<number>(0);
+  const [scheduleData, setScheduleData] = useState<Array<any>>([]);
 
   const extraAttendance = () => {
     let p = Number(attendance!.Present);
@@ -85,13 +85,29 @@ export default function HomePage() {
     }
   }, [attendance]);
 
+  useEffect(() => {
+    const getData = async () => {
+      if (scheduleData.length === 0) {
+        const apiData: Array<any> = await getSchedule();
+        if (apiData.length === 0) {
+          getData();
+        }
+        await setScheduleData(apiData);
+
+      }
+    }
+    getData();
+
+  }, [scheduleData]);
+
   if (attendance) {
     return (
       <ScrollView>
         <View className='flex-1 items-center gap-2 p-4 justify-between'>
+          <NextClass scheduleData={scheduleData} />
           <UserDataCard userData={userData} />
           <AttendanceOverview attendance={attendance} classCount={classCount} />
-          <TodaySchedule />
+          <TodaySchedule scheduleData={scheduleData} />
         </View>
       </ScrollView>
     )

@@ -6,7 +6,6 @@ import { color_four, color_three } from '@/constants/Colors'
 import { FlatList } from 'react-native-gesture-handler'
 import { useApiStore } from '@/utils/store'
 import LoadinSvg from '@/components/LoadinSvg'
-import Animated, { FadeInDown } from 'react-native-reanimated'
 
 export default function AttendanceDetails() {
 
@@ -17,7 +16,7 @@ export default function AttendanceDetails() {
   }, [])
 
   return (
-    <LinearGradient className='flex-1 justify-center items-center' colors={[color_four, color_three]} start={{ x: 0.4, y: 0.4 }} end={{ x: 1, y: 1 }} >
+    <LinearGradient className='flex-1 justify-center items-center' colors={[color_three, color_four, color_three]} >
       <View className='flex-1 p-4 justify-center items-center'>
         {
           (apiData.length === 0) ? (

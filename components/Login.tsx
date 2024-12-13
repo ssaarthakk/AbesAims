@@ -29,10 +29,10 @@ export default function Login() {
         setUsername('');
         setPassword('');
         addUserData(result);
-        setLoggingIn(false);
         ToastAndroid.show('Login successful', ToastAndroid.LONG);
       }
     }
+    setLoggingIn(false);
   }
 
   const openModal = () => {
@@ -63,8 +63,8 @@ export default function Login() {
     <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md px-6 py-10'>
       <Text className='font-montserratBold text-4xl text-center'>ABES AIMS</Text>
       <Text className='font-montserratSemiBold text-2xl text-center pb-6'>Log In</Text>
-      <TextInput placeholder='Admission Number' value={username} onChangeText={setUsername} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
-      <TextInput placeholder='Password' value={password} secureTextEntry onChangeText={setPassword} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
+      <TextInput placeholder='Admission Number' value={username} placeholderTextColor={'#141414'} onChangeText={setUsername} className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat text-black' />
+      <TextInput placeholder='Password' value={password} placeholderTextColor={'#141414'} secureTextEntry onChangeText={setPassword} className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat text-black' />
       <CustomButton onPress={!loggingIn? handleLogin : () => {}} title='Login'>
         {
           loggingIn && (
@@ -73,7 +73,7 @@ export default function Login() {
         }
       </CustomButton>
       <TouchableOpacity onPress={openModal}>
-        <Text className='text-blue-500 font-montserratMedium'>
+        <Text className='text-blue-500 font-montserratMedium text-xl'>
           Forgot Password?
         </Text>
       </TouchableOpacity>
@@ -86,7 +86,7 @@ export default function Login() {
             </TouchableOpacity>
           </View>
           <Text className='font-montserrat text-lg pb-6'>Enter your Admission number to reset your Password</Text>
-          <TextInput placeholder='Admission Number' value={username} onChangeText={setUsername} className='p-3 mb-5 border border-gray-300 rounded-md font-montserrat' />
+          <TextInput placeholder='Admission Number' placeholderTextColor={'#141414'} value={username} onChangeText={setUsername} className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat' />
           <CustomButton onPress={!reset? handleReset : () => {}} title='Reset Password'>
             {
               reset && (
