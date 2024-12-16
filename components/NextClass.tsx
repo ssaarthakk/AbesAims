@@ -2,11 +2,16 @@ import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 const NextClass = ({ scheduleData }: { scheduleData: Array<any> }) => {
-    const [data, setData] = useState<Array<any>>([]);
-    const [date, _] = useState(new Date());
+    const [data, setData] = useState<Array<{ faculty: string; subjectName: string; time: string[]; }>>([]);
+    const [date, setDate] = useState(new Date());
+
+    useEffect(() => {
+        setDate(new Date());
+    }, [data]);
 
     useEffect(() => {
         const newData = scheduleData.slice(1);
+
         const newDataFormatted: any = newData.map((item: any) => {
             const itemName = `c${date.getDate()}`;
             if (item[itemName].length === 0) {
@@ -15,84 +20,52 @@ const NextClass = ({ scheduleData }: { scheduleData: Array<any> }) => {
                 const infoArr = item.name_text.split('/');
                 const timeRan: string = item[itemName];
                 const timeRange = timeRan.match(/\d{2}:\d{2} - \d{2}:\d{2}/g);
-
-                if (timeRange!.length === 1) {
-                    const timee = timeRange![0].split(' - ');
-                    const timee3 = timee[0].split(':');
-                    if (Number(timee3[0]) === date.getHours()) {
-                        if (Number(timee3[1]) > date.getMinutes()) {
-                            return {
-                                faculty: infoArr[infoArr.length - 1].trim(),
-                                subjectName: infoArr[2].trim(),
-                                time: timeRange
-                            }
-                        }
-                    } else if (Number(timee3[0]) + 1 === date.getHours()) {
-                        return {
-                            faculty: infoArr[infoArr.length - 1].trim(),
-                            subjectName: infoArr[2].trim(),
-                            time: timeRange
-                        }
-                    }
-                } else {
-                    const timee = timeRange![0].split(' - ');
-                    const timee2 = timeRange![1].split(' - ');
-                    const timee3 = timee[0].split(':');
-                    const timee4 = timee2[0].split(':');
-
-                    if (Number(timee3[0]) === Number(timee4[0]) && (date.getHours() + 1 === Number(timee3[0]))) {
-                        if (date.getMinutes() < Number(timee3[1])) {
-                            return {
-                                faculty: infoArr[infoArr.length - 1].trim(),
-                                subjectName: infoArr[2].trim(),
-                                time: timeRange!.slice(0, 1)
-                            }
-                        } else {
-                            return {
-                                faculty: infoArr[infoArr.length - 1].trim(),
-                                subjectName: infoArr[2].trim(),
-                                time: timeRange!.slice(1)
-                            }
-                        }
-                    } else {
-                        if (Number(timee3[0]) === date.getHours()) {
-                            if (Number(timee3[1]) > date.getMinutes()) {
-                                return {
-                                    faculty: infoArr[infoArr.length - 1].trim(),
-                                    subjectName: infoArr[2].trim(),
-                                    time: timeRange!.slice(0, 1)
-                                }
-                            }
-                        } else if (Number(timee3[0]) + 1 === date.getHours()) {
-                            return {
-                                faculty: infoArr[infoArr.length - 1].trim(),
-                                subjectName: infoArr[2].trim(),
-                                time: timeRange!.slice(0, 1)
-                            }
-                        }
-
-                        if (Number(timee4[0]) === date.getHours()) {
-                            if (Number(timee4[1]) > date.getMinutes()) {
-                                return {
-                                    faculty: infoArr[infoArr.length - 1].trim(),
-                                    subjectName: infoArr[2].trim(),
-                                    time: timeRange!.slice(1)
-                                }
-                            }
-                        } else if (Number(timee4[0]) + 1 === date.getHours()) {
-                            return {
-                                faculty: infoArr[infoArr.length - 1].trim(),
-                                subjectName: infoArr[2].trim(),
-                                time: timeRange!.slice(1)
-                            }
-                        }
-                    }
-                }
-                return null;
+                return {
+                    faculty: infoArr[infoArr.length - 1].trim(),
+                    subjectName: infoArr[2].trim(),
+                    time: timeRange
+                };
             }
-        }).filter(value => value !== null)
+        }).filter(value => value !== null);
 
-        setData(newDataFormatted)
+        newDataFormatted.sort(function (a: { faculty: string, subjectName: string, time: Array<string> }, b: { faculty: string, subjectName: string, time: Array<string> }) {
+            const timee = a.time[0].split(' - ');
+            const timee1 = timee[0].split(':');
+            const timee3 = b.time[0].split(' - ');
+            const timee4 = timee3[0].split(':');
+            return Number(timee1[0]) - Number(timee4[0]) + ((Number(timee1[0]) === Number(timee4[0])) ? Number(timee1[1]) - Number(timee4[1]) : 0);
+        });
+
+        const newDataAgain: { faculty: string, subjectName: string, time: Array<string> }[] = newDataFormatted.map((item: { faculty: string, subjectName: string, time: Array<string> }) => {
+            const timee = item.time[0].split(' - ');
+            const timee3 = timee[0].split(':');
+            console.log(timee3[0], timee3[1]);
+            
+            if (date.getHours() === +(timee3[0])) {
+                if (date.getMinutes() < +(timee3[1])) {
+                    return item;
+                }
+            } else if (date.getHours() === (+(timee3[0]) + 1)) {
+                return item;
+            }
+
+            if (item.time.length > 1) {
+                const timee2 = item.time[1]!.split(' - ');
+                const timee4 = timee2[0].split(':');
+                console.log(timee4[0], timee4[1]);
+                if (+(timee4[0]) === date.getHours()) {
+                    if (date.getMinutes() < +(timee4[1])) {
+                        return { ...item, time: item.time.slice(1) };
+                    }
+                } else if (date.getHours() === +(timee4[0]) + 1) {
+                    return { ...item, time: item.time.slice(1) };
+                }
+            }
+
+            return null;
+        }).filter((value: any) => value !== null);
+
+        setData(newDataAgain)
     }, [scheduleData]);
     return (
         <View className='bg-gray-200 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>
@@ -118,4 +91,4 @@ const NextClass = ({ scheduleData }: { scheduleData: Array<any> }) => {
     )
 }
 
-export default NextClass
+export default NextClass;
