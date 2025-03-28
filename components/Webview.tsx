@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ToastAndroid } from 'react-native';
+import { saveData } from '@/utils/storage';
+import { StudentData } from '@/utils/apicalls';
+import useStore from '@/utils/store';
 
-export default function Webview({ username, password, setLoggingIn }: { username: string, password: string, setLoggingIn: any }) {
-    const [localStorageData, setLocalStorageData] = useState(null);
+export default function Webview({ username, password, setLoggingIn, addUserData }: { username: string, password: string, setLoggingIn: any, addUserData: any }) {
     const webviewRef: any = useRef(null);
     const USERNAME = username;
     const PASSWORD = password;
@@ -31,12 +33,39 @@ export default function Webview({ username, password, setLoggingIn }: { username
     true;
     `;
 
-    const onMessage = (event: any) => {
+    const setGlobalUserData = async (obb: any) => {
+        if (obb === null) {
+            return null;
+        }
+        const data = {
+            id: obb.id,
+            token: obb.token,
+            username: obb.username,
+            password: password,
+            name: obb.name,
+            email: obb.email,
+            rollno: obb.string4,
+            section: obb.string5,
+            mobile: obb.mobile,
+            quizPin: obb.string10,
+            year: obb.int3,
+            semester: obb.int4,
+            role: obb.role,
+            passingYear: obb.int6,
+            branch: null
+        }
+        await saveData('userData', data);
+        await addUserData(data);
+        return data;
+    }
+
+    const onMessage = async (event: any) => {
         try {
             const message = JSON.parse(event.nativeEvent.data);
             console.log(typeof message);
-            console.log(message.liup_80axpy);
-            setLocalStorageData(message.liup_80axpy);
+            console.log(message.liup_80axpy.string4);
+            await setGlobalUserData(message.liup_80axpy);
+            ToastAndroid.show('Login successful', ToastAndroid.LONG);
         } catch (error) {
             console.error('Error parsing message:', error);
         } finally {

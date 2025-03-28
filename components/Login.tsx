@@ -1,7 +1,7 @@
 import { Text, TextInput, View, ToastAndroid, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import CustomButton from './CustomButton';
-import { forgotPassoword, login, StudentData } from '@/utils/apicalls';
+import { forgotPassoword, StudentData } from '@/utils/apicalls';
 import Modal from './Modal';
 import useStore from '@/utils/store';
 import { CrossIcon } from '@/constants/SvgIcons';
@@ -21,21 +21,7 @@ export default function Login() {
     if (username === '' || password === '') {
       ToastAndroid.show('Please enter your Admission Number and password', ToastAndroid.LONG);
       setLoggingIn(false);
-    } else {
-      // const result = await login(username, password) as StudentData | null;
-      // if (!result) {
-      //   ToastAndroid.show('Invalid Admission Number or password', ToastAndroid.LONG);
-      //   setLoggingIn(false);
-      // } else {
-      //   setUsername('');
-      //   setPassword('');
-      //   addUserData(result);
-      //   ToastAndroid.show('Login successful', ToastAndroid.LONG);
-      // }
-
-
     }
-    // setLoggingIn(false);
   }
 
   const openModal = () => {
@@ -67,7 +53,7 @@ export default function Login() {
       <View>
         {
           loggingIn && (
-            <Webview username={username} password={password} setLoggingIn={setLoggingIn} />
+            <Webview username={username} password={password} setLoggingIn={setLoggingIn} addUserData={addUserData} />
           )
         }
       </View>

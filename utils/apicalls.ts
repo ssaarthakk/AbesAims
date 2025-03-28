@@ -19,33 +19,33 @@ export type StudentData = {
     branch?: string
 }
 
-export const login = async (username: string, password: string) => {
-    try {
-        const result = await axios.post("https://abes.platform.simplifii.com/api/v1/admin/authenticate", { username, password });
-        const data = {
-            id: result.data.response.id,
-            token: result.data.token,
-            username: result.data.response.username,
-            password: password,
-            name: result.data.response.name,
-            email: result.data.response.email,
-            rollno: result.data.response.string4,
-            section: result.data.response.string5,
-            mobile: result.data.response.mobile,
-            quizPin: result.data.response.string10,
-            year: result.data.response.int3,
-            semester: result.data.response.int4,
-            role: result.data.response.role,
-            passingYear: result.data.response.int6,
-            branch: null
-        }
-        await saveData('userData', data);
-        return data;
-    } catch (error) {
-        console.log("Cannot login ", error);
-        return null;
-    }
-}
+// export const login = async (username: string, password: string) => {
+//     try {
+//         const result = await axios.post("https://abes.platform.simplifii.com/api/v1/admin/authenticate", { username, password });
+//         const data = {
+//             id: result.data.response.id,
+//             token: result.data.token,
+//             username: result.data.response.username,
+//             password: password,
+//             name: result.data.response.name,
+//             email: result.data.response.email,
+//             rollno: result.data.response.string4,
+//             section: result.data.response.string5,
+//             mobile: result.data.response.mobile,
+//             quizPin: result.data.response.string10,
+//             year: result.data.response.int3,
+//             semester: result.data.response.int4,
+//             role: result.data.response.role,
+//             passingYear: result.data.response.int6,
+//             branch: null
+//         }
+//         await saveData('userData', data);
+//         return data;
+//     } catch (error) {
+//         console.log("Cannot login ", error);
+//         return null;
+//     }
+// }
 
 export const getSubjectDetailsAndAttendance = async () => {
     try {
