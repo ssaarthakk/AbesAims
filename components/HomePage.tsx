@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { ToastAndroid, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getData } from '@/utils/storage';
 import { getSchedule, getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
@@ -54,15 +54,16 @@ export default function HomePage() {
   }
 
   useEffect(() => {
+    let count = 0;
     const checkLogin = async () => {
-
       const data: StudentData = await getData('userData') as StudentData;
       if (dataApi.length === 0 && data) {
         const apiData = await getSubjectDetailsAndAttendance();
         if (apiData.length > 0 && attendance === null) {
           setAttendance(apiData[apiData!.length - 1].attendance_summary);
-        } else if (apiData.length === 0) {
+        } else if (apiData.length === 0 && count < 3) {
           checkLogin();
+          count = count + 1;
         }
         setDataApi(apiData);
       }
@@ -104,7 +105,7 @@ export default function HomePage() {
     return (
       <ScrollView>
         <View className='flex-1 items-center gap-2 p-4 justify-between'>
-          <NextClass scheduleData={scheduleData} />
+          {/* <NextClass scheduleData={scheduleData} /> */}
           <UserDataCard userData={userData} />
           <AttendanceOverview attendance={attendance} classCount={classCount} />
           <TodaySchedule scheduleData={scheduleData} />
