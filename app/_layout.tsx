@@ -66,7 +66,7 @@ export default function Layout() {
                     drawerContent={CustomDrawerContent}
                 >
                     <Drawer.Screen
-                        name="index"
+                        name="(tabs)"
                         options={{
                             drawerLabel: 'Dashboard',
                             headerTitle: 'ABES AIMS',
