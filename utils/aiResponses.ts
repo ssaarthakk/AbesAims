@@ -21,7 +21,7 @@ export const fetchGroqResponse = async (
             'https://api.groq.com/openai/v1/chat/completions',
             {
                 model: model,
-                messages: [{ role: 'user', content: "Answer the following question with just the option valur, no explantion, no option number, do not mention the option number, just the correct option and it should be the text of that option. "+prompt }],
+                messages: [{ role: 'user', content: "Answer the following question with just the option value, no explantion, no option number, do not mention the option number, just the correct option and it should be the text of that option, with the same case as given to you. "+prompt }],
                 temperature: 0.7,
                 max_tokens: 1024,
             },
