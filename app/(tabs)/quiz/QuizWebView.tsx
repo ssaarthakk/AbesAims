@@ -1,14 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import QuizWeb from '@/components/QuizWeb'
+import { useLocalSearchParams } from 'expo-router';
 
 const QuizWebView = () => {
+  // Get the quiz code from URL parameters
+  const { quizCode } = useLocalSearchParams<{ quizCode: string }>();
+
+  // Fallback to a default value if somehow the parameter is missing
+  const validQuizCode = quizCode || "";
+
   return (
-    <View>
-      <Text>QuizWebView</Text>
+    <View style={styles.container}>
+      <QuizWeb quizCode={validQuizCode} />
     </View>
   )
 }
 
-export default QuizWebView
+export default QuizWebView;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchQuiz, getQuestionsForQuiz, submitAndExitQuiz } from '@/utils/apicalls';
 import NoStartQuiz from './NoStartQuiz';
 import { processQuizWithAI } from '@/utils/quizAIProcessor';
+import { useRouter } from 'expo-router';
 
 const QuizQuestion = ({ quizCode }: { quizCode: string }) => {
     const [quizData, setQuizData] = useState<any>(null);
@@ -36,7 +37,7 @@ const QuizQuestion = ({ quizCode }: { quizCode: string }) => {
             
             if (result.startsWith('success')) {
                 // Quiz processed successfully
-                ToastAndroid.show('Quiz completed successfully!', ToastAndroid.LONG);
+                ToastAndroid.show('Quiz completed successfully! Redirecting to quiz page...', ToastAndroid.LONG);
                 setProcessingComplete(true);
                 setProcessing(false);
                 
@@ -108,7 +109,18 @@ const QuizQuestion = ({ quizCode }: { quizCode: string }) => {
             ToastAndroid.show('Starting automatic quiz processing...', ToastAndroid.LONG);
             processQuizAutomatically();
         }
-    }, [quizStart, quizData]);
+    }, [quizStart, quizData]);    
+    
+    useEffect(() => {
+        const router = useRouter();
+        if (processingComplete) {
+            // Pass quizCode as a URL parameter
+            router.push({
+                pathname: '/(tabs)/quiz/QuizWebView',
+                params: { quizCode }
+            });
+        }
+    }, [processingComplete, quizCode]);
 
     return (
         <View style={{ flex: 1 }}>
