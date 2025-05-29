@@ -8,11 +8,16 @@ import removePreTags from './sanitizeString';
  * Processes quiz questions using AI and submits answers to the API
  * @param questions Array of quiz questions
  * @param quizCode Unique code for the quiz
- * @returns Promise that resolves when all questions are processed
+ * @returns Promise that resolves to a status string: 'success' or 'failure'
  */
-export const processQuizWithAI = async (questions: Questions[], quizCode: string): Promise<void> => {
+export const processQuizWithAI = async (questions: Questions[], quizCode: string): Promise<string> => {
   try {
     console.log(`Starting to process ${questions.length} questions with AI...`);
+    
+    if (!questions || questions.length === 0) {
+      console.log('No questions to process');
+      return 'failure_no_questions';
+    }
     
     // Process each question sequentially
     for (const question of questions) {
@@ -86,17 +91,23 @@ export const processQuizWithAI = async (questions: Questions[], quizCode: string
       );
       
       console.log(`API response: ${JSON.stringify(result)}`);
+      
+      // If there's an error message in the API response, return failure
+      if (result && typeof result === 'object' && result.message && 
+          (result.message.includes('error') || result.message.includes('fail'))) {
+        return 'failure_api';
+      }
     }
     
     // Show completion message
     console.log('All questions processed successfully!');
     ToastAndroid.show('All answers have been submitted!', ToastAndroid.LONG);
     
-    return Promise.resolve();
+    return 'success';
   } catch (error) {
     console.error('Error processing quiz with AI:', error);
     ToastAndroid.show('Error processing quiz answers', ToastAndroid.LONG);
-    return Promise.reject(error);
+    return 'failure_exception';
   }
 };
 
