@@ -169,8 +169,8 @@ export const fetchQuiz = async (quizCode: string) => {
         const user_unique_code = studentData?.username;
         const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/fetchQuizDetails`, { pin, quiz_uc: quizCode, user_unique_code });
         const message = response.data.msg || "Quiz fetched successfully";
-        const data: Array<any> = response.data.response.data;
-        return { message, data };
+        const data: any = response.data.response.data;
+        return { message, data: { ...data, time_now: response.data.response.time_now } };
     } catch (error) {
         console.log("Cannot get quiz ", error);
         return { message: "Cannot get quiz", data: [] };
@@ -183,7 +183,7 @@ export const getQuestionsForQuiz = async (quizCode: string) => {
         const pin = studentData?.quizPin;
         const user_unique_code = studentData?.username;
         const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/getQuestionsForQuiz`, { pin, quiz_uc: quizCode, user_unique_code });
-        const message = response.data.msg || "Questions fetched successfully";
+        const message = response.data.msg.length !== 0? response.data.msg : "Questions fetched successfully";
         const data: Array<any> = response.data.response.data;
         return { message, data };
     } catch (error) {

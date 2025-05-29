@@ -1,0 +1,60 @@
+import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import CustomButton from './CustomButton';
+import LoadinSvg from './LoadinSvg';
+import { TextInput } from 'react-native-gesture-handler';
+import { getData } from '@/utils/storage';
+import { fetchQuiz, StudentData } from '@/utils/apicalls';
+
+const FetchQuizCard = ( { setQuizValid, quizCode, setQuizCode }: { setQuizValid: any, quizCode: string, setQuizCode: any } ) => {
+
+    const [loading, setLoading] = useState(false);
+
+    const handleQuizSubmit = async () => {
+        if (!quizCode.trim()) {
+            ToastAndroid.show('Please enter a quiz code', ToastAndroid.SHORT);
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const response = await fetchQuiz(quizCode);
+
+            if (response.message.startsWith('Login') || response.message.startsWith('Quiz')) {
+                ToastAndroid.show(response.message, ToastAndroid.LONG);
+                setQuizValid(true);
+            } else {
+                ToastAndroid.show(response.message, ToastAndroid.LONG);
+            }
+        } catch (error) {
+            console.error('Error submitting quiz code', error);
+            ToastAndroid.show('Failed to submit quiz code. Please try again.', ToastAndroid.LONG);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+    return (
+        <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md p-6'>
+            <Text className='font-montserratBold text-4xl text-center text-black pt-4'>Quizzes</Text>
+            <Text className='font-montserratSemiBold text-2xl text-center pb-6 pt-2 text-black'>Enter Quiz Code</Text>
+
+            <TextInput
+                placeholder='Enter Quiz Code'
+                value={quizCode}
+                placeholderTextColor={'#141414'}
+                onChangeText={setQuizCode}
+                className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat text-black'
+            />
+
+            <CustomButton onPress={!loading ? handleQuizSubmit : () => { }} title='Submit'>
+                {loading && <LoadinSvg loading={loading} />}
+            </CustomButton>
+        </View>
+    )
+}
+
+export default FetchQuizCard;
