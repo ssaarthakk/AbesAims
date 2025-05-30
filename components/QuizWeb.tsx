@@ -104,12 +104,13 @@ export default function QuizWeb({ quizCode }: { quizCode: string }) {
             source={{ uri: 'https://abesquiz.netlify.app/#/access-quiz' }}
             onMessage={onMessage}
             onError={onError}
-            injectedJavaScript={getInjectedJavaScript()}
+            // injectedJavaScript={getInjectedJavaScript()}
             javaScriptEnabled={true}
-            domStorageEnabled={true}
+            // domStorageEnabled={true}
             originWhitelist={['*']}
             style={styles.container}
-            onNavigationStateChange={onNavigationStateChange}
+            onLoad={reinjectScript}
+            // onNavigationStateChange={onNavigationStateChange}
         />
     );
 }
