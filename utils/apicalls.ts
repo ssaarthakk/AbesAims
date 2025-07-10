@@ -197,7 +197,7 @@ export const submitAnswer = async (quizCode: string, questionId: string, answer:
         const studentData: StudentData | null = await getData('userData');
         const pin = studentData?.quizPin;
         const user_unique_code = studentData?.username;
-        const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/submitAnswer`, { quiz_uc: quizCode, question_id: questionId, user_unique_code, answer, pin });
+        const response = await axios.post(`https://faas-blr1-8177d592.doserverless.co/api/v1/web/fn-1c23ee6f-939a-44b2-9c4e-d17970ddd644/abes/submitAnswer`, { quiz_uc: quizCode, question_id: questionId, user_unique_code, answer: answer + 1, pin });
         return response.data.msg || "Questions fetched successfully";
     } catch (error) {
         console.log("Cannot get questions for quiz", error);

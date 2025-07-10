@@ -12,6 +12,61 @@ const QuizQuestion = ({ quizCode }: { quizCode: string }) => {
     const [processing, setProcessing] = useState<boolean>(false);
     const [processingComplete, setProcessingComplete] = useState<boolean>(false);
     const [retryCount, setRetryCount] = useState<number>(0);
+    const router = useRouter();
+
+    useEffect(() => {
+        const fetchQuizData = async () => {
+            if (!quizCode.trim()) {
+                ToastAndroid.show('Please enter a quiz code', ToastAndroid.SHORT);
+                return;
+            }
+
+            try {
+                const response = await fetchQuiz(quizCode);
+                if (response.message.startsWith('Login')) {
+                    const now: string = response.data.now;
+                    const login: string = response.data.login_time;
+
+                    const date1: any = new Date(now.replace(" ", "T"));
+                    const date2: any = new Date(login.replace(" ", "T"));
+
+                    setTimeout(fetchQuizData, (date2 - date1 < 0 ? 0 : date2 - date1) + 1000);
+                } else {
+                    const login: string = response.data.time_now;
+                    const start: string = response.data.start_time;
+
+                    const date1: any = new Date(login?.replace(" ", "T"));
+                    const date2: any = new Date(start?.replace(" ", "T"));
+
+                    setLoginStart(true);
+                    setTimeout(fetchQuizQuestions, (date2 - date1 < 0 ? 0 : date2 - date1) + 1000);
+                }
+            } catch (error) {
+                console.error('Error submitting quiz code', error);
+                ToastAndroid.show('Failed to submit quiz code. Please try again.', ToastAndroid.LONG);
+            }
+        };
+
+        fetchQuizData();
+    }, [quizCode]);
+
+    // Effect to automatically start processing when quiz questions are loaded
+    useEffect(() => {
+        if (quizStart && quizData && quizData.length > 0 && !processing && !processingComplete) {
+            ToastAndroid.show('Starting automatic quiz processing...', ToastAndroid.LONG);
+            processQuizAutomatically();
+        }
+    }, [quizStart, quizData]);    
+    
+    useEffect(() => {
+        if (processingComplete) {
+            // Pass quizCode as a URL parameter
+            router.push({
+                pathname: '/(tabs)/quiz/QuizWebView',
+                params: { quizCode }
+            });
+        }
+    }, [processingComplete, quizCode]);
     
     const fetchQuizQuestions = async () => {
         try {
@@ -65,62 +120,6 @@ const QuizQuestion = ({ quizCode }: { quizCode: string }) => {
             setProcessing(false);
         }
     };
-
-    // Effect to fetch quiz questions when quiz code is provided
-    useEffect(() => {
-        const fetchQuizData = async () => {
-            if (!quizCode.trim()) {
-                ToastAndroid.show('Please enter a quiz code', ToastAndroid.SHORT);
-                return;
-            }
-
-            try {
-                const response = await fetchQuiz(quizCode);
-                if (response.message.startsWith('Login')) {
-                    const now: string = response.data.now;
-                    const login: string = response.data.login_time;
-
-                    const date1: any = new Date(now.replace(" ", "T"));
-                    const date2: any = new Date(login.replace(" ", "T"));
-
-                    setTimeout(fetchQuizData, (date2 - date1 < 0 ? 0 : date2 - date1) + 1000);
-                } else {
-                    const login: string = response.data.time_now;
-                    const start: string = response.data.start_time;
-
-                    const date1: any = new Date(login.replace(" ", "T"));
-                    const date2: any = new Date(start.replace(" ", "T"));
-
-                    setLoginStart(true);
-                    setTimeout(fetchQuizQuestions, (date2 - date1 < 0 ? 0 : date2 - date1) + 1000);
-                }
-            } catch (error) {
-                console.error('Error submitting quiz code', error);
-                ToastAndroid.show('Failed to submit quiz code. Please try again.', ToastAndroid.LONG);
-            }
-        };
-
-        fetchQuizData();
-    }, [quizCode]);
-
-    // Effect to automatically start processing when quiz questions are loaded
-    useEffect(() => {
-        if (quizStart && quizData && quizData.length > 0 && !processing && !processingComplete) {
-            ToastAndroid.show('Starting automatic quiz processing...', ToastAndroid.LONG);
-            processQuizAutomatically();
-        }
-    }, [quizStart, quizData]);    
-    
-    useEffect(() => {
-        const router = useRouter();
-        if (processingComplete) {
-            // Pass quizCode as a URL parameter
-            router.push({
-                pathname: '/(tabs)/quiz/QuizWebView',
-                params: { quizCode }
-            });
-        }
-    }, [processingComplete, quizCode]);
 
     return (
         <View style={{ flex: 1 }}>

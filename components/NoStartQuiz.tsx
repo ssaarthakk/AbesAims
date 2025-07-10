@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 const NoStartQuiz = ({ quizCode, loginStart, quizData }: { quizCode: string,  loginStart: boolean, quizData: any }) => {
 
     return (
-        <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md p-6 gap-2'>
+        <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md p-6 gap-2 my-[auto]'>
             {
                 loginStart ? (
                     <View>

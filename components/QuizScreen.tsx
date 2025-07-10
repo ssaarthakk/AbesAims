@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, ToastAndroid, ScrollView } from 'react-native';
-import { getData } from '@/utils/storage';
-import CustomButton from './CustomButton';
-import LoadinSvg from './LoadinSvg';
-import { fetchQuiz, StudentData } from '@/utils/apicalls';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
 import FetchQuizCard from './FetchQuizCard';
 import QuizQuestion from './QuizQuestion';
 
