@@ -25,42 +25,100 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
         }
     }
 
+    const getPercentageColor = (percentage: string) => {
+        const numPercent = parseFloat(percentage);
+        if (numPercent >= 85) return 'text-success-600';
+        if (numPercent >= 75) return 'text-warning-600';
+        return 'text-error-600';
+    };
+
+    const getPercentageBg = (percentage: string) => {
+        const numPercent = parseFloat(percentage);
+        if (numPercent >= 85) return 'bg-success-50 border-success-200';
+        if (numPercent >= 75) return 'bg-warning-50 border-warning-200';
+        return 'bg-error-50 border-error-200';
+    };
+
+    const StatItem = ({ icon, label, value, color }: { icon: string, label: string, value: number, color: string }) => (
+        <View className='flex-row items-center gap-3 py-2'>
+            <View className='p-2 bg-gray-50 rounded-lg'>
+                <Ionicons name={icon as any} size={20} color={color} />
+            </View>
+            <View className='flex-1'>
+                <Text className='text-color_text_secondary text-xs font-montserratMedium uppercase tracking-wide'>
+                    {label}
+                </Text>
+                <Text className='text-color_text_primary text-lg font-montserratSemiBold'>
+                    {value}
+                </Text>
+            </View>
+        </View>
+    );
+
     return (
-        <View>
-            <View className='bg-color_five p-4 w-[90vw] rounded-md shadow shadow-black drop-shadow-2xl flex gap-2 mb-3'>
-                <Text className='text-2xl font-montserratBold'>{subjectName}: {subjectCode}</Text>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="checkmark-circle-outline" size={24} color="#1fa10e" />
-                    <Text className='text-xl font-montserrat'>Present: {present}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="close-circle-outline" size={24} color="#fa2323" />
-                    <Text className='text-xl font-montserrat'>Absent: {absent}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="alert-circle-outline" size={24} color="#3452eb" />
-                    <Text className='text-xl font-montserrat'>Leave: {leave}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="sync-circle-outline" size={24} color="#3c3d3d" />
-                    <Text className='text-xl font-montserrat'>Exempt: {exempt}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="filter-circle-outline" size={24} color="#3c3d3d" />
-                    <Text className='text-xl font-montserrat'>Total: {total}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="refresh-circle-outline" size={24} color="#3c3d3d" />
-                    <Text className='text-xl font-montserrat'>Percentage: <Text className='font-montserratSemiBold'>{percent}</Text></Text>
+        <View className='mx-4 mb-4'>
+            <View className='bg-color_surface rounded-2xl shadow-lg shadow-gray-200 border border-color_border overflow-hidden'>
+                {/* Header */}
+                <View className='bg-gradient-to-r from-primary-500 to-secondary-500 px-6 py-4'>
+                    <Text className='text-color_text_inverse text-lg font-montserratBold' numberOfLines={1}>
+                        {subjectName}
+                    </Text>
+                    <Text className='text-primary-100 text-sm font-montserratMedium'>
+                        {subjectCode}
+                    </Text>
                 </View>
 
-                <CustomButton title='View Details' onPress={isLoading ? () => { } : handlePress} containerStyles='py-2 my-1'>
-                    {
-                        isLoading && (
-                            <LoadinSvg loading={isLoading} />
-                        )
-                    }
-                </CustomButton>
+                {/* Content */}
+                <View className='p-6'>
+                    {/* Percentage Display */}
+                    <View className={`mb-6 p-4 rounded-xl border-2 ${getPercentageBg(percent)}`}>
+                        <View className='flex-row items-center justify-between'>
+                            <View>
+                                <Text className='text-color_text_secondary text-sm font-montserratMedium'>
+                                    Attendance Percentage
+                                </Text>
+                                <Text className={`text-3xl font-montserratBold ${getPercentageColor(percent)}`}>
+                                    {percent}%
+                                </Text>
+                            </View>
+                            <View className='items-end'>
+                                <Text className='text-color_text_secondary text-sm font-montserratMedium'>
+                                    Total Classes
+                                </Text>
+                                <Text className='text-2xl font-montserratBold text-color_text_primary'>
+                                    {total}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    {/* Stats Grid */}
+                    <View className='space-y-1 mb-6'>
+                        <StatItem icon="checkmark-circle" label="Present" value={present} color="#10b981" />
+                        <View className='h-px bg-color_divider mx-4' />
+                        <StatItem icon="close-circle" label="Absent" value={absent} color="#ef4444" />
+                        <View className='h-px bg-color_divider mx-4' />
+                        <StatItem icon="time" label="Leave" value={leave} color="#3b82f6" />
+                        <View className='h-px bg-color_divider mx-4' />
+                        <StatItem icon="shield-checkmark" label="Exempt" value={exempt} color="#64748b" />
+                    </View>
+
+                    {/* Action Button */}
+                    <CustomButton 
+                        title={isLoading ? undefined : 'View Detailed Attendance'}
+                        onPress={handlePress}
+                        disabled={isLoading}
+                        variant="primary"
+                        size="md"
+                    >
+                        {isLoading && (
+                            <View className='flex-row items-center gap-2'>
+                                <LoadinSvg loading={isLoading} />
+                                <Text className='text-white font-montserratMedium'>Loading...</Text>
+                            </View>
+                        )}
+                    </CustomButton>
+                </View>
             </View>
         </View>
     )

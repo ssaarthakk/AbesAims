@@ -9,6 +9,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import LoadinSvg from './LoadinSvg';
 import TodaySchedule from './TodaySchedule';
 import NextClass from './NextClass';
+import { color_primary } from '@/constants/Colors';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -103,8 +104,8 @@ export default function HomePage() {
 
   if (attendance) {
     return (
-      <ScrollView>
-        <View className='flex-1 items-center gap-2 p-4 justify-between'>
+      <ScrollView style={{ backgroundColor: 'transparent' }}>
+        <View className='flex-1 items-center gap-4 p-4 justify-between'>
           {/* <NextClass scheduleData={scheduleData} /> */}
           <UserDataCard userData={userData} />
           <AttendanceOverview attendance={attendance} classCount={classCount} />
@@ -113,8 +114,8 @@ export default function HomePage() {
       </ScrollView>
     )
   } else return (
-    <View className='flex-1 items-center justify-center h-screen'>
-      <LoadinSvg loading={!attendance} color={'black'} size={96} />
+    <View className='flex-1 items-center justify-center h-screen bg-color_background'>
+      <LoadinSvg loading={!attendance} color={color_primary} size={96} />
     </View>
   )
 }
