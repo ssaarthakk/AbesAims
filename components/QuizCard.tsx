@@ -32,7 +32,7 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
             colors={['#ffffff', '#f5f5f5']} 
             start={{ x: 0, y: 0 }} 
             end={{ x: 1, y: 1 }}
-            className='rounded-2xl p-5 w-[90vw] h-auto mb-4 shadow-lg'
+            className='rounded-xl p-5 w-[90vw] h-auto mb-4 shadow-lg'
         >
             <View className='border-b border-gray-300 pb-2 mb-3'>
                 <Text className='font-montserratBold text-xl text-color_three'>{courseCode}</Text>
@@ -68,7 +68,7 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
             <CustomButton 
                 title='View Details' 
                 onPress={handlePress} 
-                containerStyles='py-3 mt-2 rounded-xl' 
+                containerStyles='py-3 mt-2 rounded-lg' 
             />
         </LinearGradient>
     )

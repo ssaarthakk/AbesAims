@@ -5,7 +5,7 @@ import { color_three } from '@/constants/Colors'
 
 export default function AttendanceDetailCard({ formattedDate, facultyName, status }: { formattedDate: string, facultyName: string, status: string }) {
     return (
-        <View className='bg-color_five p-5 w-[90vw] rounded-2xl h-auto shadow shadow-black drop-shadow-2xl flex gap-3 mb-4'>
+        <View className='bg-color_five p-5 w-[90vw] rounded-xl h-auto shadow shadow-black drop-shadow-2xl flex gap-3 mb-4'>
             <View className='flex flex-row items-center gap-2'>
                 <Ionicons name="calendar-clear-outline" size={24} color={color_three} />
                 <Text className='text-xl font-montserratSemiBold'>{formattedDate}</Text>

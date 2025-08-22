@@ -54,7 +54,7 @@ export default function Login() {
       colors={['#ffffff', '#f8f8f8']} 
       start={{ x: 0, y: 0 }} 
       end={{ x: 1, y: 1 }}
-      className='w-[85vw] rounded-2xl shadow-2xl p-8'
+      className='w-[85vw] rounded-xl shadow-2xl p-8'
     >
       <View>
         {
@@ -74,7 +74,7 @@ export default function Login() {
           value={username} 
           placeholderTextColor={'#9ca3af'} 
           onChangeText={setUsername} 
-          className='p-4 border border-gray-300 rounded-xl font-montserrat text-black bg-white'
+          className='p-4 border border-gray-300 rounded-lg font-montserrat text-black bg-white'
         />
       </View>
       
@@ -86,7 +86,7 @@ export default function Login() {
           placeholderTextColor={'#9ca3af'} 
           secureTextEntry 
           onChangeText={setPassword} 
-          className='p-4 border border-gray-300 rounded-xl font-montserrat text-black bg-white'
+          className='p-4 border border-gray-300 rounded-lg font-montserrat text-black bg-white'
         />
       </View>
       
@@ -94,7 +94,7 @@ export default function Login() {
         onPress={!loggingIn? handleLogin : () => {}} 
         title='Login'
         isLoading={loggingIn}
-        containerStyles='rounded-xl'
+        containerStyles='rounded-lg'
       />
       
       <TouchableOpacity onPress={openModal} className='mt-4'>
@@ -108,7 +108,7 @@ export default function Login() {
           colors={['#ffffff', '#f8f8f8']} 
           start={{ x: 0, y: 0 }} 
           end={{ x: 1, y: 1 }}
-          className='rounded-2xl p-6 w-[85vw]'
+          className='rounded-xl p-6 w-[85vw]'
         >
           <View className='flex-row justify-between items-center mb-4'>
             <Text className='font-montserratBold text-2xl text-color_three'>Forgot Password</Text>
@@ -128,7 +128,7 @@ export default function Login() {
               placeholderTextColor={'#9ca3af'} 
               value={username} 
               onChangeText={setUsername} 
-              className='p-4 border border-gray-300 rounded-xl font-montserrat bg-white'
+              className='p-4 border border-gray-300 rounded-lg font-montserrat bg-white'
             />
           </View>
           
@@ -136,7 +136,7 @@ export default function Login() {
             onPress={!reset? handleReset : () => {}} 
             title='Reset Password'
             isLoading={reset}
-            containerStyles='rounded-xl'
+            containerStyles='rounded-lg'
           />
         </LinearGradient>
       </Modal>

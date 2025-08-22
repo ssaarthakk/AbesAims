@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 
 export default function SubjectDetailCard({ subjectName, facultyName, courseCode }: { subjectName: string, facultyName: string, courseCode: string }) {
     return (
-        <View className='bg-color_five p-5 w-[90vw] rounded-2xl h-auto shadow shadow-black drop-shadow-2xl flex gap-3 mb-4'>
+        <View className='bg-color_five p-5 w-[90vw] rounded-xl h-auto shadow shadow-black drop-shadow-2xl flex gap-3 mb-4'>
             <View>
                 <Text className='text-2xl font-montserratBold'>{subjectName}</Text>
                 <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1, marginVertical: 10 }} />

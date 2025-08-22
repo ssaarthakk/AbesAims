@@ -19,7 +19,7 @@ export default function AttendanceTable({ attendance }: { attendance: { Present:
                 <Text className='font-montserratSemiBold text-2xl'>Total</Text>
                 <Text className='font-montserratSemiBold text-2xl'>{attendance?.Total}</Text>
             </View>
-            <CustomButton onPress={() => { router.push('/AttendanceDetails') }} title={'View Full Attendance Details'} containerStyles={'py-3 self-center mt-2 rounded-xl'}/>
+            <CustomButton onPress={() => { router.push('/AttendanceDetails') }} title={'View Full Attendance Details'} containerStyles={'py-3 self-center mt-2 rounded-lg'}/>
         </View>
     )
 }
