@@ -105,7 +105,7 @@ export default function HomePage() {
     return (
       <ScrollView>
         <View className='flex-1 items-center gap-2 p-4 justify-between'>
-          {/* <NextClass scheduleData={scheduleData} /> */}
+          <NextClass scheduleData={scheduleData} />
           <UserDataCard userData={userData} />
           <AttendanceOverview attendance={attendance} classCount={classCount} />
           <TodaySchedule scheduleData={scheduleData} />
