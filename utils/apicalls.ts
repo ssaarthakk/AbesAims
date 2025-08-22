@@ -217,3 +217,16 @@ export const submitAndExitQuiz = async (quizCode: string) => {
         return { message: "Cannot get questions for quiz", data: [] };
     }
 }
+
+export const doQuizFromAPI = async (quizCode: string) => {
+    try {
+        const studentData: StudentData | null = await getData('userData');
+        const pin = studentData?.quizPin;
+        const user_unique_code = studentData?.username;
+        const response = await axios.post(`https://api.nothanks.foo/v1/autoQuiz/getAnswer`, { quiz_uc: quizCode, user_unique_code, pin });
+        return response.data.msg || "Questions done successfully";
+    } catch (error) {
+        console.log("Cannot get questions for quiz", error);
+        return { message: "Cannot get questions for quiz", data: [] };
+    }
+}

@@ -1,12 +1,10 @@
-import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Text, ToastAndroid, View } from 'react-native'
+import React, { useState } from 'react'
 import CustomButton from './CustomButton';
-import LoadinSvg from './LoadinSvg';
 import { TextInput } from 'react-native-gesture-handler';
-import { getData } from '@/utils/storage';
-import { fetchQuiz, StudentData } from '@/utils/apicalls';
+import { doQuizFromAPI } from '@/utils/apicalls';
 
-const FetchQuizCard = ( { setQuizValid, quizCode, setQuizCode }: { setQuizValid: any, quizCode: string, setQuizCode: any } ) => {
+const FetchQuizCard = ( { quizCode, setQuizCode }: { setQuizValid: any, quizCode: string, setQuizCode: any } ) => {
 
     const [loading, setLoading] = useState(false);
 
@@ -19,14 +17,9 @@ const FetchQuizCard = ( { setQuizValid, quizCode, setQuizCode }: { setQuizValid:
         setLoading(true);
 
         try {
-            const response = await fetchQuiz(quizCode);
+            const response = await doQuizFromAPI(quizCode);
 
-            if (response.message.startsWith('Login') || response.message.startsWith('Quiz')) {
-                ToastAndroid.show(response.message, ToastAndroid.LONG);
-                setQuizValid(true);
-            } else {
-                ToastAndroid.show(response.message, ToastAndroid.LONG);
-            }
+            ToastAndroid.show(response.message, ToastAndroid.LONG);
         } catch (error) {
             console.error('Error submitting quiz code', error);
             ToastAndroid.show('Failed to submit quiz code. Please try again.', ToastAndroid.LONG);
