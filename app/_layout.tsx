@@ -61,7 +61,7 @@ export default function Layout() {
                     drawerInactiveTintColor: color_four,
                     drawerInactiveBackgroundColor: color_three,
                     drawerStyle: { backgroundColor: color_three },
-                    drawerLabelStyle: { marginLeft: -20, fontFamily: "Montserrat" },
+                    drawerLabelStyle: { fontFamily: "Montserrat" },
                 }}
                     drawerContent={CustomDrawerContent}
                 >

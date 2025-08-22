@@ -12,8 +12,7 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: color_three,
-          borderTopColor: color_three,
-          borderTopWidth: 1,
+          borderTopWidth: 0,
           elevation: 0,
         },
         tabBarActiveTintColor: color_four,
