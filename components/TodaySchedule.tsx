@@ -38,7 +38,7 @@ export default function TodaySchedule({ scheduleData }: {scheduleData: Array<any
     useEffect(setNewData, [scheduleData]);
 
     return (
-        <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>
+        <View className='bg-color_five p-5 w-[90vw] rounded-2xl h-auto shadow shadow-black drop-shadow-2xl'>
             <Text className='font-montserratSemiBold text-2xl text-center mb-1'>Time Table for {date.toDateString()}</Text>
             {
                 arrayTimeDetails.length === 0 ? (

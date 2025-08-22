@@ -7,7 +7,7 @@ import { saveData, getData } from '@/utils/storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { color_four, color_three } from '@/constants/Colors';
 
-export default function Login() {
+export default function ChangePinPassword() {
     const [password, setPassword] = useState('');
     const [newPass, setNewPass] = useState('');
     const [newCPass, setNewCPass] = useState('');
@@ -62,28 +62,16 @@ export default function Login() {
             <View className='flex-1 justify-center items-center gap-4 h-screen'>
                 <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md px-6 py-3'>
                     <Text className='font-montserratBold text-3xl text-center pb-6'>Change Password</Text>
-                    <TextInput placeholder='Current Password' placeholderTextColor={'#141414'} value={password} secureTextEntry onChangeText={setPassword} className='p-3 mb-3 border border-gray-500 rounded-md font-montserrat' />
-                    <TextInput placeholder='New Password' placeholderTextColor={'#141414'} value={newPass} onChangeText={setNewPass} className='p-3 mb-3 border border-gray-500 rounded-md font-montserrat' />
-                    <TextInput placeholder='Confirm Password' placeholderTextColor={'#141414'} value={newCPass} secureTextEntry onChangeText={setNewCPass} className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat' />
-                    <CustomButton onPress={!changingPass ? handleChangePassword : () => { }} title='Change Password'>
-                        {
-                            changingPass && (
-                                <LoadinSvg loading={changingPass} />
-                            )
-                        }
-                    </CustomButton>
+                    <TextInput placeholder='Current Password' placeholderTextColor={'#141414'} value={password} secureTextEntry onChangeText={setPassword} className='p-3 mb-3 border border-gray-500 rounded-xl font-montserrat' />
+                    <TextInput placeholder='New Password' placeholderTextColor={'#141414'} value={newPass} onChangeText={setNewPass} className='p-3 mb-3 border border-gray-500 rounded-xl font-montserrat' />
+                    <TextInput placeholder='Confirm Password' placeholderTextColor={'#141414'} value={newCPass} secureTextEntry onChangeText={setNewCPass} className='p-3 mb-5 border border-gray-500 rounded-xl font-montserrat' />
+                    <CustomButton onPress={!changingPass ? handleChangePassword : () => { }} title='Change Password' isLoading={changingPass} containerStyles='rounded-xl' />
                 </View>
                 <View><Text className='text-4xl font-montserratBold shadow-black'>OR</Text></View>
                 <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md px-6 py-3'>
                     <Text className='font-montserratBold text-3xl text-center pb-6'>Change PIN</Text>
-                    <TextInput placeholder='New PIN' placeholderTextColor={'#141414'} value={pin} onChangeText={setPin} className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat' />
-                    <CustomButton onPress={!changingPin ? handleChangePin : () => { }} title='Change PIN'>
-                        {
-                            changingPin && (
-                                <LoadinSvg loading={changingPin} />
-                            )
-                        }
-                    </CustomButton>
+                    <TextInput placeholder='New PIN' placeholderTextColor={'#141414'} value={pin} onChangeText={setPin} className='p-3 mb-5 border border-gray-500 rounded-xl font-montserrat' />
+                    <CustomButton onPress={!changingPin ? handleChangePin : () => { }} title='Change PIN' isLoading={changingPin} containerStyles='rounded-xl' />
                 </View>
             </View>
         </LinearGradient>

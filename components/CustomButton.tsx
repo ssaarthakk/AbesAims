@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, ActivityIndicator } from "react-native";
 
 interface CustomButtonProps {
     onPress: () => void;
@@ -7,6 +7,7 @@ interface CustomButtonProps {
     textStyles?: string;
     containerStyles?: string;
     children?: React.ReactNode;
+    isLoading?: boolean;
 }
 
 const CustomButton = ({
@@ -14,25 +15,27 @@ const CustomButton = ({
     title,
     textStyles = "",
     containerStyles = "",
-    children
+    children,
+    isLoading = false
 }: CustomButtonProps) => {
     return (
         <TouchableOpacity
             activeOpacity={0.7}
-            className={`bg-color_three rounded-md p-4 justify-center items-center mb-2 ${containerStyles} `}
+            className={`bg-color_three rounded-xl p-4 justify-center items-center mb-2 shadow-md shadow-black ${containerStyles} flex-row`}
             onPress={onPress}
+            disabled={isLoading}
         >
-            {
-                children ? (
-                    children
-                ) : (
-                    <Text
-                        className={`text-xl ${textStyles} text-color_five font-montserratBold text-center`}
-                    >
-                        {title}
-                    </Text>
-                )
-            }
+            {isLoading ? (
+                <ActivityIndicator color="#fff" />
+            ) : children ? (
+                children
+            ) : (
+                <Text
+                    className={`text-lg ${textStyles} text-color_five font-montserratBold text-center`}
+                >
+                    {title}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 };

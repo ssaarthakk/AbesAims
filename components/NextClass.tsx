@@ -68,10 +68,10 @@ const NextClass = ({ scheduleData }: { scheduleData: Array<any> }) => {
         setData(newDataAgain)
     }, [scheduleData]);
     return (
-        <View className='bg-gray-200 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>
+        <View className='bg-gray-200 w-[90vw] rounded-2xl h-auto shadow shadow-black drop-shadow-2xl'>
             {
                 data.length !== 0 ? (
-                    <View className='rounded-md p-4 flex gap-0'>
+                    <View className='rounded-2xl p-4 flex gap-0'>
                         <Text className='pb-2 font-montserratBold text-2xl'>Next Class</Text>
                         <Text className='font-montserratSemiBold text-xl'>{data[0].faculty}</Text>
                         <Text className='font-montserrat text-xl'>{data[0].subjectName}</Text>
@@ -82,7 +82,7 @@ const NextClass = ({ scheduleData }: { scheduleData: Array<any> }) => {
                         </Text>
                     </View>
                 ) : (
-                    <View className='rounded-md p-4 flex gap-0 my-2'>
+                    <View className='rounded-2xl p-4 flex gap-0 my-2'>
                         <Text className='font-montserratSemiBold text-xl'>No next class for now.</Text>
                     </View>
                 )

@@ -6,7 +6,7 @@ import { StudentData } from '@/utils/apicalls'
 export default function UserDataCard({ userData }: { userData: StudentData }) {
 
     return (
-        <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>
+        <View className='bg-color_five p-5 w-[90vw] rounded-2xl h-auto shadow shadow-black drop-shadow-2xl'>
             <View className='flex flex-row items-center justify-between gap-4 mb-4'>
 
                 <View className='flex-1 flex-row items-center gap-2'>

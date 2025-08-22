@@ -15,7 +15,7 @@ export default function ScheduleCard({ subjectName, faculty, time = [] }: { subj
         return timeStr
     }
     return (
-        <View className='bg-gray-200 rounded-md p-4 flex gap-1 my-2'>
+        <View className='bg-gray-200 rounded-2xl p-4 flex gap-1 my-2'>
             <Text className='font-montserratSemiBold text-xl'>{subjectName}</Text>
             <Text className='font-montserrat text-xl'>{faculty}</Text>
             <Text className='font-montserrat text-xl'>

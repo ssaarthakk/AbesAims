@@ -19,7 +19,7 @@ export default function ProfileCard() {
     }, []);
 
     return (
-        <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl flex gap-4'>
+        <View className='bg-color_five p-5 w-[90vw] rounded-2xl h-auto shadow shadow-black drop-shadow-2xl flex gap-4'>
             <View>
                 <View className='flex items-center'>
                     <Ionicons name="person-circle-outline" size={75} color={color_three} />

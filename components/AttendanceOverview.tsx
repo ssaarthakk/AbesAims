@@ -6,7 +6,7 @@ import AttendanceTable from './AttendanceTable';
 export default function AttendanceOverview({ attendance, classCount }: { attendance: { Present: number, Total: number, Percent: string }, classCount: number }) {
     const attendancePercent: number = Number(((attendance!.Present / attendance!.Total) * 100).toFixed(2));
     return (
-        <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl'>
+        <View className='bg-color_five p-5 w-[90vw] rounded-2xl h-auto shadow shadow-black drop-shadow-2xl'>
             <Text className='font-montserratSemiBold text-3xl text-center mb-4'>Attendance Overview</Text>
             <View className='items-center gap-2'>
                 <Progress.Circle

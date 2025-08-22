@@ -1,6 +1,7 @@
 import { Linking, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React from 'react'
 import CustomButton from './CustomButton'
+import { LinearGradient } from 'expo-linear-gradient'
 
 export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, IncorrectA, NotAttempted, quizLink }: { courseCode: string, quizUc: string, markOb: number, CorrectA: number, IncorrectA: number, NotAttempted: number, quizLink: string }) {
 
@@ -27,17 +28,49 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
     }
 
     return (
-        <View className='bg-color_five p-4 w-[90vw] rounded-md h-auto shadow shadow-black drop-shadow-2xl flex gap-2 mb-3'>
-            <Text className='font-montserratSemiBold text-2xl'>{courseCode}</Text>
-            <View>
-                <Text className='text-lg font-montserrat'>Quiz UC: {quizUc}</Text>
-                <Text className='text-lg font-montserrat'>Marks Obtained: {markOb}</Text>
-                <Text className='text-lg font-montserrat'>Correct Answers: {CorrectA}</Text>
-                <Text className='text-lg font-montserrat'>Incorrect Answers: {IncorrectA}</Text>
-                <Text className='text-lg font-montserrat'>Not Attempted: {NotAttempted}</Text>
+        <LinearGradient 
+            colors={['#ffffff', '#f5f5f5']} 
+            start={{ x: 0, y: 0 }} 
+            end={{ x: 1, y: 1 }}
+            className='rounded-2xl p-5 w-[90vw] h-auto mb-4 shadow-lg'
+        >
+            <View className='border-b border-gray-300 pb-2 mb-3'>
+                <Text className='font-montserratBold text-xl text-color_three'>{courseCode}</Text>
             </View>
-            <CustomButton title='View Details' onPress={handlePress} containerStyles='py-2 self-center w-full mt-2' />
-        </View>
+            
+            <View className='space-y-2 mb-4'>
+                <View className='flex-row justify-between'>
+                    <Text className='text-base font-montserratMedium text-gray-600'>Quiz UC:</Text>
+                    <Text className='text-base font-montserrat text-color_three'>{quizUc}</Text>
+                </View>
+                
+                <View className='flex-row justify-between'>
+                    <Text className='text-base font-montserratMedium text-gray-600'>Marks Obtained:</Text>
+                    <Text className='text-base font-montserrat text-color_three'>{markOb}</Text>
+                </View>
+                
+                <View className='flex-row justify-between'>
+                    <Text className='text-base font-montserratMedium text-gray-600'>Correct Answers:</Text>
+                    <Text className='text-base font-montserrat text-green-600'>{CorrectA}</Text>
+                </View>
+                
+                <View className='flex-row justify-between'>
+                    <Text className='text-base font-montserratMedium text-gray-600'>Incorrect Answers:</Text>
+                    <Text className='text-base font-montserrat text-red-600'>{IncorrectA}</Text>
+                </View>
+                
+                <View className='flex-row justify-between'>
+                    <Text className='text-base font-montserratMedium text-gray-600'>Not Attempted:</Text>
+                    <Text className='text-base font-montserrat text-yellow-600'>{NotAttempted}</Text>
+                </View>
+            </View>
+            
+            <CustomButton 
+                title='View Details' 
+                onPress={handlePress} 
+                containerStyles='py-3 mt-2 rounded-xl' 
+            />
+        </LinearGradient>
     )
 }
 

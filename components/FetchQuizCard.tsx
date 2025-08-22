@@ -38,7 +38,7 @@ const FetchQuizCard = ( { setQuizValid, quizCode, setQuizCode }: { setQuizValid:
 
 
     return (
-        <View className='w-[80vw] bg-color_five shadow-black shadow rounded-md p-6'>
+        <View className='w-[80vw] bg-color_five shadow-black shadow rounded-2xl p-6'>
             <Text className='font-montserratBold text-4xl text-center text-black pt-4'>Quizzes</Text>
             <Text className='font-montserratSemiBold text-2xl text-center pb-6 pt-2 text-black'>Enter Quiz Code</Text>
 
@@ -47,12 +47,10 @@ const FetchQuizCard = ( { setQuizValid, quizCode, setQuizCode }: { setQuizValid:
                 value={quizCode}
                 placeholderTextColor={'#141414'}
                 onChangeText={setQuizCode}
-                className='p-3 mb-5 border border-gray-500 rounded-md font-montserrat text-black'
+                className='p-3 mb-5 border border-gray-500 rounded-xl font-montserrat text-black'
             />
 
-            <CustomButton onPress={!loading ? handleQuizSubmit : () => { }} title='Submit'>
-                {loading && <LoadinSvg loading={loading} />}
-            </CustomButton>
+            <CustomButton onPress={!loading ? handleQuizSubmit : () => { }} title='Submit' isLoading={loading} containerStyles='rounded-xl' />
         </View>
     )
 }

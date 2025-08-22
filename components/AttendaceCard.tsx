@@ -27,7 +27,7 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
 
     return (
         <View>
-            <View className='bg-color_five p-4 w-[90vw] rounded-md shadow shadow-black drop-shadow-2xl flex gap-2 mb-3'>
+            <View className='bg-color_five p-5 w-[90vw] rounded-2xl shadow shadow-black drop-shadow-2xl flex gap-3 mb-4'>
                 <Text className='text-2xl font-montserratBold'>{subjectName}: {subjectCode}</Text>
                 <View className='flex flex-row items-center gap-2'>
                     <Ionicons name="checkmark-circle-outline" size={24} color="#1fa10e" />
@@ -54,13 +54,7 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
                     <Text className='text-xl font-montserrat'>Percentage: <Text className='font-montserratSemiBold'>{percent}</Text></Text>
                 </View>
 
-                <CustomButton title='View Details' onPress={isLoading ? () => { } : handlePress} containerStyles='py-2 my-1'>
-                    {
-                        isLoading && (
-                            <LoadinSvg loading={isLoading} />
-                        )
-                    }
-                </CustomButton>
+                <CustomButton title='View Details' onPress={isLoading ? () => { } : handlePress} containerStyles='py-3 my-2 rounded-xl' isLoading={isLoading} />
             </View>
         </View>
     )
