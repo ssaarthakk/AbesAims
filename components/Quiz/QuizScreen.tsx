@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import FetchQuizCard from './FetchQuizCard';
-import QuizQuestion from './QuizQuestion';
 
 export default function QuizScreen() {
     const [quizCode, setQuizCode] = useState('');

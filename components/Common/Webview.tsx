@@ -66,7 +66,7 @@ export default function Webview({ username, password, setLoggingIn, addUserData 
             if (message === null) {
                 ToastAndroid.show('Invalid Username or Password', ToastAndroid.LONG);
             } else {
-                console.log(message.liup_80axpy.string4);
+                console.log(message.liup_80axpy);
                 await setGlobalUserData(message.liup_80axpy);
                 ToastAndroid.show('Login successful', ToastAndroid.LONG);
             }

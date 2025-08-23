@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { color_three, color_four } from '@/constants/Colors';
-import HomePage from '@/components/HomePage';
+import HomePage from '@/components/Home/HomePage';
 
 export default function HomeScreen() {
   return (

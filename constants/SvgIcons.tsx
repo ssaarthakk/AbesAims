@@ -1,4 +1,4 @@
-import Svg, { ClipPath, Defs, G, Path } from "react-native-svg"
+import Svg, { Path } from "react-native-svg"
 import { color_three } from "./Colors"
 
 export const HomeIcon = () => (

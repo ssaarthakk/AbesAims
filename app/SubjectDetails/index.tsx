@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
-import SubjectDetailCard from '@/components/SubjectDetailCard'
+import SubjectDetailCard from '@/components/Common/SubjectDetailCard'
 import { LinearGradient } from 'expo-linear-gradient'
 import { color_four, color_three } from '@/constants/Colors'
 import { useApiStore } from '@/utils/store'

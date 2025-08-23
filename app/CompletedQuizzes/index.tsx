@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { color_four, color_three } from '@/constants/Colors'
-import QuizCard from '@/components/QuizCard'
+import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
 import { FlatList } from 'react-native-gesture-handler'
-import LoadinSvg from '@/components/LoadinSvg'
+import LoadinSvg from '@/components/Home/LoadinSvg'
 
 export default function CompletedQuizzes() {
   const [quizData, setQuizData] = useState<Array<any>>([]);

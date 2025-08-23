@@ -1,6 +1,6 @@
 import { Linking, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React from 'react'
-import CustomButton from './CustomButton'
+import CustomButton from '@/components/Common/CustomButton'
 import { LinearGradient } from 'expo-linear-gradient'
 
 export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, IncorrectA, NotAttempted, quizLink }: { courseCode: string, quizUc: string, markOb: number, CorrectA: number, IncorrectA: number, NotAttempted: number, quizLink: string }) {

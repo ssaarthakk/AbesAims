@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native'
 import React from 'react'
-import CustomButton from './CustomButton'
+import CustomButton from '@/components/Common/CustomButton'
 import { router } from "expo-router";
 
 export default function AttendanceTable({ attendance }: { attendance: { Present: number, Total: number, Percent: string } }) {

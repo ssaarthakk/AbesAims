@@ -1,6 +1,6 @@
 import { Text, ToastAndroid, View } from 'react-native'
 import React, { useState } from 'react'
-import CustomButton from './CustomButton';
+import CustomButton from '@/components/Common/CustomButton';
 import { TextInput } from 'react-native-gesture-handler';
 import { doQuizFromAPI } from '@/utils/apicalls';
 

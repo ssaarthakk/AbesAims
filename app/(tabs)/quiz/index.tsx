@@ -1,8 +1,8 @@
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { color_three, color_four } from '@/constants/Colors';
-import QuizScreen from '@/components/QuizScreen';
-import QuizWeb from '@/components/QuizWeb';
+import QuizScreen from '@/components/Quiz/QuizScreen';
+import QuizWeb from '@/components/Quiz/QuizWeb';
 
 export default function QuizTab() {
   return (

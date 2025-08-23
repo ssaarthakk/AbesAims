@@ -1,7 +1,7 @@
 import { Text, TextInput, View, ToastAndroid } from 'react-native'
 import React, { useState } from 'react'
-import CustomButton from '@/components/CustomButton';
-import LoadinSvg from '@/components/LoadinSvg';
+import CustomButton from '@/components/Common/CustomButton';
+import LoadinSvg from '@/components/Home/LoadinSvg';
 import { changePassword, changePin, StudentData } from '@/utils/apicalls';
 import { saveData, getData } from '@/utils/storage';
 import { LinearGradient } from 'expo-linear-gradient';

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import QuizWeb from '@/components/QuizWeb'
+import QuizWeb from '@/components/Quiz/QuizWeb'
 import { useLocalSearchParams } from 'expo-router';
 
 const QuizWebView = () => {

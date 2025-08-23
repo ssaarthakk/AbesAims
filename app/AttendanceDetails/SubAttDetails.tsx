@@ -1,6 +1,6 @@
 import React from 'react'
 import { FlatList } from 'react-native-gesture-handler'
-import AttendanceDetailCard from '@/components/AttendanceDetailCard';
+import AttendanceDetailCard from '@/components/Attendance/AttendanceDetailCard';
 import { useAttData } from '@/utils/store';
 import { LinearGradient } from 'expo-linear-gradient';
 import { color_four, color_three } from '@/constants/Colors';

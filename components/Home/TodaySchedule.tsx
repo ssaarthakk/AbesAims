@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getSchedule } from '@/utils/apicalls';
-import ScheduleCard from './ScheduleCard';
+import ScheduleCard from '@/components/Common/ScheduleCard';
 
 export default function TodaySchedule({ scheduleData }: {scheduleData: Array<any>}) {
 
