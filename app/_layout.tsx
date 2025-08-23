@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 import useStore from "@/utils/store";
 import { StudentData } from "@/utils/apicalls";
 import { getData } from "@/utils/storage";
-import Login from "@/components/Login";
+import Login from "@/components/Common/Login";
 import { LinearGradient } from "expo-linear-gradient";
 import { color_four, color_three } from "@/constants/Colors";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import CustomDrawerContent from "@/components/CustomDrawerContent";
+import CustomDrawerContent from "@/components/Common/CustomDrawerContent";
 import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 
