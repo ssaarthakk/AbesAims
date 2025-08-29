@@ -1,11 +1,10 @@
-import { ToastAndroid, View, RefreshControl } from 'react-native'
+import { ToastAndroid, View, RefreshControl, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getData } from '@/utils/storage';
 import { getSchedule, getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
 import { useApiStore } from '@/utils/store';
 import AttendanceOverview from './AttendanceOverview';
 import UserDataCard from './UserDataCard';
-import { ScrollView } from 'react-native-gesture-handler';
 import LoadinSvg from './LoadinSvg';
 import TodaySchedule from './TodaySchedule';
 import NextClass from './NextClass';
@@ -58,12 +57,7 @@ export default function HomePage() {
   const onRefresh = async () => {
     setRefreshing(true);
     try {
-      // Clear current data
-      setDataApi([]);
-      setAttendance(null);
-      setScheduleData([]);
-      
-      // Fetch fresh data
+      // Fetch fresh data without clearing current data first
       const apiData = await getSubjectDetailsAndAttendance();
       const scheduleApiData = await getSchedule();
       
@@ -78,6 +72,7 @@ export default function HomePage() {
       
       ToastAndroid.show('Data refreshed successfully!', ToastAndroid.SHORT);
     } catch (error) {
+      console.error('Refresh error:', error);
       ToastAndroid.show('Failed to refresh data', ToastAndroid.SHORT);
     } finally {
       setRefreshing(false);
@@ -87,6 +82,9 @@ export default function HomePage() {
   useEffect(() => {
     let count = 0;
     const checkLogin = async () => {
+      // Skip if we're currently refreshing to avoid conflicts
+      if (refreshing) return;
+      
       const data: StudentData = await getData('userData') as StudentData;
       if (dataApi.length === 0 && data) {
         const apiData = await getSubjectDetailsAndAttendance();
@@ -106,7 +104,7 @@ export default function HomePage() {
     }
 
     checkLogin();
-  }, [dataApi]);
+  }, [dataApi, refreshing]);
 
   useEffect(() => {
     if (dataApi.length > 0 && attendance === null) {
@@ -119,18 +117,20 @@ export default function HomePage() {
 
   useEffect(() => {
     const getData = async () => {
+      // Skip if we're currently refreshing to avoid conflicts
+      if (refreshing) return;
+      
       if (scheduleData.length === 0) {
         const apiData: Array<any> = await getSchedule();
         if (apiData.length === 0) {
           getData();
         }
         await setScheduleData(apiData);
-
       }
     }
     getData();
 
-  }, [scheduleData]);
+  }, [scheduleData, refreshing]);
 
   if (attendance) {
     return (
