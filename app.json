@@ -2,7 +2,7 @@
   "expo": {
     "name": "AbesAims",
     "slug": "AbesAims",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/AbesAims.png",
     "scheme": "myapp",
@@ -11,6 +11,15 @@
       "image": "./assets/images/AbesAims.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 5000,
+      "url": "https://u.expo.dev/fffff234-d7b3-4293-bc3a-cde82f3aa8db"
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     },
     "ios": {
       "supportsTablet": true

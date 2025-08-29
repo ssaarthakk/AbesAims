@@ -12,6 +12,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import CustomDrawerContent from "@/components/Common/CustomDrawerContent";
 import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import UpdateNotification from "@/components/Common/UpdateNotification";
+import Constants from 'expo-constants';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -50,21 +53,27 @@ export default function Layout() {
     }
 
     return (
-        isLoggedIn ? (
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <Drawer screenOptions={{
-                    headerStyle: { backgroundColor: color_three },
-                    headerTintColor: color_four,
-                    headerTitleStyle: { color: color_four, fontFamily: "Montserrat" },
-                    drawerActiveBackgroundColor: color_four,
-                    drawerActiveTintColor: color_three,
-                    drawerInactiveTintColor: color_four,
-                    drawerInactiveBackgroundColor: color_three,
-                    drawerStyle: { backgroundColor: color_three },
-                    drawerLabelStyle: { fontFamily: "Montserrat" },
-                }}
-                    drawerContent={CustomDrawerContent}
-                >
+        <>
+            <UpdateNotification 
+                currentVersion={Constants.expoConfig?.version || "2.0.0"}
+                playStoreUrl="https://play.google.com/store/apps/details?id=com.the_extremity.abes_aims"
+            />
+            {isLoggedIn ? (
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                    <StatusBar style="light" backgroundColor={color_three} />
+                    <Drawer screenOptions={{
+                        headerStyle: { backgroundColor: color_three },
+                        headerTintColor: color_four,
+                        headerTitleStyle: { color: color_four, fontFamily: "Montserrat" },
+                        drawerActiveBackgroundColor: color_four,
+                        drawerActiveTintColor: color_three,
+                        drawerInactiveTintColor: color_four,
+                        drawerInactiveBackgroundColor: color_three,
+                        drawerStyle: { backgroundColor: color_three },
+                        drawerLabelStyle: { fontFamily: "Montserrat" },
+                    }}
+                        drawerContent={CustomDrawerContent}
+                    >
                     <Drawer.Screen
                         name="(tabs)"
                         options={{
@@ -139,10 +148,14 @@ export default function Layout() {
                     />
                 </Drawer>
             </GestureHandlerRootView>
-        ) : (
-            <LinearGradient className='flex-1 justify-center items-center' colors={[color_three, color_four]} start={{ x: 0, y: 0 }} end={{ x: 0.6, y: 0.6 }} >
-                <Login />
-            </LinearGradient>
-        )
+            ) : (
+                <>
+                    <StatusBar style="light" backgroundColor={color_three} />
+                    <LinearGradient className='flex-1 justify-center items-center' colors={[color_three, color_four]} start={{ x: 0, y: 0 }} end={{ x: 0.6, y: 0.6 }} >
+                        <Login />
+                    </LinearGradient>
+                </>
+            )}
+        </>
     )
 }
