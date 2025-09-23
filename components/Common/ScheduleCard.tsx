@@ -22,33 +22,35 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
             setLoading(true);
             try {
                 const attendanceData = await getSubjectAttendance(subjectId);
+                console.log('=== ATTENDANCE API RESPONSE ===');
+                console.log('Subject ID:', subjectId);
+                console.log('Full Response:', JSON.stringify(attendanceData, null, 2));
+                console.log('================================');
+                
                 const today = new Date();
-                const todayDateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
+                const todayDateString = today.toDateString(); // e.g., "Mon Sep 23 2025"
+                
+                const yesterday = new Date();
+                yesterday.setDate(today.getDate() - 1);
+                const yesterdayDateString = yesterday.toDateString();
                 
                 const statusMap: { [key: string]: 'present' | 'absent' | 'not-marked' } = {};
                 
                 time.forEach(timeSlot => {
-                    // Look for attendance record for today
+                    // Look for attendance record that matches this time slot and date
                     const attendanceRecord = attendanceData.find((record: any) => {
-                        // Try different date field formats
-                        let recordDate = null;
+                        // Get date from start_time (e.g., "2025-09-23 10:40:00")
+                        const recordDate = new Date(record.start_time).toDateString();
                         
-                        if (record.datetime1) {
-                            recordDate = new Date(record.datetime1).toISOString().split('T')[0];
-                        } else if (record.date_formatted) {
-                            // Convert date_formatted to YYYY-MM-DD format
-                            const dateMatch = record.date_formatted.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-                            if (dateMatch) {
-                                const [, day, month, year] = dateMatch;
-                                recordDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-                            }
-                        }
+                        // Check if it matches today or yesterday (for testing table)
+                        const isToday = recordDate === todayDateString;
+                        const isYesterday = recordDate === yesterdayDateString;
                         
-                        return recordDate === todayDateString;
+                        return (isToday || isYesterday);
                     });
                     
                     if (attendanceRecord) {
-                        // Check the attendance status using the 'state' field (as seen in AttendanceDetailCard)
+                        // Use the 'state' field for attendance status
                         const status = attendanceRecord.state;
                         if (status === 'Present') {
                             statusMap[timeSlot] = 'present';
