@@ -22,35 +22,20 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
             setLoading(true);
             try {
                 const attendanceData = await getSubjectAttendance(subjectId);
-                console.log('=== ATTENDANCE API RESPONSE ===');
-                console.log('Subject ID:', subjectId);
-                console.log('Full Response:', JSON.stringify(attendanceData, null, 2));
-                console.log('================================');
                 
                 const today = new Date();
-                const todayDateString = today.toDateString(); // e.g., "Mon Sep 23 2025"
-                
-                const yesterday = new Date();
-                yesterday.setDate(today.getDate() - 1);
-                const yesterdayDateString = yesterday.toDateString();
+                const todayDateString = today.toDateString();
                 
                 const statusMap: { [key: string]: 'present' | 'absent' | 'not-marked' } = {};
                 
                 time.forEach(timeSlot => {
-                    // Look for attendance record that matches this time slot and date
                     const attendanceRecord = attendanceData.find((record: any) => {
-                        // Get date from start_time (e.g., "2025-09-23 10:40:00")
                         const recordDate = new Date(record.start_time).toDateString();
                         
-                        // Check if it matches today or yesterday (for testing table)
-                        const isToday = recordDate === todayDateString;
-                        const isYesterday = recordDate === yesterdayDateString;
-                        
-                        return (isToday || isYesterday);
+                        return recordDate === todayDateString;
                     });
                     
                     if (attendanceRecord) {
-                        // Use the 'state' field for attendance status
                         const status = attendanceRecord.state;
                         if (status === 'Present') {
                             statusMap[timeSlot] = 'present';
@@ -67,7 +52,6 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
                 setAttendanceStatus(statusMap);
             } catch (error) {
                 console.log('Error fetching attendance:', error);
-                // Set all to not-marked on error
                 const errorStatus: { [key: string]: 'present' | 'absent' | 'not-marked' } = {};
                 time.forEach(timeSlot => {
                     errorStatus[timeSlot] = 'not-marked';
