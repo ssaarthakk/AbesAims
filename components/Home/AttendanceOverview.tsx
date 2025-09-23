@@ -50,21 +50,24 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
                 />
 
                 <View className='w-full mt-4'>
-                    <View className='flex-row justify-between mb-2'>
-                        <Text className='font-montserratRegular text-sm text-gray-600'>Attendance Threshold</Text>
+                    <View className='flex-row justify-between mb-2 px-6'>
+                        <Text className='font-montserratBold text-md text-black'>Attendance Threshold</Text>
                         <Text className='font-montserratSemiBold text-lg'>{attendanceThreshold}%</Text>
                     </View>
-                    <Slider
-                        style={{ width: '100%', height: 40 }}
-                        minimumValue={40}
-                        maximumValue={100}
-                        step={1}
-                        value={attendanceThreshold}
-                        onValueChange={setAttendanceThreshold}
-                        minimumTrackTintColor="#000"
-                        maximumTrackTintColor="#8f8f8f"
-                        thumbTintColor="#000"
-                    />
+                    <View className='w-full px-4'>
+                        <Slider
+                            style={{ width: '100%', height: 40 }}
+                            className='w-full h-8'
+                            minimumValue={40}
+                            maximumValue={100}
+                            step={1}
+                            value={attendanceThreshold}
+                            onValueChange={setAttendanceThreshold}
+                            minimumTrackTintColor="#000"
+                            maximumTrackTintColor="#8f8f8f"
+                            thumbTintColor="#000"
+                        />
+                    </View>
                 </View>
 
                 <Text className='font-montserratSemiBold text-md text-gray-400 mt-2 text-center'>
