@@ -32,7 +32,6 @@ export default function Layout() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const data = useStore((state: any) => state.userData);
     React.useEffect(() => {
-
         const checkLoginStatus = async () => {
             const userData: StudentData | null = await getData('userData');
             if (!userData) {
@@ -42,8 +41,17 @@ export default function Layout() {
             }
         }
 
-        checkLoginStatus();
-    }, [data]);
+        const initializeApp = async () => {
+            await checkLoginStatus();
+            if (isLoggedIn) {
+                import('@/utils/updateManager').then(({ UpdateManager }) => {
+                    UpdateManager.checkAndPromptForUpdate();
+                });
+            }
+        };
+
+        initializeApp();
+    }, [data, isLoggedIn]);
 
     useEffect(() => {
         if (fontsLoaded) SplashScreen.hideAsync();
