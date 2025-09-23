@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { color_four, color_three } from '@/constants/Colors'
 import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native'
 import LoadinSvg from '@/components/Home/LoadinSvg'
 
 export default function CompletedQuizzes() {

@@ -1,9 +1,8 @@
-import { View } from 'react-native'
+import { View, FlatList } from 'react-native'
 import React, { useEffect } from 'react'
 import AttendanceCard from '@/components/Attendance/AttendanceCard'
 import { LinearGradient } from 'expo-linear-gradient'
 import { color_four, color_three } from '@/constants/Colors'
-import { FlatList } from 'react-native-gesture-handler'
 import { useApiStore } from '@/utils/store'
 import LoadinSvg from '@/components/Home/LoadinSvg'
 

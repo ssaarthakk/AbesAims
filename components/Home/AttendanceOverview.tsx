@@ -56,7 +56,6 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
                     </View>
                     <View className='w-full px-4'>
                         <Slider
-                            style={{ width: '100%', height: 40 }}
                             className='w-full h-8'
                             minimumValue={40}
                             maximumValue={100}

@@ -4,7 +4,7 @@ import SubjectDetailCard from '@/components/Common/SubjectDetailCard'
 import { LinearGradient } from 'expo-linear-gradient'
 import { color_four, color_three } from '@/constants/Colors'
 import { useApiStore } from '@/utils/store'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native'
 
 export default function SubjectDetails() {
 

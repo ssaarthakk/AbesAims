@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native';
 import AttendanceDetailCard from '@/components/Attendance/AttendanceDetailCard';
 import { useAttData } from '@/utils/store';
 import { LinearGradient } from 'expo-linear-gradient';
