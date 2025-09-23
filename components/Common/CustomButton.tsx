@@ -31,7 +31,7 @@ const CustomButton = ({
                 children
             ) : (
                 <Text
-                    className={`text-lg ${textStyles} text-color_five font-montserratBold text-center`}
+                    className={`text-lg ${textStyles} text-color_five font-montserratBold text-center w-full`}
                 >
                     {title}
                 </Text>
