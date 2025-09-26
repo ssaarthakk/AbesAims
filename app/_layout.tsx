@@ -16,6 +16,7 @@ import { StatusBar } from "expo-status-bar";
 import UpdateNotification from "@/components/Common/UpdateNotification";
 import Constants from 'expo-constants';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -63,10 +64,6 @@ export default function Layout() {
 
     return (
         <SafeAreaProvider>
-            <UpdateNotification 
-                currentVersion={Constants.expoConfig?.version || "2.0.0"}
-                playStoreUrl="https://play.google.com/store/apps/details?id=com.the_extremity.abes_aims"
-            />
             {isLoggedIn ? (
                 <GestureHandlerRootView style={{ flex: 1 }}>
                     <StatusBar style="light" backgroundColor={color_three} />
@@ -84,7 +81,7 @@ export default function Layout() {
                         drawerContent={CustomDrawerContent}
                     >
                     <Drawer.Screen
-                        name="(tabs)"
+                        name="index"
                         options={{
                             drawerLabel: 'Dashboard',
                             headerTitle: 'ABES AIMS',
