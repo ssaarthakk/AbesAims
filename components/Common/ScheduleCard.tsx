@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Text, View } from 'react-native'
+import { useEffect, useState } from 'react'
 import { getSubjectAttendance } from '@/utils/apicalls'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
@@ -27,12 +27,38 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
                 const todayDateString = today.toDateString();
                 
                 const statusMap: { [key: string]: 'present' | 'absent' | 'not-marked' } = {};
-                
+
+                const parseTimeSlot = (timeSlot: string) => {
+                    const [startTime, endTime] = timeSlot.split(' - ');
+                    const [startHour, startMinute] = startTime.split(':').map(Number);
+                    const [endHour, endMinute] = endTime.split(':').map(Number);
+                    return {
+                        startHour,
+                        startMinute,
+                        endHour,
+                        endMinute
+                    };
+                };
+
                 time.forEach(timeSlot => {
+                    const { startHour, startMinute, endHour, endMinute } = parseTimeSlot(timeSlot);
+                    
                     const attendanceRecord = attendanceData.find((record: any) => {
                         const recordDate = new Date(record.start_time).toDateString();
+
+                        if (recordDate !== todayDateString) {
+                            return false;
+                        }
                         
-                        return recordDate === todayDateString;
+                        const recordStartTime = new Date(record.start_time);
+                        const recordHour = recordStartTime.getHours();
+                        const recordMinute = recordStartTime.getMinutes();
+                        
+                        const slotStartMinutes = startHour * 60 + startMinute;
+                        const slotEndMinutes = endHour * 60 + endMinute;
+                        const recordMinutes = recordHour * 60 + recordMinute;
+                        
+                        return recordMinutes >= slotStartMinutes && recordMinutes <= slotEndMinutes;
                     });
                     
                     if (attendanceRecord) {
@@ -68,11 +94,11 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
     const getAttendanceIcon = (status: 'present' | 'absent' | 'not-marked') => {
         switch (status) {
             case 'present':
-                return <Ionicons name="checkmark-circle" size={20} color="#22C55E" />;
+                return <Ionicons name="checkmark-circle" size={20} color="#000" />;
             case 'absent':
-                return <Ionicons name="close-circle" size={20} color="#EF4444" />;
+                return <Ionicons name="close-circle" size={20} color="#000" />;
             case 'not-marked':
-                return <Ionicons name="help-circle" size={20} color="#6B7280" />;
+                return <Ionicons name="help-circle" size={20} color="#000" />;
         }
     };
 
@@ -87,17 +113,6 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
         }
     };
 
-    const getAttendanceTextColor = (status: 'present' | 'absent' | 'not-marked') => {
-        switch (status) {
-            case 'present':
-                return 'text-green-600';
-            case 'absent':
-                return 'text-red-600';
-            case 'not-marked':
-                return 'text-gray-500';
-        }
-    };
-
     const returnTime = () => {
         return time.map((timeSlot, index) => (
             <View key={index} className="flex-row justify-between items-center py-1">
@@ -109,7 +124,7 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
                         ) : (
                             <>
                                 {getAttendanceIcon(attendanceStatus[timeSlot] || 'not-marked')}
-                                <Text className={`text-sm font-montserratMedium ${getAttendanceTextColor(attendanceStatus[timeSlot] || 'not-marked')}`}>
+                                <Text className={`text-sm font-montserratMedium text-black`}>
                                     {getAttendanceText(attendanceStatus[timeSlot] || 'not-marked')}
                                 </Text>
                             </>
@@ -135,7 +150,7 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
                                 ) : (
                                     <>
                                         {getAttendanceIcon(attendanceStatus[time[0]] || 'not-marked')}
-                                        <Text className={`text-sm font-montserratMedium ${getAttendanceTextColor(attendanceStatus[time[0]] || 'not-marked')}`}>
+                                        <Text className={`text-sm font-montserratMedium text-black`}>
                                             {getAttendanceText(attendanceStatus[time[0]] || 'not-marked')}
                                         </Text>
                                     </>
@@ -150,5 +165,3 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
         </View>
     )
 }
-
-const styles = StyleSheet.create({})
