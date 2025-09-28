@@ -3,6 +3,7 @@ import Slider from '@react-native-community/slider'
 import React, { useState } from 'react';
 import * as Progress from 'react-native-progress';
 import AttendanceTable from './AttendanceTable';
+import AttendanceCalculator from './AttendanceCalculator';
 
 export default function AttendanceOverview({ attendance, classCount }: { attendance: { Present: number, Total: number, Percent: string }, classCount: number }) {
     const [attendanceThreshold, setAttendanceThreshold] = useState<number>(75);
@@ -76,6 +77,8 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
                             : `You must attend next ${classesNeeded} Lectures or ${daysNeeded} days to get your attendance to ${attendanceThreshold}%`
                     }
                 </Text>
+                
+                <AttendanceCalculator attendance={attendance} />
             </View>
             <AttendanceTable attendance={attendance} />
         </View>
