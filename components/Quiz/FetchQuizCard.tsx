@@ -1,7 +1,6 @@
-import { Text, ToastAndroid, View } from 'react-native'
+import { Text, ToastAndroid, View, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import CustomButton from '@/components/Common/CustomButton';
-import { TextInput } from 'react-native-gesture-handler';
 import { doQuizFromAPI } from '@/utils/apicalls';
 
 const FetchQuizCard = ( { quizCode, setQuizCode }: { quizCode: string, setQuizCode: any } ) => {
