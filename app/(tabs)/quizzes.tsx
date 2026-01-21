@@ -4,9 +4,11 @@ import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
 import LoadinSvg from '@/components/Home/LoadinSvg'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 export default function Quizzes() {
     const [quizData, setQuizData] = useState<Array<any>>([]);
+    const tabBarHeight = useBottomTabBarHeight();
 
     useEffect(() => {
         const getQuizData = async () => {
@@ -34,7 +36,7 @@ export default function Quizzes() {
     }, [])
 
     return (
-        <SafeAreaView className='flex-1 bg-background'>
+        <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
             <View className='flex-1 px-4'>
                 <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
                     Quizzes
@@ -48,6 +50,7 @@ export default function Quizzes() {
                     <FlatList
                         data={quizData}
                         showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
                         renderItem={({ item }) => (
                             <QuizCard
                                 quizUc={item.quiz_uc}

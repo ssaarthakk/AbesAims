@@ -9,6 +9,7 @@ import LoadinSvg from './LoadinSvg';
 import TodaySchedule from './TodaySchedule';
 import NextClass from './NextClass';
 import { color_three } from '@/constants/Colors';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -18,6 +19,14 @@ export default function HomePage() {
   const [classCount, setClassCount] = useState<number>(0);
   const [scheduleData, setScheduleData] = useState<Array<any>>([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  // Use try-catch or optional chaining for safety if used outside tabs, though normally safe in this scope
+  let tabBarHeight = 0;
+  try {
+    tabBarHeight = useBottomTabBarHeight();
+  } catch (e) {
+    tabBarHeight = 0;
+  }
 
   const extraAttendance = () => {
     let p = Number(attendance!.Present);
@@ -143,6 +152,7 @@ export default function HomePage() {
             tintColor={'#a855f7'} // Primary color (Purple)
           />
         }
+        contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
       >
         <View className='flex-1 items-center gap-2 p-4 justify-between'>
           <NextClass scheduleData={scheduleData} />

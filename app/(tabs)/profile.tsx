@@ -8,9 +8,11 @@ import useStore from '@/utils/store';
 import * as Updates from 'expo-updates';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function Profile() {
     const router = useRouter();
+    const tabBarHeight = useBottomTabBarHeight();
 
     // Logout
     const setUserData = useStore((state: any) => state.addUserData);
@@ -29,8 +31,12 @@ export default function Profile() {
     }
 
     return (
-        <SafeAreaView className='flex-1 bg-background'>
-            <ScrollView className='flex-1 px-4' showsVerticalScrollIndicator={false}>
+        <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
+            <ScrollView
+                className='flex-1 px-4'
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
+            >
                 <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
                     Profile
                     <Text className="text-primary">.</Text>
@@ -46,7 +52,8 @@ export default function Profile() {
 
                     <TouchableOpacity
                         onPress={() => router.push('/settings/password')}
-                        className="flex-row items-center justify-between bg-surface/80 border border-white/10 p-4 rounded-xl mb-3 backdrop-blur-md active:bg-surface/60"
+                        activeOpacity={0.7}
+                        className="flex-row items-center justify-between bg-surface/80 border border-white/10 p-4 rounded-xl mb-3 backdrop-blur-md active:scale-95"
                     >
                         <View className="flex-row items-center gap-3">
                             <View className="bg-primary/20 p-2 rounded-full">
@@ -59,7 +66,8 @@ export default function Profile() {
 
                     <TouchableOpacity
                         onPress={() => router.push('/settings/pin')}
-                        className="flex-row items-center justify-between bg-surface/80 border border-white/10 p-4 rounded-xl mb-3 backdrop-blur-md active:bg-surface/60"
+                        activeOpacity={0.7}
+                        className="flex-row items-center justify-between bg-surface/80 border border-white/10 p-4 rounded-xl mb-3 backdrop-blur-md active:scale-95"
                     >
                         <View className="flex-row items-center gap-3">
                             <View className="bg-secondary/20 p-2 rounded-full">
@@ -74,7 +82,8 @@ export default function Profile() {
                 {/* Logout Button */}
                 <TouchableOpacity
                     onPress={handleLogout}
-                    className="flex-row items-center justify-center bg-red-500/10 border border-red-500/50 p-4 rounded-xl mb-10 active:bg-red-500/20"
+                    activeOpacity={0.7}
+                    className="flex-row items-center justify-center bg-red-500/10 border border-red-500/50 p-4 rounded-xl mb-8 active:scale-95"
                 >
                     <Ionicons name="log-out-outline" size={24} color="#ef4444" />
                     <Text className="text-red-500 font-montserratBold text-lg ml-2">Logout</Text>

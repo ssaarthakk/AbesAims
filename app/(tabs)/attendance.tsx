@@ -4,17 +4,19 @@ import AttendanceCard from '@/components/Attendance/AttendanceCard'
 import { useApiStore } from '@/utils/store'
 import LoadinSvg from '@/components/Home/LoadinSvg'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 export default function Attendance() {
     const dataApi: [any] = useApiStore((state: any) => state.data);
     const [apiData, setApiData] = React.useState<Array<any>>([]);
+    const tabBarHeight = useBottomTabBarHeight();
 
     useEffect(() => {
         setApiData(dataApi.slice(0, -1))
     }, [])
 
     return (
-        <SafeAreaView className='flex-1 bg-background'>
+        <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
             <View className='flex-1 px-4'>
                 <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
                     Attendance
@@ -29,6 +31,7 @@ export default function Attendance() {
                         keyExtractor={item => String(item.id)}
                         data={apiData}
                         showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
                         renderItem={({ item }) => (
                             <AttendanceCard
                                 id={Number(item.id)}

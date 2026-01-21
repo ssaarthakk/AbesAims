@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import AttendanceDetailCard from '@/components/Attendance/AttendanceDetailCard';
 import { useAttData } from '@/utils/store';
 import LoadinSvg from '@/components/Home/LoadinSvg';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SubAttDetails() {
     const attData = useAttData((state: any) => state.attData);
     const [data, setData] = useState<Array<any>>([]);
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         if (attData) {
@@ -27,7 +29,7 @@ export default function SubAttDetails() {
                     data={data}
                     numColumns={3}
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 20 }}
+                    contentContainerStyle={{ paddingBottom: insets.bottom + 20 }}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
                         <AttendanceDetailCard

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { color_three, color_four } from '@/constants/Colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
@@ -11,8 +13,8 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: '#020617', // New Background (Slate 950)
           borderTopColor: 'rgba(255,255,255,0.05)', // Subtle glass border
-          height: 60,
-          paddingBottom: 8,
+          height: 60 + insets.bottom, // Dynamic height based on insets
+          paddingBottom: insets.bottom + 8, // Dynamic padding
           paddingTop: 8,
           position: 'absolute', // Floating effect if desired, or just standard
           elevation: 0,
