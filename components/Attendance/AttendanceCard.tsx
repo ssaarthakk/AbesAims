@@ -21,9 +21,9 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
         } else {
             setAttData(data);
             setAttData(data);
-            // router.navigate('/AttendanceDetails/SubAttDetails') 
-            // TODO: Restore this navigation if we recreate the details screen.
-            ToastAndroid.show('Details view temporarily details', ToastAndroid.SHORT);
+            setAttData(data);
+            // @ts-ignore
+            router.push('/AttendanceDetails')
             setIsLoading(false);
         }
     }
