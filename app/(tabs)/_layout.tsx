@@ -49,7 +49,7 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="subjects"
         options={{
           title: "Subjects",
@@ -57,7 +57,7 @@ export default function TabsLayout() {
             <Ionicons name="book-outline" size={size} color={color} />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="quizzes"
         options={{

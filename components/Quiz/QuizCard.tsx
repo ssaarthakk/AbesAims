@@ -3,7 +3,7 @@ import React from 'react'
 import CustomButton from '@/components/Common/CustomButton'
 import { LinearGradient } from 'expo-linear-gradient'
 
-export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, IncorrectA, NotAttempted, quizLink }: { courseCode: string, quizUc: string, markOb: number, CorrectA: number, IncorrectA: number, NotAttempted: number, quizLink: string }) {
+export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, IncorrectA, NotAttempted, quizLink, subjectName }: { courseCode: string, quizUc: string, markOb: number, CorrectA: number, IncorrectA: number, NotAttempted: number, quizLink: string, subjectName?: string }) {
 
     const handlePress = () => {
         const hrefMatch = quizLink.match(/href="([^"]*)"/);
@@ -29,12 +29,26 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
 
     return (
         <View
-            className='bg-surface/80 border border-white/10 p-5 w-[90vw] h-auto mb-5 rounded-2xl shadow-xl shadow-black/40 backdrop-blur-md'
+            className='bg-surface/80 border border-white/10 p-5 w-full h-auto mb-5 rounded-2xl shadow-xl shadow-black/40 backdrop-blur-md'
         >
             <View className='flex-row justify-between items-start mb-4'>
-                <View className="flex-1">
-                    <Text className='font-montserratExtraBold text-lg text-white tracking-wide'>{courseCode}</Text>
-                    <Text className="text-xs text-primary font-montserratBold mt-1 uppercase tracking-wider">{quizUc}</Text>
+                <View className="flex-1 mr-2">
+                    {subjectName ? (
+                        <>
+                            <Text className='font-montserratExtraBold text-lg text-white tracking-wide leading-6 mb-1'>{subjectName}</Text>
+                            <View className="flex-row items-center gap-2">
+                                <View className="bg-white/10 px-2 py-0.5 rounded text-xs">
+                                    <Text className="text-[10px] text-white/70 font-montserratBold">{courseCode}</Text>
+                                </View>
+                                <Text className="text-xs text-primary font-montserratBold uppercase tracking-wider">{quizUc}</Text>
+                            </View>
+                        </>
+                    ) : (
+                        <>
+                            <Text className='font-montserratExtraBold text-lg text-white tracking-wide'>{courseCode}</Text>
+                            <Text className="text-xs text-primary font-montserratBold mt-1 uppercase tracking-wider">{quizUc}</Text>
+                        </>
+                    )}
                 </View>
                 <View className="bg-surface-highlight px-3 py-1 rounded-full border border-white/10">
                     <Text className="text-xs text-white font-montserratMedium">Quiz</Text>

@@ -1,32 +1,25 @@
-import { View, FlatList, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useEffect, useState, useMemo } from 'react'
 import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
 import LoadinSvg from '@/components/Home/LoadinSvg'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import { useApiStore } from '@/utils/store'
 
 export default function Quizzes() {
     const [quizData, setQuizData] = useState<Array<any>>([]);
+    const [selectedFilter, setSelectedFilter] = useState<string>('All');
     const tabBarHeight = useBottomTabBarHeight();
+    const dataApi: any[] = useApiStore((state: any) => state.data);
 
     useEffect(() => {
         const getQuizData = async () => {
-            // Logic from original file to fetch only if empty or retry... 
-            // Simplified: always try fetching if empty.
             if (quizData.length === 0) {
                 const data = await getQuizDetails();
                 if (data && data.length > 0) {
                     setQuizData(data);
                 } else {
-                    // Maybe retry logic was weird in original, keeping it simple for now or replicating:
-                    // original recursed if length 0? That's dangerous.
-                    // I'll stick to a single fetch for now or standard useQuery pattern later.
-                    // But to stay faithful to the code:
-                    // setQuizData(data); 
-                    // The original code recurisvely called getQuizData if data.length === 0? 
-                    // "if (data.length === 0) { getQuizData(); }" -> Infinite loop if no quizzes?
-                    // I will NOT include the potential infinite loop.
                     setQuizData(data || []);
                 }
             }
@@ -35,22 +28,101 @@ export default function Quizzes() {
         getQuizData();
     }, [])
 
+    const getSubjectName = (courseCode: string) => {
+        if (!dataApi || dataApi.length === 0) return undefined;
+        const subject = dataApi.find((item: any) => item?.cdata?.course_code === courseCode);
+        return subject?.cdata?.course_name;
+    }
+
+    // Extract unique subjects for filters with counts
+    const filters = useMemo(() => {
+        if (quizData.length === 0) return [{ label: 'All', count: 0 }];
+
+        const counts: { [key: string]: number } = {};
+        let othersCount = 0;
+
+        quizData.forEach(item => {
+            const name = getSubjectName(item.master_course_code);
+            if (name) {
+                counts[name] = (counts[name] || 0) + 1;
+            } else {
+                othersCount++;
+            }
+        });
+
+        const sortedSubjects = Object.keys(counts).sort().map(name => ({
+            label: name,
+            count: counts[name]
+        }));
+
+        const result = [{ label: 'All', count: quizData.length }, ...sortedSubjects];
+        if (othersCount > 0) {
+            result.push({ label: 'Others', count: othersCount });
+        }
+        return result;
+    }, [quizData, dataApi]);
+
+    // Filtered data based on selection
+    const filteredData = useMemo(() => {
+        if (selectedFilter === 'All') return quizData;
+        if (selectedFilter === 'Others') {
+            return quizData.filter(item => !getSubjectName(item.master_course_code));
+        }
+        return quizData.filter(item => getSubjectName(item.master_course_code) === selectedFilter);
+    }, [selectedFilter, quizData, dataApi]);
+
     return (
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
-            <View className='flex-1 px-4'>
-                <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
-                    Quizzes
-                    <Text className="text-primary">.</Text>
-                </Text>
+            <View className='flex-1'>
+                <View className="px-4">
+                    <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
+                        Quizzes
+                        <Text className="text-primary">.</Text>
+                    </Text>
+                </View>
+
+                {/* Horizontal Filter Pills */}
+                <View className="mb-4">
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}
+                    >
+                        {filters.map((filter) => (
+                            <TouchableOpacity
+                                key={filter.label}
+                                activeOpacity={1}
+                                onPress={() => setSelectedFilter(filter.label)}
+                                className={`flex-row px-4 py-2 rounded-full border justify-center items-center gap-2 ${selectedFilter === filter.label
+                                        ? 'bg-primary border-primary'
+                                        : 'bg-white/5 border-white/10'
+                                    }`}
+                            >
+                                <Text className={`font-montserratBold text-sm text-center ${selectedFilter === filter.label ? 'text-white' : 'text-white/60'
+                                    }`}>
+                                    {filter.label}
+                                </Text>
+                                <View className={`px-2 py-0.5 rounded-full ${selectedFilter === filter.label ? 'bg-white/20' : 'bg-white/10'
+                                    }`}>
+                                    <Text className={`text-[10px] font-montserratBold ${selectedFilter === filter.label ? 'text-white' : 'text-white/50'
+                                        }`}>
+                                        {filter.count}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
+                </View>
+
                 {quizData.length == 0 ? (
                     <View className="flex-1 justify-center items-center">
                         <LoadinSvg loading={true} color='#8b5cf6' size={96} />
                     </View>
                 ) : (
                     <FlatList
-                        data={quizData}
+                        data={filteredData}
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
+                        contentContainerStyle={{ paddingBottom: tabBarHeight + 20, paddingHorizontal: 16 }}
                         renderItem={({ item }) => (
                             <QuizCard
                                 quizUc={item.quiz_uc}
@@ -60,9 +132,15 @@ export default function Quizzes() {
                                 IncorrectA={item.incorrect}
                                 NotAttempted={item.not_attempted}
                                 quizLink={item.quiz_link}
+                                subjectName={getSubjectName(item.master_course_code)}
                             />
                         )}
-                        keyExtractor={item => item.sl_num}
+                        keyExtractor={(item, index) => item.sl_num + index}
+                        ListEmptyComponent={
+                            <View className="mt-10 items-center">
+                                <Text className="text-white/50 font-montserratMedium">No quizzes found for this subject.</Text>
+                            </View>
+                        }
                     />
                 )}
             </View>
