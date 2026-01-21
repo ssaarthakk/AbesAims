@@ -1,5 +1,5 @@
 import { View, Text, ToastAndroid, ScrollView, TouchableOpacity } from 'react-native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProfileCard from '@/components/Profile/ProfileCard';
 import { removeData } from '@/utils/storage';
@@ -7,13 +7,20 @@ import { useApiStore } from '@/utils/store';
 import useStore from '@/utils/store';
 import * as Updates from 'expo-updates';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
 export default function Profile() {
     const router = useRouter();
     const tabBarHeight = useBottomTabBarHeight();
+    const [animationKey, setAnimationKey] = useState(0);
+
+    useFocusEffect(
+        useCallback(() => {
+            setAnimationKey(prev => prev + 1);
+        }, [])
+    );
 
     // Logout
     const setUserData = useStore((state: any) => state.addUserData);
@@ -35,6 +42,7 @@ export default function Profile() {
     return (
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
             <ScrollView
+                key={animationKey}
                 className='flex-1 px-4'
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}

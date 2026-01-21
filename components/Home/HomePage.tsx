@@ -1,5 +1,5 @@
 import { ToastAndroid, View, RefreshControl, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { getData } from '@/utils/storage';
 import { getSchedule, getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
 import { useApiStore } from '@/utils/store';
@@ -12,6 +12,7 @@ import DashboardHeader from './DashboardHeader';
 import { color_three } from '@/constants/Colors';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+import { useFocusEffect } from 'expo-router';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -21,6 +22,13 @@ export default function HomePage() {
   const [classCount, setClassCount] = useState<number>(0);
   const [scheduleData, setScheduleData] = useState<Array<any>>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      setAnimationKey(prev => prev + 1);
+    }, [])
+  );
 
   // Use try-catch or optional chaining for safety if used outside tabs, though normally safe in this scope
   let tabBarHeight = 0;
@@ -146,6 +154,7 @@ export default function HomePage() {
   if (attendance) {
     return (
       <ScrollView
+        key={animationKey}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

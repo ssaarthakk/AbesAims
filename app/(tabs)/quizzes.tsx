@@ -1,5 +1,5 @@
 import { View, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
 import LoadinSvg from '@/components/Home/LoadinSvg'
@@ -7,12 +7,20 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useApiStore } from '@/utils/store'
 import Animated, { FadeInDown, FadeInRight, FadeInUp } from 'react-native-reanimated'
+import { useFocusEffect } from 'expo-router'
 
 export default function Quizzes() {
     const [quizData, setQuizData] = useState<Array<any>>([]);
     const [selectedFilter, setSelectedFilter] = useState<string>('All');
     const tabBarHeight = useBottomTabBarHeight();
     const dataApi: any[] = useApiStore((state: any) => state.data);
+    const [animationKey, setAnimationKey] = useState(0);
+
+    useFocusEffect(
+        useCallback(() => {
+            setAnimationKey(prev => prev + 1);
+        }, [])
+    );
 
     useEffect(() => {
         const getQuizData = async () => {
@@ -74,7 +82,7 @@ export default function Quizzes() {
 
     return (
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
-            <View className='flex-1'>
+            <View className='flex-1' key={animationKey}>
                 <View className="px-4">
                     <Animated.View entering={FadeInDown.delay(100).duration(500)}>
                         <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
