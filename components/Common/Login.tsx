@@ -8,6 +8,7 @@ import { CrossIcon } from '@/constants/SvgIcons';
 import LoadinSvg from '@/components/Home/LoadinSvg';
 import Webview from '@/components/Common/Webview';
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -64,10 +65,12 @@ export default function Login() {
         }
       </View>
 
-      <Text className='font-montserratExtraBold text-4xl text-center text-primary mb-2'>ABES AIMS</Text>
-      <Text className='font-montserratMedium text-lg text-center text-slate-400 pb-8'>Student Portal</Text>
+      <Animated.View entering={FadeInDown.delay(100).duration(600)}>
+        <Text className='font-montserratExtraBold text-4xl text-center text-primary mb-2'>ABES AIMS</Text>
+        <Text className='font-montserratMedium text-lg text-center text-slate-400 pb-8'>Student Portal</Text>
+      </Animated.View>
 
-      <View className='mb-5'>
+      <Animated.View entering={FadeInUp.delay(200).duration(600)} className='mb-5'>
         <Text className='font-montserratMedium text-slate-300 mb-2'>Admission Number</Text>
         <TextInput
           placeholder='Enter your admission number'
@@ -76,9 +79,9 @@ export default function Login() {
           onChangeText={setUsername}
           className='p-4 border border-slate-600 rounded-lg font-montserrat text-white bg-slate-900'
         />
-      </View>
+      </Animated.View>
 
-      <View className='mb-6'>
+      <Animated.View entering={FadeInUp.delay(300).duration(600)} className='mb-6'>
         <Text className='font-montserratMedium text-slate-300 mb-2'>Password</Text>
         <TextInput
           placeholder='Enter your password'
@@ -88,20 +91,24 @@ export default function Login() {
           onChangeText={setPassword}
           className='p-4 border border-slate-600 rounded-lg font-montserrat text-white bg-slate-900'
         />
-      </View>
+      </Animated.View>
 
-      <CustomButton
-        onPress={!loggingIn ? handleLogin : () => { }}
-        title='Login'
-        isLoading={loggingIn}
-        containerStyles='rounded-lg bg-primary shadow-lg shadow-purple-500/40'
-      />
+      <Animated.View entering={FadeInUp.delay(400).duration(600)}>
+        <CustomButton
+          onPress={!loggingIn ? handleLogin : () => { }}
+          title='Login'
+          isLoading={loggingIn}
+          containerStyles='rounded-lg bg-primary shadow-lg shadow-purple-500/40'
+        />
+      </Animated.View>
 
-      <TouchableOpacity onPress={openModal} className='mt-4'>
-        <Text className='text-sky-400 font-montserratMedium text-base text-center'>
-          Forgot Password?
-        </Text>
-      </TouchableOpacity>
+      <Animated.View entering={FadeInUp.delay(500).duration(600)}>
+        <TouchableOpacity onPress={openModal} className='mt-4'>
+          <Text className='text-sky-400 font-montserratMedium text-base text-center'>
+            Forgot Password?
+          </Text>
+        </TouchableOpacity>
+      </Animated.View>
 
       <Modal isOpen={modalOpen}>
         <LinearGradient

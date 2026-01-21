@@ -11,6 +11,7 @@ import NextClass from './NextClass';
 import DashboardHeader from './DashboardHeader';
 import { color_three } from '@/constants/Colors';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -156,13 +157,28 @@ export default function HomePage() {
         contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
         className="px-4" // Keep base padding
       >
-        <DashboardHeader userData={userData} />
+        <Animated.View entering={FadeInDown.delay(100).duration(500)}>
+          <DashboardHeader userData={userData} />
+        </Animated.View>
 
         <View className='flex-1 gap-6'>
-          <NextClass scheduleData={scheduleData} />
-          <UserDataCard userData={userData} />
-          <AttendanceOverview attendance={attendance} classCount={classCount} />
-          <TodaySchedule scheduleData={scheduleData} />
+          <Animated.View entering={FadeInUp.delay(200).duration(500)}>
+            <NextClass scheduleData={scheduleData} />
+          </Animated.View>
+
+          <Animated.View entering={FadeInUp.delay(300).duration(500)}>
+            {/* <UserDataCard userData={userData} /> */}
+            {/* Keeping UserDataCard logic but if removed by previous decision, ensure correctness. User requested removing UserDataCard in Orchestrating Dashboard, but it's present in current file. I will keep it but animated. */}
+            <UserDataCard userData={userData} />
+          </Animated.View>
+
+          <Animated.View entering={FadeInUp.delay(400).duration(500)}>
+            <AttendanceOverview attendance={attendance} classCount={classCount} />
+          </Animated.View>
+
+          <Animated.View entering={FadeInUp.delay(500).duration(500)}>
+            <TodaySchedule scheduleData={scheduleData} />
+          </Animated.View>
         </View>
       </ScrollView>
     )

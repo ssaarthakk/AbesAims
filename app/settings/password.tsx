@@ -4,6 +4,7 @@ import CustomButton from '@/components/Common/CustomButton';
 import { changePassword, StudentData } from '@/utils/apicalls';
 import { saveData, getData } from '@/utils/storage';
 import { useRouter } from 'expo-router';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 
 export default function ChangePassword() {
     const [password, setPassword] = useState('');
@@ -39,7 +40,7 @@ export default function ChangePassword() {
 
     return (
         <View className='flex-1 bg-background p-4'>
-            <View className='bg-surface/80 border border-white/10 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-md'>
+            <Animated.View entering={FadeInUp.delay(100).springify()} className='bg-surface/80 border border-white/10 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-md'>
                 <Text className='font-montserratExtraBold text-2xl text-white mb-6 tracking-tight'>Update Security</Text>
 
                 <Text className='font-montserratBold text-sm text-text-muted mb-2 ml-1'>Current Password</Text>
@@ -79,7 +80,7 @@ export default function ChangePassword() {
                     containerStyles='rounded-xl bg-gradient-to-r from-primary to-purple-600 py-4 shadow-lg shadow-primary/30'
                     textStyles="text-white font-montserratBold tracking-wide"
                 />
-            </View>
+            </Animated.View>
         </View>
     )
 }

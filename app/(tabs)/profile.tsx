@@ -9,6 +9,7 @@ import * as Updates from 'expo-updates';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
 export default function Profile() {
     const router = useRouter();
@@ -19,14 +20,15 @@ export default function Profile() {
     const setApiData = useApiStore((state: any) => state.addData);
 
     const handleLogout = async () => {
-        removeData('userData');
-        setUserData(null);
-        setApiData([]);
         try {
-            await Updates.reloadAsync();
+            await removeData('userData');
+            setUserData(null);
+            setApiData([]);
+            router.replace('/');
+            // await Updates.reloadAsync();
         } catch (error) {
-            console.log("Error while reloading app in Logout");
-            ToastAndroid.show("Please try again", ToastAndroid.LONG);
+            console.log("Error in Logout", error);
+            ToastAndroid.show("Error logging out", ToastAndroid.SHORT);
         }
     }
 
@@ -37,17 +39,19 @@ export default function Profile() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
             >
-                <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
-                    Profile
-                    <Text className="text-primary">.</Text>
-                </Text>
+                <Animated.View entering={FadeInDown.delay(100).duration(500)}>
+                    <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
+                        Profile
+                        <Text className="text-primary">.</Text>
+                    </Text>
+                </Animated.View>
 
                 {/* User Info Card */}
-                <View className="mb-2">
+                <Animated.View entering={FadeInUp.delay(200).duration(500)} className="mb-2">
                     <ProfileCard />
-                </View>
+                </Animated.View>
 
-                <View className="mb-4">
+                <Animated.View entering={FadeInUp.delay(300).duration(500)} className="mb-4">
                     <Text className='font-montserratBold text-xl text-white mb-4 pl-1'>Security Settings</Text>
 
                     <TouchableOpacity
@@ -77,17 +81,19 @@ export default function Profile() {
                         </View>
                         <Ionicons name="chevron-forward" size={20} color="#94a3b8" />
                     </TouchableOpacity>
-                </View>
+                </Animated.View>
 
                 {/* Logout Button */}
-                <TouchableOpacity
-                    onPress={handleLogout}
-                    activeOpacity={0.7}
-                    className="flex-row items-center justify-center bg-red-500/10 border border-red-500/50 p-4 rounded-xl mb-8 active:scale-95"
-                >
-                    <Ionicons name="log-out-outline" size={24} color="#ef4444" />
-                    <Text className="text-red-500 font-montserratBold text-lg ml-2">Logout</Text>
-                </TouchableOpacity>
+                <Animated.View entering={FadeInUp.delay(400).duration(500)}>
+                    <TouchableOpacity
+                        onPress={handleLogout}
+                        activeOpacity={0.7}
+                        className="flex-row items-center justify-center bg-red-500/10 border border-red-500/50 p-4 rounded-xl mb-8 active:scale-95"
+                    >
+                        <Ionicons name="log-out-outline" size={24} color="#ef4444" />
+                        <Text className="text-red-500 font-montserratBold text-lg ml-2">Logout</Text>
+                    </TouchableOpacity>
+                </Animated.View>
 
             </ScrollView>
         </SafeAreaView>

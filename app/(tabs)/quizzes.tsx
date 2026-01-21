@@ -6,6 +6,7 @@ import LoadinSvg from '@/components/Home/LoadinSvg'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useApiStore } from '@/utils/store'
+import Animated, { FadeInDown, FadeInRight, FadeInUp } from 'react-native-reanimated'
 
 export default function Quizzes() {
     const [quizData, setQuizData] = useState<Array<any>>([]);
@@ -75,10 +76,12 @@ export default function Quizzes() {
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
             <View className='flex-1'>
                 <View className="px-4">
-                    <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
-                        Quizzes
-                        <Text className="text-primary">.</Text>
-                    </Text>
+                    <Animated.View entering={FadeInDown.delay(100).duration(500)}>
+                        <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
+                            Quizzes
+                            <Text className="text-primary">.</Text>
+                        </Text>
+                    </Animated.View>
                 </View>
 
                 {/* Horizontal Filter Pills */}
@@ -88,28 +91,32 @@ export default function Quizzes() {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}
                     >
-                        {filters.map((filter) => (
-                            <TouchableOpacity
+                        {filters.map((filter, index) => (
+                            <Animated.View
                                 key={filter.label}
-                                activeOpacity={1}
-                                onPress={() => setSelectedFilter(filter.label)}
-                                className={`flex-row px-4 py-2 rounded-full border justify-center items-center gap-2 ${selectedFilter === filter.label
+                                entering={FadeInRight.delay(index * 50 + 200).springify()}
+                            >
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    onPress={() => setSelectedFilter(filter.label)}
+                                    className={`flex-row px-4 py-2 rounded-full border justify-center items-center gap-2 ${selectedFilter === filter.label
                                         ? 'bg-primary border-primary'
                                         : 'bg-white/5 border-white/10'
-                                    }`}
-                            >
-                                <Text className={`font-montserratBold text-sm text-center ${selectedFilter === filter.label ? 'text-white' : 'text-white/60'
-                                    }`}>
-                                    {filter.label}
-                                </Text>
-                                <View className={`px-2 py-0.5 rounded-full ${selectedFilter === filter.label ? 'bg-white/20' : 'bg-white/10'
-                                    }`}>
-                                    <Text className={`text-[10px] font-montserratBold ${selectedFilter === filter.label ? 'text-white' : 'text-white/50'
+                                        }`}
+                                >
+                                    <Text className={`font-montserratBold text-sm text-center ${selectedFilter === filter.label ? 'text-white' : 'text-white/60'
                                         }`}>
-                                        {filter.count}
+                                        {filter.label}
                                     </Text>
-                                </View>
-                            </TouchableOpacity>
+                                    <View className={`px-2 py-0.5 rounded-full ${selectedFilter === filter.label ? 'bg-white/20' : 'bg-white/10'
+                                        }`}>
+                                        <Text className={`text-[10px] font-montserratBold ${selectedFilter === filter.label ? 'text-white' : 'text-white/50'
+                                            }`}>
+                                            {filter.count}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </Animated.View>
                         ))}
                     </ScrollView>
                 </View>
@@ -123,17 +130,19 @@ export default function Quizzes() {
                         data={filteredData}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: tabBarHeight + 20, paddingHorizontal: 16 }}
-                        renderItem={({ item }) => (
-                            <QuizCard
-                                quizUc={item.quiz_uc}
-                                courseCode={item.master_course_code}
-                                markOb={item.marks_obtained}
-                                CorrectA={item.correct}
-                                IncorrectA={item.incorrect}
-                                NotAttempted={item.not_attempted}
-                                quizLink={item.quiz_link}
-                                subjectName={getSubjectName(item.master_course_code)}
-                            />
+                        renderItem={({ item, index }) => (
+                            <Animated.View entering={FadeInUp.delay(index * 100 + 300).springify()}>
+                                <QuizCard
+                                    quizUc={item.quiz_uc}
+                                    courseCode={item.master_course_code}
+                                    markOb={item.marks_obtained}
+                                    CorrectA={item.correct}
+                                    IncorrectA={item.incorrect}
+                                    NotAttempted={item.not_attempted}
+                                    quizLink={item.quiz_link}
+                                    subjectName={getSubjectName(item.master_course_code)}
+                                />
+                            </Animated.View>
                         )}
                         keyExtractor={(item, index) => item.sl_num + index}
                         ListEmptyComponent={

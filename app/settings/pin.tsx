@@ -4,6 +4,7 @@ import CustomButton from '@/components/Common/CustomButton';
 import { changePin, StudentData } from '@/utils/apicalls';
 import { saveData, getData } from '@/utils/storage';
 import { useRouter } from 'expo-router';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 
 export default function ChangePin() {
     const [pin, setPin] = useState('');
@@ -31,7 +32,7 @@ export default function ChangePin() {
 
     return (
         <View className='flex-1 bg-background p-4'>
-            <View className='bg-surface/80 border border-white/10 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-md'>
+            <Animated.View entering={FadeInUp.delay(100).springify()} className='bg-surface/80 border border-white/10 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-md'>
                 <Text className='font-montserratExtraBold text-2xl text-white mb-2 tracking-tight'>Quiz PIN</Text>
                 <Text className='font-montserratMedium text-sm text-text-muted mb-6'>Update your PIN for secure quiz access.</Text>
 
@@ -53,7 +54,7 @@ export default function ChangePin() {
                     containerStyles='rounded-xl bg-gradient-to-r from-secondary to-teal-500 py-4 shadow-lg shadow-secondary/30'
                     textStyles="text-white font-montserratBold tracking-wide"
                 />
-            </View>
+            </Animated.View>
         </View>
     )
 }

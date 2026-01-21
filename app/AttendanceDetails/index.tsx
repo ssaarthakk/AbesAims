@@ -4,6 +4,7 @@ import AttendanceDetailCard from '@/components/Attendance/AttendanceDetailCard';
 import { useAttData } from '@/utils/store';
 import LoadinSvg from '@/components/Home/LoadinSvg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 
 export default function SubAttDetails() {
     const attData = useAttData((state: any) => state.attData);
@@ -31,11 +32,13 @@ export default function SubAttDetails() {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: insets.bottom + 20 }}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <AttendanceDetailCard
-                            date={item.start_time}
-                            status={item.state}
-                        />
+                    renderItem={({ item, index }) => (
+                        <Animated.View entering={FadeInUp.delay(index * 50).springify()}>
+                            <AttendanceDetailCard
+                                date={item.start_time}
+                                status={item.state}
+                            />
+                        </Animated.View>
                     )}
                 />
             )}
