@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import AttendanceDetailCard from '@/components/Attendance/AttendanceDetailCard';
 import { useAttData } from '@/utils/store';
 import LoadinSvg from '@/components/Home/LoadinSvg';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SubAttDetails() {
     const attData = useAttData((state: any) => state.attData);
@@ -17,13 +16,8 @@ export default function SubAttDetails() {
         }
     }, [attData]);
 
-    const formatDate = (dateString: string) => {
-        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        return new Date(dateString).toLocaleDateString('en-US', options);
-    };
-
     return (
-        <View className='flex-1 bg-background px-4'>
+        <View className='flex-1 bg-background px-2 pt-6'>
             {data.length === 0 ? (
                 <View className="flex-1 justify-center items-center">
                     <LoadinSvg loading={true} color='#a855f7' size={96} />
@@ -31,15 +25,14 @@ export default function SubAttDetails() {
             ) : (
                 <FlatList
                     data={data}
+                    numColumns={3}
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}
+                    contentContainerStyle={{ paddingBottom: 20 }}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (
+                    renderItem={({ item }) => (
                         <AttendanceDetailCard
-                            formattedDate={formatDate(item.start_time)}
-                            facultyName={item.faculty_name || 'Unknown Faculty'}
+                            date={item.start_time}
                             status={item.state}
-                            isLast={index === data.length - 1}
                         />
                     )}
                 />
