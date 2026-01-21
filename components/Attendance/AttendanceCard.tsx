@@ -34,8 +34,8 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
                 {/* Header Section */}
                 <View className="flex-row justify-between items-start">
                     <View className="flex-1 mr-2">
-                        <Text className='text-3xl font-montserratExtraBold text-white tracking-tight shadow-md'>{subjectCode}</Text>
-                        <Text className='text-sm font-montserratMedium text-text-muted mt-1 uppercase tracking-wider'>{subjectName}</Text>
+                        <Text className='text-3xl font-montserratExtraBold text-white tracking-tight shadow-md'>{subjectName}</Text>
+                        <Text className='text-sm font-montserratMedium text-text-muted mt-1 uppercase tracking-wider'>{subjectCode}</Text>
                     </View>
                     <View className="items-end">
                         <View className="bg-primary/20 px-3 py-1 rounded-full border border-primary/30">

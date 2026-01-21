@@ -63,7 +63,7 @@ export default function TabsLayout() {
         options={{
           title: "Quizzes",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="help-circle-outline" size={size} color={color} />
+            <Ionicons name="document-text-outline" size={size} color={color} />
           ),
         }}
       />
