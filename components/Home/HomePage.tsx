@@ -60,16 +60,16 @@ export default function HomePage() {
       // Fetch fresh data without clearing current data first
       const apiData = await getSubjectDetailsAndAttendance();
       const scheduleApiData = await getSchedule();
-      
+
       if (apiData.length > 0) {
         setDataApi(apiData);
         setAttendance(apiData[apiData.length - 1].attendance_summary);
       }
-      
+
       if (scheduleApiData.length > 0) {
         setScheduleData(scheduleApiData);
       }
-      
+
       ToastAndroid.show('Data refreshed successfully!', ToastAndroid.SHORT);
     } catch (error) {
       console.error('Refresh error:', error);
@@ -84,7 +84,7 @@ export default function HomePage() {
     const checkLogin = async () => {
       // Skip if we're currently refreshing to avoid conflicts
       if (refreshing) return;
-      
+
       const data: StudentData = await getData('userData') as StudentData;
       if (dataApi.length === 0 && data) {
         const apiData = await getSubjectDetailsAndAttendance();
@@ -119,7 +119,7 @@ export default function HomePage() {
     const getData = async () => {
       // Skip if we're currently refreshing to avoid conflicts
       if (refreshing) return;
-      
+
       if (scheduleData.length === 0) {
         const apiData: Array<any> = await getSchedule();
         if (apiData.length === 0) {
@@ -139,8 +139,8 @@ export default function HomePage() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={[color_three]}
-            tintColor={color_three}
+            colors={['#a855f7']} // Primary color (Purple)
+            tintColor={'#a855f7'} // Primary color (Purple)
           />
         }
       >

@@ -22,10 +22,10 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
             setLoading(true);
             try {
                 const attendanceData = await getSubjectAttendance(subjectId);
-                
+
                 const today = new Date();
                 const todayDateString = today.toDateString();
-                
+
                 const statusMap: { [key: string]: 'present' | 'absent' | 'not-marked' } = {};
 
                 const parseTimeSlot = (timeSlot: string) => {
@@ -42,25 +42,25 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
 
                 time.forEach(timeSlot => {
                     const { startHour, startMinute, endHour, endMinute } = parseTimeSlot(timeSlot);
-                    
+
                     const attendanceRecord = attendanceData.find((record: any) => {
                         const recordDate = new Date(record.start_time).toDateString();
 
                         if (recordDate !== todayDateString) {
                             return false;
                         }
-                        
+
                         const recordStartTime = new Date(record.start_time);
                         const recordHour = recordStartTime.getHours();
                         const recordMinute = recordStartTime.getMinutes();
-                        
+
                         const slotStartMinutes = startHour * 60 + startMinute;
                         const slotEndMinutes = endHour * 60 + endMinute;
                         const recordMinutes = recordHour * 60 + recordMinute;
-                        
+
                         return recordMinutes >= slotStartMinutes && recordMinutes <= slotEndMinutes;
                     });
-                    
+
                     if (attendanceRecord) {
                         const status = attendanceRecord.state;
                         if (status === 'Present') {
@@ -74,7 +74,7 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
                         statusMap[timeSlot] = 'not-marked';
                     }
                 });
-                
+
                 setAttendanceStatus(statusMap);
             } catch (error) {
                 console.log('Error fetching attendance:', error);
@@ -94,11 +94,11 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
     const getAttendanceIcon = (status: 'present' | 'absent' | 'not-marked') => {
         switch (status) {
             case 'present':
-                return <Ionicons name="checkmark-circle" size={20} color="#000" />;
+                return <Ionicons name="checkmark-circle" size={20} color="#34d399" />; // Success Green
             case 'absent':
-                return <Ionicons name="close-circle" size={20} color="#000" />;
+                return <Ionicons name="close-circle" size={20} color="#f87171" />; // Error Red
             case 'not-marked':
-                return <Ionicons name="help-circle" size={20} color="#000" />;
+                return <Ionicons name="help-circle" size={20} color="#94a3b8" />; // Muted Slate
         }
     };
 
@@ -136,21 +136,35 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
     };
 
     return (
-        <View className='bg-gray-200 rounded-xl p-4 flex gap-1 my-2'>
-            <Text className='font-montserratSemiBold text-xl'>{subjectName}</Text>
-            <Text className='font-montserrat text-xl'>{faculty}</Text>
-            <View className="mt-2">
+        <View className='bg-surface border border-white/10 rounded-xl p-4 flex gap-2 my-2'>
+            <View className="flex-row justify-between items-start">
+                <View className="flex-1 mr-2">
+                    <Text className='font-montserratBold text-lg text-white leading-6'>{subjectName}</Text>
+                    <Text className='font-montserrat text-sm text-text-muted mt-0.5'>{faculty}</Text>
+                </View>
+                <View className="bg-primary/20 px-2 py-1 rounded-md border border-primary/20">
+                    <Text className="text-[10px] font-montserratBold text-primary uppercase">Class</Text>
+                </View>
+            </View>
+
+            <View className="mt-2 bg-color_one p-3 rounded-lg border border-white/5">
                 {time?.length === 1 ? (
                     <View className="flex-row justify-between items-center">
-                        <Text className='font-montserrat text-lg'>{time[0]}</Text>
+                        <View className="bg-surface-highlight px-2 py-1 rounded border border-white/10">
+                            <Text className='font-montserratSemiBold text-sm text-sky-400'>{time[0]}</Text>
+                        </View>
                         {subjectId && (
-                            <View className="flex-row items-center gap-1">
+                            <View className="flex-row items-center gap-2">
                                 {loading ? (
-                                    <Text className="text-gray-400 text-sm">Loading...</Text>
+                                    <Text className="text-gray-500 text-xs">Syncing...</Text>
                                 ) : (
                                     <>
-                                        {getAttendanceIcon(attendanceStatus[time[0]] || 'not-marked')}
-                                        <Text className={`text-sm font-montserratMedium text-black`}>
+                                        <View className="scale-90">
+                                            {getAttendanceIcon(attendanceStatus[time[0]] || 'not-marked')}
+                                        </View>
+                                        <Text className={`text-xs font-montserratBold uppercase tracking-wide
+                                            ${(attendanceStatus[time[0]] === 'present') ? 'text-success' :
+                                                (attendanceStatus[time[0]] === 'absent') ? 'text-error' : 'text-text-muted'}`}>
                                             {getAttendanceText(attendanceStatus[time[0]] || 'not-marked')}
                                         </Text>
                                     </>

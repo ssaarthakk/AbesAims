@@ -28,49 +28,47 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
     }
 
     return (
-        <LinearGradient 
-            colors={['#ffffff', '#f5f5f5']} 
-            start={{ x: 0, y: 0 }} 
-            end={{ x: 1, y: 1 }}
-            className='rounded-xl p-5 w-[90vw] h-auto mb-4 shadow-lg'
+        <View
+            className='bg-surface/80 border border-white/10 p-5 w-[90vw] h-auto mb-5 rounded-2xl shadow-xl shadow-black/40 backdrop-blur-md'
         >
-            <View className='border-b border-gray-300 pb-2 mb-3'>
-                <Text className='font-montserratBold text-xl text-color_three'>{courseCode}</Text>
-            </View>
-            
-            <View className='space-y-2 mb-4'>
-                <View className='flex-row justify-between'>
-                    <Text className='text-base font-montserratMedium text-gray-600'>Quiz UC:</Text>
-                    <Text className='text-base font-montserrat text-color_three'>{quizUc}</Text>
+            <View className='flex-row justify-between items-start mb-4'>
+                <View className="flex-1">
+                    <Text className='font-montserratExtraBold text-lg text-white tracking-wide'>{courseCode}</Text>
+                    <Text className="text-xs text-primary font-montserratBold mt-1 uppercase tracking-wider">{quizUc}</Text>
                 </View>
-                
-                <View className='flex-row justify-between'>
-                    <Text className='text-base font-montserratMedium text-gray-600'>Marks Obtained:</Text>
-                    <Text className='text-base font-montserrat text-color_three'>{markOb}</Text>
-                </View>
-                
-                <View className='flex-row justify-between'>
-                    <Text className='text-base font-montserratMedium text-gray-600'>Correct Answers:</Text>
-                    <Text className='text-base font-montserrat text-green-600'>{CorrectA}</Text>
-                </View>
-                
-                <View className='flex-row justify-between'>
-                    <Text className='text-base font-montserratMedium text-gray-600'>Incorrect Answers:</Text>
-                    <Text className='text-base font-montserrat text-red-600'>{IncorrectA}</Text>
-                </View>
-                
-                <View className='flex-row justify-between'>
-                    <Text className='text-base font-montserratMedium text-gray-600'>Not Attempted:</Text>
-                    <Text className='text-base font-montserrat text-yellow-600'>{NotAttempted}</Text>
+                <View className="bg-surface-highlight px-3 py-1 rounded-full border border-white/10">
+                    <Text className="text-xs text-white font-montserratMedium">Quiz</Text>
                 </View>
             </View>
-            
-            <CustomButton 
-                title='View Details' 
-                onPress={handlePress} 
-                containerStyles='py-3 mt-2 rounded-lg' 
+
+            {/* Main Score Display */}
+            <View className="items-center justify-center py-4 bg-color_one rounded-xl border border-white/5 mb-4">
+                <Text className="text-4xl font-montserratExtraBold text-accent drop-shadow-md">{markOb}</Text>
+                <Text className="text-xs text-text-muted font-montserrat tracking-widest uppercase mt-1">Marks Obtained</Text>
+            </View>
+
+            {/* Stats Grid */}
+            <View className='flex-row justify-between gap-2 mb-4'>
+                <View className='flex-1 bg-color_one p-2 rounded-lg border border-white/5 items-center'>
+                    <Text className="text-success font-montserratBold text-lg">{CorrectA}</Text>
+                    <Text className="text-[10px] text-text-muted uppercase">Correct</Text>
+                </View>
+                <View className='flex-1 bg-color_one p-2 rounded-lg border border-white/5 items-center'>
+                    <Text className="text-error font-montserratBold text-lg">{IncorrectA}</Text>
+                    <Text className="text-[10px] text-text-muted uppercase">Wrong</Text>
+                </View>
+                <View className='flex-1 bg-color_one p-2 rounded-lg border border-white/5 items-center'>
+                    <Text className="text-warning font-montserratBold text-lg">{NotAttempted}</Text>
+                    <Text className="text-[10px] text-text-muted uppercase">Skipped</Text>
+                </View>
+            </View>
+
+            <CustomButton
+                title='View Quiz'
+                onPress={handlePress}
+                containerStyles='py-3 rounded-xl bg-gradient-to-r from-primary to-purple-600 shadow-md shadow-primary/20'
             />
-        </LinearGradient>
+        </View>
     )
 }
 

@@ -5,35 +5,33 @@ module.exports = {
     "./App.{js,jsx,ts,tsx}",
     "./app/**/*.{js,jsx,ts,tsx}", // Include all JS, JSX, TS, and TSX files in the app folder
     "./components/**/*.{js,jsx,ts,tsx}", // Include all JS, JSX, and TSX files in the components folder]
-    "./app/(tabs)/meditate.tsx",
   ],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
       colors: {
-        'color_one': '#222831',
-        'color_two': '#393E46',
-        'color_three': '#000',
-        'color_four': '#fff',
-        'color_five': '#fff',
-        'primary': '#2563eb',
-        'primary-dark': '#1d4ed8',
-        'secondary': '#7c3aed',
-        'success': '#10b981',
-        'warning': '#f59e0b',
-        'error': '#ef4444',
-        'info': '#3b82f6',
-        'light': '#f8fafc',
-        'dark': '#0f172a',
-        'gray-100': '#f1f5f9',
-        'gray-200': '#e2e8f0',
-        'gray-300': '#cbd5e1',
-        'gray-400': '#94a3b8',
-        'gray-500': '#64748b',
-        'gray-600': '#475569',
-        'gray-700': '#334155',
-        'gray-800': '#1e293b',
-        'gray-900': '#0f172a',
+        'color_one': '#0f172a', // Slate 900
+        'color_two': '#1e293b', // Slate 800
+        'color_three': '#0f172a', // Main BG
+        'color_four': '#f8fafc', // Main Text
+        'color_five': '#38bdf8', // Sky 400
+
+        // Modern Theme Palette
+        'primary': '#a855f7', // Purple 500 - Vibrant primary
+        'primary-content': '#ffffff',
+        'secondary': '#2dd4bf', // Teal 400 - Fresh secondary
+        'accent': '#f472b6', // Pink 400 - Hot pink accent
+
+        'background': '#020617', // Slate 950 - Deepest dark
+        'surface': '#1e293b', // Slate 800 - Lighter for cards
+        'surface-highlight': '#334155', // Slate 700 - Hover/Active
+
+        'success': '#34d399', // Emerald 400
+        'warning': '#fbbf24', // Amber 400
+        'error': '#f87171', // Red 400
+
+        'text-main': '#f8fafc', // Slate 50
+        'text-muted': '#94a3b8', // Slate 400
       },
       fontFamily: {
         montserrat: ['Montserrat'],
@@ -41,11 +39,6 @@ module.exports = {
         montserratExtraBold: ['Montserrat-ExtraBold'],
         montserratMedium: ['Montserrat-Medium'],
         montserratSemiBold: ['Montserrat-SemiBold'],
-      },
-      borderRadius: {
-        'xl': '1rem',
-        '2xl': '1.5rem',
-        '3xl': '2rem',
       },
     },
   },

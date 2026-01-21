@@ -6,26 +6,26 @@ import { StudentData } from '@/utils/apicalls'
 export default function UserDataCard({ userData }: { userData: StudentData }) {
 
     return (
-        <View className='bg-color_five p-5 w-[90vw] rounded-xl h-auto shadow shadow-black drop-shadow-2xl'>
+        <View className='bg-surface/80 border border-white/10 p-5 w-[90vw] rounded-2xl h-auto shadow-xl shadow-black/40 backdrop-blur-md mb-6'>
             <View className='flex flex-row items-center justify-between gap-4 mb-4'>
 
-                <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-gray-200 rounded'>
+                <View className='flex-1 flex-row items-center gap-3 bg-color_one p-3 rounded-xl border border-white/5'>
+                    <View className='p-2 bg-primary/20 rounded-full'>
                         <ProfileIcon />
                     </View>
-                    <View>
-                        <Text className='text-gray-500 text-sm font-montserrat'>Name</Text>
-                        <Text className='font-montserratSemiBold text-xl break-words'>{userData?.name?.split(' ').join('\n')}</Text>
+                    <View className="flex-1">
+                        <Text className='text-text-muted text-[10px] uppercase font-montserratBold tracking-wide'>Name</Text>
+                        <Text className='font-montserratSemiBold text-lg text-white leading-5'>{userData?.name?.split(' ')[0]}</Text>
                     </View>
                 </View>
 
-                <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-gray-200 rounded'>
+                <View className='flex-1 flex-row items-center gap-3 bg-color_one p-3 rounded-xl border border-white/5'>
+                    <View className='p-2 bg-secondary/20 rounded-full'>
                         <BookIcon />
                     </View>
-                    <View>
-                        <Text className='text-gray-500 text-sm font-montserrat'>Branch</Text>
-                        <Text className='font-montserratSemiBold text-xl'>{userData?.branch}</Text>
+                    <View className="flex-1">
+                        <Text className='text-text-muted text-[10px] uppercase font-montserratBold tracking-wide'>Branch</Text>
+                        <Text className='font-montserratSemiBold text-lg text-white leading-5'>{userData?.branch}</Text>
                     </View>
                 </View>
 
@@ -33,23 +33,23 @@ export default function UserDataCard({ userData }: { userData: StudentData }) {
 
             <View className='flex flex-row justify-between items-center gap-4'>
 
-                <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-gray-200 rounded'>
+                <View className='flex-1 flex-row items-center gap-3 bg-color_one p-3 rounded-xl border border-white/5'>
+                    <View className='p-2 bg-accent/20 rounded-full'>
                         <CalendarIcon />
                     </View>
-                    <View>
-                        <Text className='text-gray-500 text-sm font-montserrat'>Semester</Text>
-                        <Text className='text-xl font-montserratSemiBold'>{userData?.semester}</Text>
+                    <View className="flex-1">
+                        <Text className='text-text-muted text-[10px] uppercase font-montserratBold tracking-wide'>Sem</Text>
+                        <Text className='text-lg font-montserratSemiBold text-white leading-5'>{userData?.semester}</Text>
                     </View>
                 </View>
 
-                <View className='flex-1 flex-row items-center gap-2'>
-                    <View className='p-2 bg-gray-200 rounded'>
+                <View className='flex-1 flex-row items-center gap-3 bg-color_one p-3 rounded-xl border border-white/5'>
+                    <View className='p-2 bg-sky-500/20 rounded-full'>
                         <HomeIcon />
                     </View>
-                    <View>
-                        <Text className='text-gray-500 text-sm font-montserrat'>Adm No.</Text>
-                        <Text className='text-xl font-montserratSemiBold'>{userData?.username}</Text>
+                    <View className="flex-1">
+                        <Text className='text-text-muted text-[10px] uppercase font-montserratBold tracking-wide'>Adm No.</Text>
+                        <Text className='text-lg font-montserratSemiBold text-white leading-5'>{userData?.username}</Text>
                     </View>
                 </View>
 

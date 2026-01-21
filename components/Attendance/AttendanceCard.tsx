@@ -20,41 +20,99 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
             ToastAndroid.show('No Data to show', ToastAndroid.LONG);
         } else {
             setAttData(data);
-            router.navigate('/AttendanceDetails/SubAttDetails')
+            setAttData(data);
+            // router.navigate('/AttendanceDetails/SubAttDetails') 
+            // TODO: Restore this navigation if we recreate the details screen.
+            ToastAndroid.show('Details view temporarily details', ToastAndroid.SHORT);
             setIsLoading(false);
         }
     }
 
     return (
         <View>
-            <View className='bg-color_five p-5 w-[90vw] rounded-xl shadow shadow-black drop-shadow-2xl flex gap-3 mb-4'>
-                <Text className='text-2xl font-montserratBold'>{subjectName}: {subjectCode}</Text>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="checkmark-circle-outline" size={24} color="#1fa10e" />
-                    <Text className='text-xl font-montserrat'>Present: {present}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="close-circle-outline" size={24} color="#fa2323" />
-                    <Text className='text-xl font-montserrat'>Absent: {absent}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="alert-circle-outline" size={24} color="#3452eb" />
-                    <Text className='text-xl font-montserrat'>Leave: {leave}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="sync-circle-outline" size={24} color="#3c3d3d" />
-                    <Text className='text-xl font-montserrat'>Exempt: {exempt}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="filter-circle-outline" size={24} color="#3c3d3d" />
-                    <Text className='text-xl font-montserrat'>Total: {total}</Text>
-                </View>
-                <View className='flex flex-row items-center gap-2'>
-                    <Ionicons name="refresh-circle-outline" size={24} color="#3c3d3d" />
-                    <Text className='text-xl font-montserrat'>Percentage: <Text className='font-montserratSemiBold'>{percent}</Text></Text>
+            <View className='bg-surface/80 border border-white/10 p-5 w-[90vw] rounded-2xl shadow-xl shadow-black/40 flex gap-4 mb-4 backdrop-blur-md'>
+                {/* Header Section */}
+                <View className="flex-row justify-between items-start">
+                    <View className="flex-1 mr-2">
+                        <Text className='text-3xl font-montserratExtraBold text-white tracking-tight shadow-md'>{subjectCode}</Text>
+                        <Text className='text-sm font-montserratMedium text-text-muted mt-1 uppercase tracking-wider'>{subjectName}</Text>
+                    </View>
+                    <View className="items-end">
+                        <View className="bg-primary/20 px-3 py-1 rounded-full border border-primary/30">
+                            <Text className='font-montserratBold text-primary text-xs'>CLASS</Text>
+                        </View>
+                    </View>
                 </View>
 
-                <CustomButton title='View Details' onPress={isLoading ? () => { } : handlePress} containerStyles='py-3 my-2 rounded-lg' isLoading={isLoading} />
+                {/* Divider with percentage */}
+                <View className="flex-row items-center justify-between my-2">
+                    <View className="h-[2px] flex-1 bg-surface-highlight rounded-full" />
+                    <View className="mx-4 items-center justify-center">
+                        <Text className="text-4xl font-montserratExtraBold text-accent drop-shadow-lg">{percent}</Text>
+                        <Text className="text-xs font-montserrat text-text-muted">ATTENDANCE</Text>
+                    </View>
+                    <View className="h-[2px] flex-1 bg-surface-highlight rounded-full" />
+                </View>
+
+                {/* Grid Stats System */}
+                <View className='flex-row flex-wrap justify-between gap-y-3'>
+                    {/* Present */}
+                    <View className='w-[48%] bg-color_one p-3 rounded-xl border border-white/5 flex-row items-center gap-2'>
+                        <View className="bg-success/20 p-2 rounded-full">
+                            <Ionicons name="checkmark-circle" size={18} color="#34d399" />
+                        </View>
+                        <View>
+                            <Text className='text-success font-montserratBold text-lg'>{present}</Text>
+                            <Text className='text-text-muted text-[10px] uppercase font-bold tracking-wide'>Present</Text>
+                        </View>
+                    </View>
+
+                    {/* Absent */}
+                    <View className='w-[48%] bg-color_one p-3 rounded-xl border border-white/5 flex-row items-center gap-2'>
+                        <View className="bg-error/20 p-2 rounded-full">
+                            <Ionicons name="close-circle" size={18} color="#f87171" />
+                        </View>
+                        <View>
+                            <Text className='text-error font-montserratBold text-lg'>{absent}</Text>
+                            <Text className='text-text-muted text-[10px] uppercase font-bold tracking-wide'>Absent</Text>
+                        </View>
+                    </View>
+
+                    {/* Leave */}
+                    <View className='w-[48%] bg-color_one p-3 rounded-xl border border-white/5 flex-row items-center gap-2'>
+                        <View className="bg-warning/20 p-2 rounded-full">
+                            <Ionicons name="alert-circle" size={18} color="#fbbf24" />
+                        </View>
+                        <View>
+                            <Text className='text-warning font-montserratBold text-lg'>{leave}</Text>
+                            <Text className='text-text-muted text-[10px] uppercase font-bold tracking-wide'>Leave</Text>
+                        </View>
+                    </View>
+
+                    {/* Exempt */}
+                    <View className='w-[48%] bg-color_one p-3 rounded-xl border border-white/5 flex-row items-center gap-2'>
+                        <View className="bg-sky-500/20 p-2 rounded-full">
+                            <Ionicons name="sync-circle" size={18} color="#38bdf8" />
+                        </View>
+                        <View>
+                            <Text className='text-sky-400 font-montserratBold text-lg'>{exempt}</Text>
+                            <Text className='text-text-muted text-[10px] uppercase font-bold tracking-wide'>Exempt</Text>
+                        </View>
+                    </View>
+                </View>
+
+                {/* Total Badge */}
+                <View className="self-center bg-surface-highlight px-4 py-1 rounded-full mt-1">
+                    <Text className="text-xs text-text-muted font-montserratMedium">Total Classes: <Text className="text-white font-bold">{total}</Text></Text>
+                </View>
+
+                <CustomButton
+                    title='Detailed View'
+                    onPress={isLoading ? () => { } : handlePress}
+                    containerStyles='mt-3 py-4 rounded-xl bg-gradient-to-r from-primary to-purple-600 shadow-lg shadow-primary/30 active:scale-95'
+                    textStyles="text-white font-montserratBold tracking-wide"
+                    isLoading={isLoading}
+                />
             </View>
         </View>
     )

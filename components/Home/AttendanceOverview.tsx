@@ -34,50 +34,55 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
     const { canLeave, classesNeeded, daysNeeded } = calculateClassesNeeded();
 
     return (
-        <View className='bg-color_five p-5 w-[90vw] rounded-xl h-auto shadow shadow-black drop-shadow-2xl'>
-            <Text className='font-montserratSemiBold text-3xl text-center mb-4'>Attendance Overview</Text>
+        <View className='bg-surface/80 border border-white/10 p-5 w-[90vw] rounded-2xl h-auto shadow-xl shadow-black/40 backdrop-blur-md mb-6'>
+            <Text className='font-montserratExtraBold text-2xl text-center mb-6 text-white tracking-tight'>Attendance Overview</Text>
             <View className='items-center gap-2'>
-                <Progress.Circle
-                    size={250}
-                    progress={attendance !== null ? attendance.Present / attendance.Total : 0}
-                    color={'#000'}
-                    thickness={15}
-                    unfilledColor={'#8f8f8f'}
-                    borderColor='#fff'
-                    showsText={true}
-                    formatText={() => `${attendance !== null ? ((attendance.Present / attendance.Total) * 100).toFixed(2) : 0}%`}
-                    endAngle={0.4}
-                    textStyle={{ fontWeight: 'bold', color: '#000', fontFamily: 'Montserrat' }}
-                />
+                <View className="shadow-lg shadow-primary/20 bg-color_one rounded-full p-2 border border-white/5">
+                    <Progress.Circle
+                        size={250}
+                        progress={attendance !== null ? attendance.Present / attendance.Total : 0}
+                        color={'#a855f7'} // Primary Purple
+                        thickness={12}
+                        unfilledColor={'#1e293b'} // Dark Surface
+                        borderColor='#334155'
+                        showsText={true}
+                        formatText={() => `${attendance !== null ? ((attendance.Present / attendance.Total) * 100).toFixed(2) : 0}%`}
+                        endAngle={0.4}
+                        textStyle={{ fontWeight: 'bold', color: '#f8fafc', fontFamily: 'Montserrat' }}
+                        strokeCap="round"
+                    />
+                </View>
 
-                <View className='w-full mt-4'>
-                    <View className='flex-row justify-between mb-2 px-6'>
-                        <Text className='font-montserratBold text-md text-black'>Attendance Threshold</Text>
-                        <Text className='font-montserratSemiBold text-lg'>{attendanceThreshold}%</Text>
+                <View className='w-full mt-6'>
+                    <View className='flex-row justify-between mb-2 px-1'>
+                        <Text className='font-montserratBold text-base text-text-muted'>Goal: {attendanceThreshold}%</Text>
+                        <Text className='font-montserratSemiBold text-base text-primary'>{attendancePercent}% Current</Text>
                     </View>
-                    <View className='w-full px-4'>
+                    <View className='w-full'>
                         <Slider
-                            className='w-full h-8'
+                            className='w-full h-10'
                             minimumValue={40}
                             maximumValue={100}
                             step={1}
                             value={attendanceThreshold}
                             onValueChange={setAttendanceThreshold}
-                            minimumTrackTintColor="#000"
-                            maximumTrackTintColor="#8f8f8f"
-                            thumbTintColor="#000"
+                            minimumTrackTintColor="#a855f7" // Primary
+                            maximumTrackTintColor="#334155" // Surface highlight
+                            thumbTintColor="#f472b6" // Accent Pink
                         />
                     </View>
                 </View>
 
-                <Text className='font-montserratSemiBold text-md text-gray-400 mt-2 text-center'>
-                    {
-                        canLeave
-                            ? `You can leave next ${classesNeeded} Lectures to get your attendance to ${attendanceThreshold}%`
-                            : `You must attend next ${classesNeeded} Lectures or ${daysNeeded} days to get your attendance to ${attendanceThreshold}%`
-                    }
-                </Text>
-                
+                <View className={`mt-4 p-4 rounded-xl border border-white/5 w-full ${canLeave ? 'bg-success/10 border-success/20' : 'bg-error/10 border-error/20'}`}>
+                    <Text className={`font-montserratSemiBold text-base text-center ${canLeave ? 'text-success' : 'text-error'}`}>
+                        {
+                            canLeave
+                                ? `🎉 You can skip the next ${classesNeeded} lectures to stay above ${attendanceThreshold}%`
+                                : `⚠️ Attend the next ${classesNeeded} lectures (${daysNeeded} days) to reach ${attendanceThreshold}%`
+                        }
+                    </Text>
+                </View>
+
                 <AttendanceCalculator attendance={attendance} />
             </View>
             <AttendanceTable attendance={attendance} />

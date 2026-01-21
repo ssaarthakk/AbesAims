@@ -1,6 +1,6 @@
 import "./global.css";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Drawer } from 'expo-router/drawer';
+import { Stack, Slot } from 'expo-router';
 import React, { useEffect, useState } from "react";
 import useStore from "@/utils/store";
 import { StudentData } from "@/utils/apicalls";
@@ -66,98 +66,15 @@ export default function Layout() {
         <SafeAreaProvider>
             {isLoggedIn ? (
                 <GestureHandlerRootView style={{ flex: 1 }}>
-                    <StatusBar style="light" backgroundColor={color_three} />
-                    <Drawer screenOptions={{
-                        headerStyle: { backgroundColor: color_three },
-                        headerTintColor: color_four,
-                        headerTitleStyle: { color: color_four, fontFamily: "Montserrat" },
-                        drawerActiveBackgroundColor: color_four,
-                        drawerActiveTintColor: color_three,
-                        drawerInactiveTintColor: color_four,
-                        drawerInactiveBackgroundColor: color_three,
-                        drawerStyle: { backgroundColor: color_three },
-                        drawerLabelStyle: { fontFamily: "Montserrat" },
-                    }}
-                        drawerContent={CustomDrawerContent}
-                    >
-                    <Drawer.Screen
-                        name="(tabs)"
-                        options={{
-                            drawerLabel: 'Dashboard',
-                            headerTitle: 'ABES AIMS',
-                            headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
-                            headerTitleAlign: 'center',
-                            drawerIcon: ({ size, color }) => (
-                                <Ionicons name="home-outline" size={size} color={color} />
-                            )
-                        }}
-                    />
-                    <Drawer.Screen
-                        name="Profile/index"
-                        options={{
-                            drawerLabel: 'Profile',
-                            headerTitle: 'Profile',
-                            headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
-                            headerTitleAlign: 'center',
-                            drawerIcon: ({ size, color }) => (
-                                <Ionicons name="person-outline" size={size} color={color} />
-                            )
-                        }}
-                    />
-                    <Drawer.Screen
-                        name="AttendanceDetails"
-                        options={{
-                            drawerLabel: 'Attendance Details',
-                            headerTitle: 'Attendance Details',
-                            headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
-                            headerTitleAlign: 'center',
-                            drawerIcon: ({ size, color }) => (
-                                <Ionicons name="calendar-outline" size={size} color={color} />
-                            )
-                        }}
-                    />
-                    <Drawer.Screen
-                        name="CompletedQuizzes/index"
-                        options={{
-                            drawerLabel: 'Completed Quizzes',
-                            headerTitle: 'Completed Quizzes',
-                            headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
-                            headerTitleAlign: 'center',
-                            drawerIcon: ({ size, color }) => (
-                                <Ionicons name="paper-plane-outline" size={size} color={color} />
-                            )
-                        }}
-                    />
-                    <Drawer.Screen
-                        name="SubjectDetails/index"
-                        options={{
-                            drawerLabel: 'Subject Details',
-                            headerTitle: 'Subject Details',
-                            headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
-                            headerTitleAlign: 'center',
-                            drawerIcon: ({ size, color }) => (
-                                <Ionicons name="book-outline" size={size} color={color} />
-                            )
-                        }}
-                    />
-                    <Drawer.Screen
-                        name="ChangePinPassword/index"
-                        options={{
-                            drawerLabel: 'Change Pin/Password',
-                            headerTitle: 'Change Pin/Password',
-                            headerTitleStyle: { fontSize: 24, fontWeight: 'bold', fontFamily: "Montserrat" },
-                            headerTitleAlign: 'center',
-                            drawerIcon: ({ size, color }) => (
-                                <Ionicons name="key-outline" size={size} color={color} />
-                            )
-                        }}
-                    />
-                </Drawer>
-            </GestureHandlerRootView>
+                    <StatusBar style="light" backgroundColor='#0f172a' />
+                    <Stack screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="(tabs)" />
+                    </Stack>
+                </GestureHandlerRootView>
             ) : (
                 <>
-                    <StatusBar style="light" backgroundColor={color_three} />
-                    <LinearGradient className='flex-1 justify-center items-center' colors={[color_three, color_four]} start={{ x: 0, y: 0 }} end={{ x: 0.6, y: 0.6 }} >
+                    <StatusBar style="light" backgroundColor='#0f172a' />
+                    <LinearGradient className='flex-1 justify-center items-center' colors={['#0f172a', '#1e293b']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} >
                         <Login />
                     </LinearGradient>
                 </>

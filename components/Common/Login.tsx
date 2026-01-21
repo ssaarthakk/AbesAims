@@ -50,11 +50,11 @@ export default function Login() {
   }
 
   return (
-    <LinearGradient 
-      colors={['#ffffff', '#f8f8f8']} 
-      start={{ x: 0, y: 0 }} 
+    <LinearGradient
+      colors={['#1e293b', '#0f172a']}
+      start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      className='w-[85vw] rounded-xl shadow-2xl p-8'
+      className='w-[85vw] rounded-xl shadow-2xl shadow-purple-500/20 p-8 border border-slate-700'
     >
       <View>
         {
@@ -63,80 +63,80 @@ export default function Login() {
           )
         }
       </View>
-      
-      <Text className='font-montserratExtraBold text-4xl text-center text-color_three mb-2'>ABES AIMS</Text>
-      <Text className='font-montserratMedium text-lg text-center text-gray-500 pb-8'>Student Portal</Text>
-      
+
+      <Text className='font-montserratExtraBold text-4xl text-center text-primary mb-2'>ABES AIMS</Text>
+      <Text className='font-montserratMedium text-lg text-center text-slate-400 pb-8'>Student Portal</Text>
+
       <View className='mb-5'>
-        <Text className='font-montserratMedium text-gray-700 mb-2'>Admission Number</Text>
-        <TextInput 
-          placeholder='Enter your admission number' 
-          value={username} 
-          placeholderTextColor={'#9ca3af'} 
-          onChangeText={setUsername} 
-          className='p-4 border border-gray-300 rounded-lg font-montserrat text-black bg-white'
+        <Text className='font-montserratMedium text-slate-300 mb-2'>Admission Number</Text>
+        <TextInput
+          placeholder='Enter your admission number'
+          value={username}
+          placeholderTextColor={'#64748b'}
+          onChangeText={setUsername}
+          className='p-4 border border-slate-600 rounded-lg font-montserrat text-white bg-slate-900'
         />
       </View>
-      
+
       <View className='mb-6'>
-        <Text className='font-montserratMedium text-gray-700 mb-2'>Password</Text>
-        <TextInput 
-          placeholder='Enter your password' 
-          value={password} 
-          placeholderTextColor={'#9ca3af'} 
-          secureTextEntry 
-          onChangeText={setPassword} 
-          className='p-4 border border-gray-300 rounded-lg font-montserrat text-black bg-white'
+        <Text className='font-montserratMedium text-slate-300 mb-2'>Password</Text>
+        <TextInput
+          placeholder='Enter your password'
+          value={password}
+          placeholderTextColor={'#64748b'}
+          secureTextEntry
+          onChangeText={setPassword}
+          className='p-4 border border-slate-600 rounded-lg font-montserrat text-white bg-slate-900'
         />
       </View>
-      
-      <CustomButton 
-        onPress={!loggingIn? handleLogin : () => {}} 
+
+      <CustomButton
+        onPress={!loggingIn ? handleLogin : () => { }}
         title='Login'
         isLoading={loggingIn}
-        containerStyles='rounded-lg'
+        containerStyles='rounded-lg bg-primary shadow-lg shadow-purple-500/40'
       />
-      
+
       <TouchableOpacity onPress={openModal} className='mt-4'>
-        <Text className='text-blue-600 font-montserratMedium text-base text-center'>
+        <Text className='text-sky-400 font-montserratMedium text-base text-center'>
           Forgot Password?
         </Text>
       </TouchableOpacity>
-      
+
       <Modal isOpen={modalOpen}>
-        <LinearGradient 
-          colors={['#ffffff', '#f8f8f8']} 
-          start={{ x: 0, y: 0 }} 
+        <LinearGradient
+          colors={['#1e293b', '#0f172a']}
+          start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          className='rounded-xl p-6 w-[85vw]'
+          className='rounded-xl p-6 w-[85vw] border border-slate-700'
         >
           <View className='flex-row justify-between items-center mb-4'>
-            <Text className='font-montserratBold text-2xl text-color_three'>Forgot Password</Text>
+            <Text className='font-montserratBold text-2xl text-white'>Forgot Password</Text>
             <TouchableOpacity onPress={() => { setModalOpen(false) }}>
               <CrossIcon />
             </TouchableOpacity>
           </View>
-          
-          <Text className='font-montserrat text-base text-gray-600 mb-6'>
+
+          <Text className='font-montserrat text-base text-slate-400 mb-6'>
             Enter your Admission number to reset your Password
           </Text>
-          
+
           <View className='mb-5'>
-            <Text className='font-montserratMedium text-gray-700 mb-2'>Admission Number</Text>
-            <TextInput 
-              placeholder='Enter your admission number' 
-              placeholderTextColor={'#9ca3af'} 
-              value={username} 
-              onChangeText={setUsername} 
-              className='p-4 border border-gray-300 rounded-lg font-montserrat bg-white'
+            <Text className='font-montserratMedium text-slate-300 mb-2'>Admission Number</Text>
+            <TextInput
+              placeholder='Enter your admission number'
+              placeholderTextColor={'#64748b'}
+              value={username}
+              onChangeText={setUsername}
+              className='p-4 border border-slate-600 rounded-lg font-montserrat bg-slate-900 text-white'
             />
           </View>
-          
-          <CustomButton 
-            onPress={!reset? handleReset : () => {}} 
+
+          <CustomButton
+            onPress={!reset ? handleReset : () => { }}
             title='Reset Password'
             isLoading={reset}
-            containerStyles='rounded-lg'
+            containerStyles='rounded-lg bg-primary'
           />
         </LinearGradient>
       </Modal>
