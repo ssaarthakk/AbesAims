@@ -7,7 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 export default function AttendanceTable({ attendance }: { attendance: { Present: number, Total: number, Percent: string } }) {
     return (
         <View className='mt-6 w-full'>
-            <Text className='text-xl text-white font-montserratBold mb-4 pl-1'>Attendance Breakdown</Text>
+            <Text className="text-white/60 font-montserratSemiBold text-sm uppercase tracking-widest mb-3 ml-1">Attendance Breakdown</Text>
 
             <View className='bg-surface/50 border border-white/10 rounded-2xl overflow-hidden'>
                 {/* Present Row */}
@@ -47,10 +47,10 @@ export default function AttendanceTable({ attendance }: { attendance: { Present:
             <CustomButton
                 onPress={() => {
                     // @ts-ignore
-                    router.push('/AttendanceDetails')
+                    router.push('/(tabs)/attendance')
                 }}
                 title={'View Detailed History'}
-                containerStyles={'mt-6 w-full bg-color_five/20 border border-color_five/50 active:bg-color_five/30'}
+                containerStyles={'mt-6 w-full bg-color_five/20 border border-color_five/50 active:bg-color_five/30 active:scale-95'}
                 textStyles={'text-color_five text-sm'}
             />
         </View>

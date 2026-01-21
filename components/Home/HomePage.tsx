@@ -8,6 +8,7 @@ import UserDataCard from './UserDataCard';
 import LoadinSvg from './LoadinSvg';
 import TodaySchedule from './TodaySchedule';
 import NextClass from './NextClass';
+import DashboardHeader from './DashboardHeader';
 import { color_three } from '@/constants/Colors';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
@@ -153,8 +154,11 @@ export default function HomePage() {
           />
         }
         contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
+        className="px-4" // Keep base padding
       >
-        <View className='flex-1 items-center gap-2 p-4 justify-between'>
+        <DashboardHeader userData={userData} />
+
+        <View className='flex-1 gap-6'>
           <NextClass scheduleData={scheduleData} />
           <UserDataCard userData={userData} />
           <AttendanceOverview attendance={attendance} classCount={classCount} />
