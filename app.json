@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/AbesAims.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#020617"
     },
     "updates": {
       "enabled": true,
@@ -27,7 +27,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/AbesAims.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#020617"
       },
       "package": "com.the_extremity.abes_aims"
     },

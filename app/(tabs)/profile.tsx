@@ -31,7 +31,7 @@ export default function Profile() {
             await removeData('userData');
             setUserData(null);
             setApiData([]);
-            router.replace('/');
+            // router.replace('/');
             await Updates.reloadAsync();
         } catch (error) {
             console.log("Error in Logout", error);
