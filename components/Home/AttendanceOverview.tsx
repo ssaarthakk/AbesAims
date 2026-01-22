@@ -36,7 +36,7 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
     const { canLeave, classesNeeded } = calculateClassesNeeded();
 
     return (
-        <View className="mb-8">
+        <View>
             <Text className="text-white/60 font-montserratSemiBold text-sm uppercase tracking-widest mb-3 ml-1">
                 Attendance Status
             </Text>

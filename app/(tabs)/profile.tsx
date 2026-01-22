@@ -31,8 +31,8 @@ export default function Profile() {
             await removeData('userData');
             setUserData(null);
             setApiData([]);
-            router.replace('/');
-            // await Updates.reloadAsync();
+            // router.replace('/');
+            await Updates.reloadAsync();
         } catch (error) {
             console.log("Error in Logout", error);
             ToastAndroid.show("Error logging out", ToastAndroid.SHORT);
@@ -41,6 +41,7 @@ export default function Profile() {
 
     return (
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
+
             <ScrollView
                 key={animationKey}
                 className='flex-1 px-4'
@@ -53,9 +54,8 @@ export default function Profile() {
                         <Text className="text-primary">.</Text>
                     </Text>
                 </Animated.View>
-
                 {/* User Info Card */}
-                <Animated.View entering={FadeInUp.delay(200).duration(500)} className="mb-2">
+                <Animated.View entering={FadeInUp.delay(200).duration(500)} className="mb-2 justify-center items-center">
                     <ProfileCard />
                 </Animated.View>
 

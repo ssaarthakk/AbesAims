@@ -13,8 +13,8 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: '#020617', // New Background (Slate 950)
           borderTopColor: 'rgba(255,255,255,0.05)', // Subtle glass border
-          height: 60 + insets.bottom, // Dynamic height based on insets
-          paddingBottom: insets.bottom + 8, // Dynamic padding
+          height: 70 + insets.bottom, // Dynamic height based on insets
+          paddingBottom: insets.bottom + 15, // Dynamic padding
           paddingTop: 8,
           position: 'absolute', // Floating effect if desired, or just standard
           elevation: 0,

@@ -10,7 +10,7 @@ export default function UserDataCard({ userData }: { userData: StudentData }) {
     const firstName = userData?.name?.split(' ')[0] || 'Student';
 
     return (
-        <View className="mb-6">
+        <View>
             <Text className="text-white/60 font-montserratSemiBold text-sm uppercase tracking-widest mb-3 ml-1">
                 Student ID
             </Text>

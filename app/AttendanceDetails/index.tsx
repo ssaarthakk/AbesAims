@@ -20,27 +20,27 @@ export default function SubAttDetails() {
     }, [attData]);
 
     return (
-        <View className='flex-1 bg-background px-2 pt-6'>
+        <View className='flex-1 bg-background px-1 pt-6'>
             {data.length === 0 ? (
                 <View className="flex-1 justify-center items-center">
                     <LoadinSvg loading={true} color='#a855f7' size={96} />
                 </View>
             ) : (
-                <FlatList
-                    data={data}
-                    numColumns={3}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: insets.bottom + 20 }}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (
-                        <Animated.View entering={FadeInUp.delay(index * 50).springify()}>
+                <Animated.View className={'flex-1'} entering={FadeInUp.delay(100).springify()}>
+                    <FlatList
+                        data={data}
+                        numColumns={4}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: insets.bottom + 20 }}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
                             <AttendanceDetailCard
                                 date={item.start_time}
                                 status={item.state}
                             />
-                        </Animated.View>
-                    )}
-                />
+                        )}
+                    />
+                </Animated.View>
             )}
         </View>
     )

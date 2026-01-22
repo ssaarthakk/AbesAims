@@ -1,5 +1,5 @@
 import { ToastAndroid, View, RefreshControl, ScrollView } from 'react-native'
-import React, { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { getData } from '@/utils/storage';
 import { getSchedule, getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
 import { useApiStore } from '@/utils/store';
@@ -9,7 +9,6 @@ import LoadinSvg from './LoadinSvg';
 import TodaySchedule from './TodaySchedule';
 import NextClass from './NextClass';
 import DashboardHeader from './DashboardHeader';
-import { color_three } from '@/constants/Colors';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useFocusEffect } from 'expo-router';

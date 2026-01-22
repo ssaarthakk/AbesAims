@@ -33,12 +33,11 @@ export default function Attendance() {
                         <Text className="text-primary">.</Text>
                     </Text>
                 </Animated.View>
+                <View className="flex-1 justify-center items-center">
                 {apiData.length === 0 ? (
-                    <View className="flex-1 justify-center items-center">
                         <LoadinSvg loading={true} color='#8b5cf6' size={96} />
-                    </View>
-                ) : (
-                    <FlatList
+                    ) : (
+                        <FlatList
                         keyExtractor={item => String(item.id)}
                         data={apiData}
                         showsVerticalScrollIndicator={false}
@@ -55,10 +54,11 @@ export default function Attendance() {
                                     exempt={Number(item.attendance_summary.Exempt)}
                                     absent={Number(item.attendance_summary.Absent)}
                                     present={Number(item.attendance_summary.Present)}
-                                />
+                                    />
                             </Animated.View>
                         )} />
-                )}
+                    )}
+                    </View>
             </View>
         </SafeAreaView>
     )

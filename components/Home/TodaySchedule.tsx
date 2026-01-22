@@ -42,7 +42,7 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
     useEffect(setNewData, [scheduleData]);
 
     return (
-        <View className="mb-24">
+        <View>
             <Text className="text-white/60 font-montserratSemiBold text-sm uppercase tracking-widest mb-6 ml-1">
                 Timeline &bull; {date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })}
             </Text>

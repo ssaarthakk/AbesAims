@@ -76,7 +76,7 @@ const NextClass = ({ scheduleData }: { scheduleData: Array<any> }) => {
     }, [scheduleData]);
 
     return (
-        <View className="mb-6">
+        <View className="">
             {data.length !== 0 ? (
                 <View className="w-full h-48 rounded-3xl overflow-hidden shadow-2xl shadow-purple-500/30">
                     <LinearGradient

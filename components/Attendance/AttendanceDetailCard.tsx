@@ -18,7 +18,7 @@ export default function AttendanceDetailCard({ date, status }: { date: string, s
     const statusText = isPresent ? 'PRESENT' : 'ABSENT';
 
     return (
-        <View className={`rounded-xl overflow-hidden shadow-lg shadow-black/30 mb-4 w-[30%] mx-[1.5%] aspect-[3/4] bg-color_one border border-white/10`}>
+        <View className={`rounded-xl overflow-hidden shadow-lg shadow-black/30 mb-2 flex-1 m-1 aspect-[3/4] bg-color_one border border-white/10 h-auto`}>
             {/* Calendar Header (Month) */}
             <View className={`${statusColor} py-1 items-center justify-center`}>
                 <Text className='font-montserratBold text-white text-xs tracking-widest'>{monthStr}</Text>

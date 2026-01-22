@@ -23,7 +23,7 @@
     "@react-navigation/native": "^7.1.6",
     "axios": "^1.7.7",
     "babel-preset-expo": "~54.0.10",
-    "expo": "~54.0.31",
+    "expo": "~54.0.32",
     "expo-blur": "~15.0.8",
     "expo-constants": "~18.0.10",
     "expo-font": "~14.0.9",
