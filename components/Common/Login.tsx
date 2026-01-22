@@ -22,7 +22,7 @@ export default function Login() {
   const handleLogin = async () => {
     setLoggingIn(true)
     if (username === '' || password === '') {
-      ToastAndroid.show('Please enter your Admission Number and password', ToastAndroid.LONG);
+      ToastAndroid.show('Please enter your Admission Number and password', ToastAndroid.SHORT);
       setLoggingIn(false);
     }
   }
@@ -34,16 +34,16 @@ export default function Login() {
   const handleReset = async () => {
     setReset(true);
     if (username === '') {
-      ToastAndroid.show('Please enter your Admission Number', ToastAndroid.LONG);
+      ToastAndroid.show('Please enter your Admission Number', ToastAndroid.SHORT);
       setReset(false);
     } else {
       const result = await forgotPassoword(username) as { statusCode: number, message: string };
       if (result?.statusCode === 200) {
-        ToastAndroid.show(result.message, ToastAndroid.LONG);
+        ToastAndroid.show(result.message, ToastAndroid.SHORT);
       } else if (result?.statusCode === 404) {
-        ToastAndroid.show(result.message, ToastAndroid.LONG);
+        ToastAndroid.show(result.message, ToastAndroid.SHORT);
       } else {
-        ToastAndroid.show("Please try again", ToastAndroid.LONG);
+        ToastAndroid.show("Please try again", ToastAndroid.SHORT);
       }
       setReset(false);
       setUsername('');

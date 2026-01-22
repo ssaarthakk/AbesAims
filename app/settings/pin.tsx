@@ -15,14 +15,14 @@ export default function ChangePin() {
         setChangingPin(true);
         const studentData: StudentData | null = await getData('userData');
         if (pin === '') {
-            ToastAndroid.show('Please enter your PIN', ToastAndroid.LONG);
+            ToastAndroid.show('Please enter your PIN', ToastAndroid.SHORT);
         } else {
             const result = await changePin(pin);
             if (!result || result.statusCode !== 200) {
                 ToastAndroid.show('Failed to change PIN', ToastAndroid.SHORT);
             } else {
                 await saveData('userData', { ...studentData, quizPin: pin });
-                ToastAndroid.show("PIN changed successfully", ToastAndroid.LONG);
+                ToastAndroid.show("PIN changed successfully", ToastAndroid.SHORT);
                 router.back();
             }
         }

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { WebView } from 'react-native-webview';
 import Constants from 'expo-constants';
 import { StyleSheet, ToastAndroid } from 'react-native';
@@ -7,12 +7,20 @@ import { saveData } from '@/utils/storage';
 export default function Webview({ username, password, setLoggingIn, addUserData }: { username: string, password: string, setLoggingIn: any, addUserData: any }) {
     const webviewRef: any = useRef(null);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            ToastAndroid.show('Invalid Username or Password', ToastAndroid.SHORT);
+            setLoggingIn(false);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const injectedffJavaScript = `
     (function() {
         const usernameField = document.querySelector('#email');
         const passwordField = document.querySelector('#demo-field');
         const submitButton = document.querySelector('#loginButton');
-        const failedLogin = document.querySelector('#failure-message');
 
         if (usernameField && passwordField && submitButton) {
             usernameField.value = "${username}";
@@ -20,7 +28,8 @@ export default function Webview({ username, password, setLoggingIn, addUserData 
             setTimeout(() => {
                 submitButton.click();
                 setTimeout(() => {
-                    if(failedLogin.childNodes.length > 0) {
+                    const failedLogin = document.querySelector('#failure-message');
+                    if(failedLogin && failedLogin.childNodes.length > 0) {
                         window.ReactNativeWebView.postMessage(null);
                     }
                 }, 3000);
@@ -63,12 +72,12 @@ export default function Webview({ username, password, setLoggingIn, addUserData 
     const onMessage = async (event: any) => {
         try {
             const message = JSON.parse(event.nativeEvent.data);
-            if (message === null) {
-                ToastAndroid.show('Invalid Username or Password', ToastAndroid.LONG);
+            if (message == null) {
+                ToastAndroid.show('Invalid Username or Password', ToastAndroid.SHORT);
             } else {
                 console.log(message.liup_80axpy);
                 await setGlobalUserData(message.liup_80axpy);
-                ToastAndroid.show('Login successful', ToastAndroid.LONG);
+                ToastAndroid.show('Login successful', ToastAndroid.SHORT);
             }
         } catch (error) {
             console.error('Error parsing message:', error);

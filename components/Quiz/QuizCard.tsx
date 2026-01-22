@@ -15,15 +15,15 @@ export default function QuizCard({ courseCode, quizUc, markOb, CorrectA, Incorre
                     if (supported) {
                         Linking.openURL(href);
                     } else {
-                        ToastAndroid.show('Cannot open link', ToastAndroid.LONG);
+                        ToastAndroid.show('Cannot open link', ToastAndroid.SHORT);
                     }
                 })
                 .catch((err) => {
-                    ToastAndroid.show('Cannot open link', ToastAndroid.LONG);
+                    ToastAndroid.show('Cannot open link', ToastAndroid.SHORT);
                     console.log("Error while opening link ", err);
                 });
         } else {
-            ToastAndroid.show('Invalid Quiz Link', ToastAndroid.LONG);
+            ToastAndroid.show('Invalid Quiz Link', ToastAndroid.SHORT);
         }
     }
 

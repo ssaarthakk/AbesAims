@@ -19,7 +19,7 @@ export default function CustomDrawerContent(props: any) {
             await Updates.reloadAsync();
         } catch (error) {
             console.log("Error while reloading app in Logout");
-            ToastAndroid.show("Please try again", ToastAndroid.LONG);
+            ToastAndroid.show("Please try again", ToastAndroid.SHORT);
         }
     }
 

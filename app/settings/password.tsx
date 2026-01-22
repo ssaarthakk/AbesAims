@@ -17,18 +17,18 @@ export default function ChangePassword() {
         setChangingPass(true);
         const studentData: StudentData | null = await getData('userData')
         if (newPass === '' || password === '' || newCPass === '') {
-            ToastAndroid.show('Please enter your password', ToastAndroid.LONG);
+            ToastAndroid.show('Please enter your password', ToastAndroid.SHORT);
         } else if (studentData?.password !== password) {
-            ToastAndroid.show('Wrong Old Password Entered', ToastAndroid.LONG);
+            ToastAndroid.show('Wrong Old Password Entered', ToastAndroid.SHORT);
         } else if (newPass !== newCPass) {
-            ToastAndroid.show('Passwords do not match', ToastAndroid.LONG);
+            ToastAndroid.show('Passwords do not match', ToastAndroid.SHORT);
         } else {
             const result = await changePassword(newPass);
             if (!result || result.statusCode !== 200) {
                 ToastAndroid.show('Failed to change password', ToastAndroid.SHORT);
             } else {
                 await saveData('userData', { ...studentData, password: newPass });
-                ToastAndroid.show("Password changed successfully", ToastAndroid.LONG);
+                ToastAndroid.show("Password changed successfully", ToastAndroid.SHORT);
                 router.back();
             }
         }

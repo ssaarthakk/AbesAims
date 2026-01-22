@@ -17,7 +17,7 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
         setIsLoading(true);
         const data: Array<any> = await getSubjectAttendance(id.toString());
         if (data.length === 0) {
-            ToastAndroid.show('No Data to show', ToastAndroid.LONG);
+            ToastAndroid.show('No Data to show', ToastAndroid.SHORT);
         } else {
             setAttData(data);
             setAttData(data);
