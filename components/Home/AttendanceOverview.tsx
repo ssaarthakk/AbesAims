@@ -6,16 +6,42 @@ import Slider from '@react-native-community/slider';
 import AttendanceTable from './AttendanceTable';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function AttendanceOverview({ attendance, classCount }: { attendance: { Present: number, Total: number, Percent: string }, classCount: number }) {
+export default function AttendanceOverview({ attendance, classCount }: { attendance: { Present: number, Total: number, Percent: string } | null, classCount: number }) {
     const [attendanceThreshold, setAttendanceThreshold] = useState<number>(75);
     const [classesToAttend, setClassesToAttend] = useState<number>(1);
-    const attendancePercent: number = Number(((attendance!.Present / attendance!.Total) * 100).toFixed(2));
+
+    if (!attendance) {
+        return (
+            <View>
+                <Text className="text-white/60 font-montserratSemiBold text-sm uppercase tracking-widest mb-3 ml-1">
+                    Attendance Status
+                </Text>
+                <View className="w-full rounded-3xl overflow-hidden border border-white/10 relative p-6 items-center justify-center min-h-[200px]">
+                    <LinearGradient
+                        colors={['rgba(255,255,255,0.08)', 'rgba(255,255,255,0.02)']}
+                        className="absolute w-full h-full"
+                    />
+                    <Ionicons name="alert-circle-outline" size={48} color="rgba(255,255,255,0.3)" />
+                    <Text className="text-white/50 font-montserratSemiBold text-sm mt-4 text-center">
+                        Attendance Data Not Available
+                    </Text>
+                    <Text className="text-white/30 font-montserratMedium text-xs mt-1 text-center px-4">
+                        We couldn't fetch your attendance details at this time.
+                    </Text>
+                </View>
+            </View>
+        );
+    }
+
+    const attendancePercent: number = Number(((attendance.Present / attendance.Total) * 100).toFixed(2));
 
     const calculateFutureAttendance = (classes: number): number => {
         const currentPresent = attendance.Present;
         const currentTotal = attendance.Total;
         const newPresent = currentPresent + classes;
         const newTotal = currentTotal + classes;
+        // avoid NaN if total is 0, though unlikely with data
+        if (newTotal === 0) return 0;
         return parseFloat(((newPresent / newTotal) * 100).toFixed(2));
     };
 
@@ -55,7 +81,7 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
 
                         <Progress.Circle
                             size={160}
-                            progress={attendance !== null ? attendance.Present / attendance.Total : 0}
+                            progress={attendance.Total > 0 ? attendance.Present / attendance.Total : 0}
                             color={attendancePercent >= attendanceThreshold ? '#4ade80' : '#f87171'}
                             thickness={12}
                             unfilledColor={'rgba(255,255,255,0.05)'}

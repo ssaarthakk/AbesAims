@@ -2,12 +2,12 @@ import { View, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native
 import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
-import LoadinSvg from '@/components/Home/LoadinSvg'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useApiStore } from '@/utils/store'
 import Animated, { FadeInDown, FadeInRight, FadeInUp } from 'react-native-reanimated'
 import { useFocusEffect } from 'expo-router'
+import Skeleton from '@/components/Skeleton'
 
 export default function Quizzes() {
     const [quizData, setQuizData] = useState<Array<any>>([]);
@@ -15,6 +15,7 @@ export default function Quizzes() {
     const tabBarHeight = useBottomTabBarHeight();
     const dataApi: any[] = useApiStore((state: any) => state.data);
     const [animationKey, setAnimationKey] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     useFocusEffect(
         useCallback(() => {
@@ -25,12 +26,21 @@ export default function Quizzes() {
     useEffect(() => {
         const getQuizData = async () => {
             if (quizData.length === 0) {
-                const data = await getQuizDetails();
-                if (data && data.length > 0) {
-                    setQuizData(data);
-                } else {
-                    setQuizData(data || []);
+                setLoading(true);
+                try {
+                    const data = await getQuizDetails();
+                    if (data && data.length > 0) {
+                        setQuizData(data);
+                    } else {
+                        setQuizData(data || []);
+                    }
+                } catch (e) {
+                    console.log(e);
+                } finally {
+                    setLoading(false);
                 }
+            } else {
+                setLoading(false);
             }
         }
 
@@ -129,9 +139,15 @@ export default function Quizzes() {
                     </ScrollView>
                 </View>
 
-                {quizData.length == 0 ? (
+                {loading ? (
+                    <View className="px-4 gap-4">
+                        {[1, 2, 3, 4].map((i) => (
+                            <Skeleton key={i} height={140} borderRadius={24} />
+                        ))}
+                    </View>
+                ) : quizData.length == 0 ? (
                     <View className="flex-1 justify-center items-center">
-                        <LoadinSvg loading={true} color='#8b5cf6' size={96} />
+                        <Text className="text-white/50 font-montserratMedium">No quizzes found.</Text>
                     </View>
                 ) : (
                     <FlatList

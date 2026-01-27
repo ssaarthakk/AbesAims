@@ -2,9 +2,9 @@ import { View, Text, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import AttendanceDetailCard from '@/components/Attendance/AttendanceDetailCard';
 import { useAttData } from '@/utils/store';
-import LoadinSvg from '@/components/Home/LoadinSvg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInUp } from 'react-native-reanimated';
+import Skeleton from '@/components/Skeleton';
 
 export default function SubAttDetails() {
     const attData = useAttData((state: any) => state.attData);
@@ -22,8 +22,10 @@ export default function SubAttDetails() {
     return (
         <View className='flex-1 bg-background px-1 pt-6'>
             {data.length === 0 ? (
-                <View className="flex-1 justify-center items-center">
-                    <LoadinSvg loading={true} color='#a855f7' size={96} />
+                <View className="flex-1 flex-row flex-wrap justify-between px-2 gap-y-4">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
+                        <Skeleton key={i} width={'23%'} height={80} borderRadius={12} />
+                    ))}
                 </View>
             ) : (
                 <Animated.View className={'flex-1'} entering={FadeInUp.delay(100).springify()}>

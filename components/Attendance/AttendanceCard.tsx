@@ -4,7 +4,6 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import CustomButton from '@/components/Common/CustomButton';
 import { getSubjectAttendance } from '@/utils/apicalls';
 import { useAttData } from '@/utils/store';
-import LoadinSvg from '@/components/Home/LoadinSvg';
 import { useRouter } from 'expo-router';
 
 export default function AttendanceCard({ id, subjectName, subjectCode, present, absent, leave, exempt, total, percent }: { subjectName: string, present: number, absent: number, leave: number, exempt: number, total: number, percent: string, id: number, subjectCode: string }) {
