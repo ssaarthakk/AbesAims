@@ -1,12 +1,56 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { View, TouchableOpacity } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import PagerView from 'react-native-pager-view';
 import HomePage from '@/components/Home/HomePage';
-import Attendance from './attendance'; // Importing from sibling route file
-import Quizzes from './quizzes';       // Importing from sibling route file
-import Profile from './profile';       // Importing from sibling route file
+import Attendance from './attendance';
+import Quizzes from './quizzes';
+import Profile from './profile';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Animated, { FadeInDown, useAnimatedStyle, withTiming, withSpring, interpolateColor, useSharedValue } from 'react-native-reanimated';
+
+// Separate TabButton Component for proper hook usage
+const TabButton = ({ tab, isActive, onPress }: { tab: any, isActive: boolean, onPress: () => void }) => {
+  const animatedValue = useSharedValue(isActive ? 1 : 0);
+
+  useEffect(() => {
+    animatedValue.value = withTiming(isActive ? 1 : 0, { duration: 300 });
+  }, [isActive]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      animatedValue.value,
+      [0, 1],
+      ['transparent', 'rgba(168, 85, 247, 0.2)'] // Transparent to Purple/20
+    );
+
+    const scale = 0.9 + (0.1 * animatedValue.value); // Scale from 0.9 to 1.0
+
+    return {
+      backgroundColor,
+      transform: [{ scale }],
+    };
+  });
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
+      activeOpacity={0.7}
+    >
+      <Animated.View
+        className={`px-6 py-2 rounded-full items-center justify-center`}
+        style={animatedStyle}
+      >
+        <Ionicons
+          name={isActive ? (tab.icon as any).replace('-outline', '') : tab.icon as any}
+          size={24}
+          color={isActive ? '#a855f7' : '#64748b'}
+        />
+      </Animated.View>
+    </TouchableOpacity>
+  );
+};
 
 export default function DashboardTab() {
   const [activeTab, setActiveTab] = useState(0);
@@ -53,48 +97,34 @@ export default function DashboardTab() {
         </View>
       </PagerView>
 
-      {/* Custom Tab Bar */}
+      {/* Custom Floating Tab Bar Island */}
       <View style={{
         position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: '#020617',
-        borderTopWidth: 1,
-        borderTopColor: 'rgba(255,255,255,0.05)',
-        paddingBottom: insets.bottom + 10,
-        paddingTop: 12,
-        height: 70 + insets.bottom,
+        bottom: insets.bottom + 10,
+        left: 20,
+        right: 20,
+        height: 60,
+        backgroundColor: '#0f172a', // Slate 900
+        borderRadius: 30,
         flexDirection: 'row',
-        justifyContent: 'space-around',
         alignItems: 'center',
-        elevation: 0,
+        justifyContent: 'space-around',
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.25,
+        shadowRadius: 10,
+        elevation: 5,
       }}>
-        {tabs.map((tab) => {
-          const isActive = activeTab === tab.index;
-          return (
-            <TouchableOpacity
-              key={tab.index}
-              onPress={() => handleTabPress(tab.index)}
-              style={{ alignItems: 'center', justifyContent: 'center' }}
-              activeOpacity={0.7}
-            >
-              <Ionicons
-                name={tab.icon as any}
-                size={24}
-                color={isActive ? '#a855f7' : '#64748b'}
-              />
-              <Text style={{
-                fontFamily: 'Montserrat-Medium',
-                fontSize: 10,
-                color: isActive ? '#a855f7' : '#64748b',
-                marginTop: 4
-              }}>
-                {tab.name}
-              </Text>
-            </TouchableOpacity>
-          )
-        })}
+        {tabs.map((tab) => (
+          <TabButton
+            key={tab.index}
+            tab={tab}
+            isActive={activeTab === tab.index}
+            onPress={() => handleTabPress(tab.index)}
+          />
+        ))}
       </View>
     </View>
   );

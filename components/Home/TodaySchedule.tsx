@@ -68,7 +68,7 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
                                 </View>
 
                                 {/* Connector Dot */}
-                                <View className="absolute left-[23px] top-[28px] z-10 bg-background p-1">
+                                <View className="absolute left-[22px] top-[26px] z-10 bg-background p-1">
                                     <View className="w-3 h-3 rounded-full bg-primary border-2 border-primary shadow-lg shadow-primary/50" />
                                 </View>
 
