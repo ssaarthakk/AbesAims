@@ -8,7 +8,7 @@ import UserDataCard from './UserDataCard';
 import TodaySchedule from './TodaySchedule';
 import NextClass from './NextClass';
 import DashboardHeader from './DashboardHeader';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useFocusEffect } from 'expo-router';
 import Skeleton from '../Skeleton';
@@ -30,12 +30,8 @@ export default function HomePage() {
     }, [])
   );
 
-  let tabBarHeight = 0;
-  try {
-    tabBarHeight = useBottomTabBarHeight();
-  } catch (e) {
-    tabBarHeight = 0;
-  }
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = 70 + insets.bottom;
 
   const extraAttendance = () => {
     if (!attendance) return;

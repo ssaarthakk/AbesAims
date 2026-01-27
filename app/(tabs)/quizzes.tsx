@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useApiStore } from '@/utils/store'
 import Animated, { FadeInDown, FadeInRight, FadeInUp } from 'react-native-reanimated'
 import { useFocusEffect } from 'expo-router'
@@ -12,7 +12,8 @@ import Skeleton from '@/components/Skeleton'
 export default function Quizzes() {
     const [quizData, setQuizData] = useState<Array<any>>([]);
     const [selectedFilter, setSelectedFilter] = useState<string>('All');
-    const tabBarHeight = useBottomTabBarHeight();
+    const insets = useSafeAreaInsets();
+    const tabBarHeight = 70 + insets.bottom;
     const dataApi: any[] = useApiStore((state: any) => state.data);
     const [animationKey, setAnimationKey] = useState(0);
     const [loading, setLoading] = useState(true);

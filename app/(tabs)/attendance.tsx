@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import AttendanceCard from '@/components/Attendance/AttendanceCard'
 import { useApiStore } from '@/utils/store'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated'
 import { useFocusEffect } from 'expo-router'
 import Skeleton from '@/components/Skeleton'
@@ -11,7 +11,8 @@ import Skeleton from '@/components/Skeleton'
 export default function Attendance() {
     const dataApi: [any] = useApiStore((state: any) => state.data);
     const [apiData, setApiData] = React.useState<Array<any>>([]);
-    const tabBarHeight = useBottomTabBarHeight();
+    const insets = useSafeAreaInsets();
+    const tabBarHeight = 70 + insets.bottom;
     const [animationKey, setAnimationKey] = useState(0);
 
     useFocusEffect(
