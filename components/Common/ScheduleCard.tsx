@@ -116,15 +116,17 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
     const returnTime = () => {
         return time.map((timeSlot, index) => (
             <View key={index} className="flex-row justify-between items-center py-1">
-                <Text className='font-montserrat text-lg'>{timeSlot}</Text>
+                <View className="bg-surface-highlight px-2 py-1 rounded border border-white/10">
+                    <Text className='font-montserratSemiBold text-sm text-sky-400'>{timeSlot}</Text>
+                </View>
                 {subjectId && (
                     <View className="flex-row items-center gap-1">
                         {loading ? (
-                            <Text className="text-gray-400 text-sm">Loading...</Text>
+                            <Text className="text-white/50 text-sm">Loading...</Text>
                         ) : (
                             <>
                                 {getAttendanceIcon(attendanceStatus[timeSlot] || 'not-marked')}
-                                <Text className={`text-sm font-montserratMedium text-black`}>
+                                <Text className={`text-sm font-montserratMedium text-white`}>
                                     {getAttendanceText(attendanceStatus[timeSlot] || 'not-marked')}
                                 </Text>
                             </>

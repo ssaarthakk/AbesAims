@@ -179,13 +179,13 @@ export default function HomePage() {
       </Animated.View>
 
       <View className='flex-1 gap-6'>
-        <Animated.View entering={FadeInUp.delay(200).duration(500)}>
+        {/* <Animated.View entering={FadeInUp.delay(200).duration(500)}>
           {loading && scheduleData.length === 0 ? (
             <Skeleton height={140} borderRadius={24} />
           ) : (
             <NextClass scheduleData={scheduleData} />
           )}
-        </Animated.View>
+        </Animated.View> */}
 
         <Animated.View entering={FadeInUp.delay(300).duration(500)}>
           {loading && !userData.username ? (

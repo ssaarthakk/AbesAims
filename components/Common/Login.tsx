@@ -56,7 +56,7 @@ export default function Login() {
       {/* Background Elements */}
       <View className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden">
         <LinearGradient
-          colors={['#0f172a', '#1e1b4b']}
+          colors={['#020617', '#0f172a']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           className="absolute w-full h-full"

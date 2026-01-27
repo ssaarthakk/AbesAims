@@ -52,7 +52,7 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
                     <Text className='font-montserratSemiBold text-white/40'>No classes scheduled for today.</Text>
                 </View>
             ) : (
-                <View className="pl-4">
+                <View className="pl-2">
                     {/* Vertical Line */}
                     <View className="absolute left-[29px] top-4 bottom-4 w-[2px] bg-white/10 rounded-full" />
 
@@ -60,27 +60,26 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
                         const timeParts = item.time[0] ? item.time[0].split(' - ')[0] : '00:00';
 
                         return (
-                            <View key={index} className="flex-row mb-6 relative">
+                            <View key={index} className="flex-row mb-2 relative">
                                 {/* Time Column */}
-                                <View className="w-16 pt-3 mr-4 items-end">
+                                <View className="w-16 mr-3 items-end justify-center py-4">
                                     <Text className="text-white font-montserratBold text-sm">{timeParts}</Text>
                                     <Text className="text-white/30 font-montserratMedium text-[10px] uppercase">Start</Text>
                                 </View>
 
                                 {/* Connector Dot */}
-                                <View className="absolute left-[23px] top-[14px] z-10 bg-background p-1">
+                                <View className="absolute left-[23px] top-[28px] z-10 bg-background p-1">
                                     <View className="w-3 h-3 rounded-full bg-primary border-2 border-primary shadow-lg shadow-primary/50" />
                                 </View>
 
                                 {/* Card */}
-                                <View className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-4 active:bg-white/10">
-                                    <Text className="text-white font-montserratBold text-base mb-1" numberOfLines={1}>{item.subjectName}</Text>
-                                    <View className="flex-row justify-between items-center">
-                                        <Text className="text-white/50 font-montserratMedium text-xs">{item.faculty}</Text>
-                                        <Text className="text-primary/80 font-montserratBold text-[10px] bg-primary/10 px-2 py-1 rounded-md">
-                                            {item.time[0] || 'Unknown Time'}
-                                        </Text>
-                                    </View>
+                                <View className="flex-1">
+                                    <ScheduleCard
+                                        subjectName={item.subjectName}
+                                        faculty={item.faculty}
+                                        time={item.time}
+                                        subjectId={item.subjectId}
+                                    />
                                 </View>
                             </View>
                         )
