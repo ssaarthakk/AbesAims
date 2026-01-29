@@ -64,21 +64,18 @@ export default function Layout() {
 
     return (
         <SafeAreaProvider>
-            {isLoggedIn ? (
-                <GestureHandlerRootView style={{ flex: 1 }}>
-                    <StatusBar style="light" backgroundColor='#0f172a' />
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <StatusBar style="light" backgroundColor='#0f172a' />
+                {isLoggedIn ? (
                     <Stack screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="(tabs)" />
                     </Stack>
-                </GestureHandlerRootView>
-            ) : (
-                <>
-                    <StatusBar style="light" backgroundColor='#0f172a' />
+                ) : (
                     <LinearGradient className='flex-1 justify-center items-center' colors={['#0f172a', '#1e293b']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} >
                         <Login />
                     </LinearGradient>
-                </>
-            )}
+                )}
+            </GestureHandlerRootView>
         </SafeAreaProvider>
     )
 }
