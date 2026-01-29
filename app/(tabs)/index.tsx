@@ -81,18 +81,18 @@ export default function DashboardTab() {
         initialPage={0}
         onPageSelected={onPageSelected}
       >
-        <View key="0" style={{ flex: 1 }}>
+        <View key="0" style={{ flex: 1 }} collapsable={false}>
           <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
             <HomePage />
           </SafeAreaView>
         </View>
-        <View key="1" style={{ flex: 1 }}>
+        <View key="1" style={{ flex: 1 }} collapsable={false}>
           <Attendance />
         </View>
-        <View key="2" style={{ flex: 1 }}>
+        <View key="2" style={{ flex: 1 }} collapsable={false}>
           <Quizzes />
         </View>
-        <View key="3" style={{ flex: 1 }}>
+        <View key="3" style={{ flex: 1 }} collapsable={false}>
           <Profile />
         </View>
       </PagerView>
@@ -104,7 +104,7 @@ export default function DashboardTab() {
         left: 20,
         right: 20,
         height: 60,
-        backgroundColor: '#0f172a', // Slate 900
+        backgroundColor: '#0f172a',
         borderRadius: 30,
         flexDirection: 'row',
         alignItems: 'center',

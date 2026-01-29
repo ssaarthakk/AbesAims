@@ -6,7 +6,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useApiStore } from '@/utils/store'
 import Animated, { FadeInDown, FadeInRight, FadeInUp } from 'react-native-reanimated'
-import { useFocusEffect } from 'expo-router'
 import Skeleton from '@/components/Skeleton'
 
 export default function Quizzes() {
@@ -15,14 +14,7 @@ export default function Quizzes() {
     const insets = useSafeAreaInsets();
     const tabBarHeight = 70 + insets.bottom;
     const dataApi: any[] = useApiStore((state: any) => state.data);
-    const [animationKey, setAnimationKey] = useState(0);
     const [loading, setLoading] = useState(true);
-
-    useFocusEffect(
-        useCallback(() => {
-            setAnimationKey(prev => prev + 1);
-        }, [])
-    );
 
     useEffect(() => {
         const getQuizData = async () => {
@@ -93,7 +85,7 @@ export default function Quizzes() {
 
     return (
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
-            <View className='flex-1' key={animationKey}>
+            <View className='flex-1'>
                 <View className="px-4">
                     <Animated.View entering={FadeInDown.delay(100).duration(500)}>
                         <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">

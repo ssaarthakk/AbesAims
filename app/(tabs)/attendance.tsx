@@ -5,7 +5,6 @@ import { useApiStore } from '@/utils/store'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated'
-import { useFocusEffect } from 'expo-router'
 import Skeleton from '@/components/Skeleton'
 
 export default function Attendance() {
@@ -13,13 +12,6 @@ export default function Attendance() {
     const [apiData, setApiData] = React.useState<Array<any>>([]);
     const insets = useSafeAreaInsets();
     const tabBarHeight = 70 + insets.bottom;
-    const [animationKey, setAnimationKey] = useState(0);
-
-    useFocusEffect(
-        useCallback(() => {
-            setAnimationKey(prev => prev + 1);
-        }, [])
-    );
 
     useEffect(() => {
         if (dataApi.length > 0) {
@@ -29,7 +21,7 @@ export default function Attendance() {
 
     return (
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
-            <View className='flex-1 px-4' key={animationKey}>
+            <View className='flex-1 px-4'>
                 <Animated.View entering={FadeInDown.delay(100).duration(500)}>
                     <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">
                         Attendance

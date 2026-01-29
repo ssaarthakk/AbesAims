@@ -10,7 +10,6 @@ import NextClass from './NextClass';
 import DashboardHeader from './DashboardHeader';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
-import { useFocusEffect } from 'expo-router';
 import Skeleton from '../Skeleton';
 
 export default function HomePage() {
@@ -22,13 +21,6 @@ export default function HomePage() {
   const [scheduleData, setScheduleData] = useState<Array<any>>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [animationKey, setAnimationKey] = useState(0);
-
-  useFocusEffect(
-    useCallback(() => {
-      setAnimationKey(prev => prev + 1);
-    }, [])
-  );
 
   const insets = useSafeAreaInsets();
   const tabBarHeight = 70 + insets.bottom;
@@ -158,7 +150,6 @@ export default function HomePage() {
 
   return (
     <ScrollView
-      key={animationKey}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}

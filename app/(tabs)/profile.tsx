@@ -7,7 +7,7 @@ import { useApiStore } from '@/utils/store';
 import useStore from '@/utils/store';
 import * as Updates from 'expo-updates';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useRouter, useFocusEffect } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
@@ -15,13 +15,6 @@ export default function Profile() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const tabBarHeight = 70 + insets.bottom;
-    const [animationKey, setAnimationKey] = useState(0);
-
-    useFocusEffect(
-        useCallback(() => {
-            setAnimationKey(prev => prev + 1);
-        }, [])
-    );
 
     // Logout
     const setUserData = useStore((state: any) => state.addUserData);
@@ -44,7 +37,6 @@ export default function Profile() {
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
 
             <ScrollView
-                key={animationKey}
                 className='flex-1 px-4'
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
