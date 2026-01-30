@@ -173,6 +173,7 @@ export default function HomePage() {
       }
       contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
       className="px-4"
+      showsVerticalScrollIndicator={false}
     >
       <Animated.View entering={FadeInDown.delay(100).duration(500)}>
         <DashboardHeader userData={userData} />
