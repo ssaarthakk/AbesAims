@@ -11,7 +11,7 @@ export default function Webview({ username, password, setLoggingIn, addUserData 
         const timer = setTimeout(() => {
             ToastAndroid.show('Invalid Username or Password', ToastAndroid.SHORT);
             setLoggingIn(false);
-        }, 5000);
+        }, 30000);
 
         return () => clearTimeout(timer);
     }, []);

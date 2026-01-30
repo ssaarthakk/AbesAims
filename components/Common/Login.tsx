@@ -1,11 +1,9 @@
 import { Text, TextInput, View, ToastAndroid, TouchableOpacity, Image } from 'react-native'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CustomButton from '@/components/Common/CustomButton';
 import { forgotPassoword, StudentData } from '@/utils/apicalls';
 import Modal from '@/components/Common/Modal';
 import useStore from '@/utils/store';
-import { CrossIcon } from '@/constants/SvgIcons';
-import LoadinSvg from '@/components/Home/LoadinSvg';
 import Webview from '@/components/Common/Webview';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
