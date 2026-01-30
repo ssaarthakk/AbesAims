@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react';
 import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,7 +8,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default function AttendanceOverview({ attendance, classCount }: { attendance: { Present: number, Total: number, Percent: string } | null, classCount: number }) {
     const [attendanceThreshold, setAttendanceThreshold] = useState<number>(75);
-    const [classesToAttend, setClassesToAttend] = useState<number>(1);
+    const [classesToAttend, setClassesToAttend] = useState<string>('0');
+    const [classesToMiss, setClassesToMiss] = useState<string>('0');
 
     if (!attendance) {
         return (
@@ -35,11 +36,15 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
 
     const attendancePercent: number = Number(((attendance.Present / attendance.Total) * 100).toFixed(2));
 
-    const calculateFutureAttendance = (classes: number): number => {
+    const calculateFutureAttendance = (attend: string, miss: string): number => {
+        const attendNum = parseInt(attend) || 0;
+        const missNum = parseInt(miss) || 0;
         const currentPresent = attendance.Present;
         const currentTotal = attendance.Total;
-        const newPresent = currentPresent + classes;
-        const newTotal = currentTotal + classes;
+
+        const newPresent = currentPresent + attendNum;
+        const newTotal = currentTotal + attendNum + missNum;
+
         // avoid NaN if total is 0, though unlikely with data
         if (newTotal === 0) return 0;
         return parseFloat(((newPresent / newTotal) * 100).toFixed(2));
@@ -151,29 +156,40 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
 
                     {/* What if Calculator */}
                     <View className="w-full bg-black/20 rounded-2xl p-4 border border-white/5 mt-4">
-                        <View className="flex-row justify-between items-center bg-white/5 rounded-xl p-1 mb-2">
-                            <TouchableOpacity
-                                onPress={() => setClassesToAttend(Math.max(1, classesToAttend - 1))}
-                                className="w-10 h-10 items-center justify-center bg-white/10 rounded-lg active:bg-white/20 active:scale-105"
-                            >
-                                <Ionicons name="remove" size={20} color="white" />
-                            </TouchableOpacity>
-
-                            <View className="items-center">
-                                <Text className="text-white/50 text-[10px] uppercase font-bold tracking-widest">Attend Next</Text>
-                                <Text className="text-white font-montserratBold text-xl">{classesToAttend} Classes</Text>
+                        <View className="flex-row justify-between items-center gap-4 mb-3">
+                            {/* Attend Input */}
+                            <View className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5">
+                                <Text className="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1 text-center">Attend Next</Text>
+                                <View className="flex-row items-center justify-center">
+                                    <TextInput
+                                        value={classesToAttend}
+                                        onChangeText={setClassesToAttend}
+                                        keyboardType="numeric"
+                                        className="text-white font-montserratBold text-xl text-center p-0 min-w-[40px]"
+                                        selectionColor="#a855f7"
+                                    />
+                                    <Text className="text-white/50 text-xs font-montserratMedium ml-1">Classes</Text>
+                                </View>
                             </View>
 
-                            <TouchableOpacity
-                                onPress={() => setClassesToAttend(classesToAttend + 1)}
-                                className="w-10 h-10 items-center justify-center bg-white/10 rounded-lg active:bg-white/20 active:scale-105"
-                            >
-                                <Ionicons name="add" size={20} color="white" />
-                            </TouchableOpacity>
+                            {/* Miss Input */}
+                            <View className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5">
+                                <Text className="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1 text-center">Miss Next</Text>
+                                <View className="flex-row items-center justify-center">
+                                    <TextInput
+                                        value={classesToMiss}
+                                        onChangeText={setClassesToMiss}
+                                        keyboardType="numeric"
+                                        className="text-white font-montserratBold text-xl text-center p-0 min-w-[40px]"
+                                        selectionColor="#ef4444"
+                                    />
+                                    <Text className="text-white/50 text-xs font-montserratMedium ml-1">Classes</Text>
+                                </View>
+                            </View>
                         </View>
 
                         <Text className="text-center text-white/70 font-montserratMedium text-xs">
-                            Your attendance will be <Text className="text-green-400 font-bold text-sm">{calculateFutureAttendance(classesToAttend)}%</Text>
+                            Your attendance will be <Text className={`font-bold text-sm ${calculateFutureAttendance(classesToAttend, classesToMiss) >= attendanceThreshold ? 'text-green-400' : 'text-red-400'}`}>{calculateFutureAttendance(classesToAttend, classesToMiss)}%</Text>
                         </Text>
                     </View>
                 </View>
