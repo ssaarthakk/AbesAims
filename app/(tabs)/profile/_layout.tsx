@@ -1,7 +1,6 @@
 import { Stack } from 'expo-router';
-import { color_three } from '@/constants/Colors';
 
-export default function SettingsLayout() {
+export default function ProfileLayout() {
     return (
         <Stack
             screenOptions={{
@@ -18,6 +17,12 @@ export default function SettingsLayout() {
                 }
             }}
         >
+            <Stack.Screen
+                name="index"
+                options={{
+                    headerShown: false,
+                }}
+            />
             <Stack.Screen name="password" options={{ title: 'Change Password' }} />
             <Stack.Screen name="pin" options={{ title: 'Change PIN' }} />
         </Stack>

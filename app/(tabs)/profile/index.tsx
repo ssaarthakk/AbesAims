@@ -56,7 +56,7 @@ export default function Profile() {
                     <Text className='font-montserratBold text-xl text-white mb-4 pl-1'>Security Settings</Text>
 
                     <TouchableOpacity
-                        onPress={() => router.push('/settings/password')}
+                        onPress={() => router.push('./password')}
                         activeOpacity={0.7}
                         className="flex-row items-center justify-between bg-surface/80 border border-white/10 p-4 rounded-xl mb-3 backdrop-blur-md active:scale-95"
                     >
@@ -70,7 +70,7 @@ export default function Profile() {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => router.push('/settings/pin')}
+                        onPress={() => router.push('./pin')}
                         activeOpacity={0.7}
                         className="flex-row items-center justify-between bg-surface/80 border border-white/10 p-4 rounded-xl mb-3 backdrop-blur-md active:scale-95"
                     >

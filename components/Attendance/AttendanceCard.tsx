@@ -22,7 +22,7 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
             setAttData(data);
             setAttData(data);
             // @ts-ignore
-            router.push('/AttendanceDetails')
+            router.push('/(tabs)/attendance/details')
             setIsLoading(false);
         }
     }

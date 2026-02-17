@@ -3,9 +3,9 @@ import { View, TouchableOpacity } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import PagerView from 'react-native-pager-view';
 import HomePage from '@/components/Home/HomePage';
-import Attendance from './attendance';
+import Attendance from './attendance/index';
 import Quizzes from './quizzes';
-import Profile from './profile';
+import Profile from './profile/index';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { FadeInDown, useAnimatedStyle, withTiming, withSpring, interpolateColor, useSharedValue } from 'react-native-reanimated';
 
@@ -81,18 +81,18 @@ export default function DashboardTab() {
         initialPage={0}
         onPageSelected={onPageSelected}
       >
-        <View key="0" style={{ flex: 1 }} collapsable={false}>
+        <View key="0" style={{ flex: 1, backgroundColor: '#020617' }} collapsable={false}>
           <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
             <HomePage />
           </SafeAreaView>
         </View>
-        <View key="1" style={{ flex: 1 }} collapsable={false}>
+        <View key="1" style={{ flex: 1, backgroundColor: '#020617' }} collapsable={false}>
           <Attendance />
         </View>
-        <View key="2" style={{ flex: 1 }} collapsable={false}>
+        <View key="2" style={{ flex: 1, backgroundColor: '#020617' }} collapsable={false}>
           <Quizzes />
         </View>
-        <View key="3" style={{ flex: 1 }} collapsable={false}>
+        <View key="3" style={{ flex: 1, backgroundColor: '#020617' }} collapsable={false}>
           <Profile />
         </View>
       </PagerView>
