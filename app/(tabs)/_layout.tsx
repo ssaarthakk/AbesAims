@@ -10,6 +10,7 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        sceneStyle: { backgroundColor: '#020617' },
         tabBarStyle: {
           backgroundColor: '#020617', // New Background (Slate 950)
           borderTopColor: 'rgba(255,255,255,0.05)', // Subtle glass border

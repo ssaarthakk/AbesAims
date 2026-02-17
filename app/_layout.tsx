@@ -61,7 +61,7 @@ export default function Layout() {
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <StatusBar style="light" backgroundColor='#0f172a' />
                 {isLoggedIn ? (
-                    <Stack screenOptions={{ headerShown: false }}>
+                    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#020617' } }}>
                         <Stack.Screen name="(tabs)" />
                     </Stack>
                 ) : (
