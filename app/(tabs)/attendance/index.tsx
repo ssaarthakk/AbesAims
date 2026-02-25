@@ -1,4 +1,5 @@
 import { View, FlatList, Text, Modal, TouchableOpacity } from 'react-native'
+import tabBarControls from '@/utils/tabBarControls'
 import React, { useEffect, useRef, useState } from 'react'
 import AttendanceCard from '@/components/Attendance/AttendanceCard'
 import { useApiStore, useAttData } from '@/utils/store'
@@ -13,6 +14,15 @@ export default function Attendance() {
     const insets = useSafeAreaInsets();
     const tabBarHeight = 70 + insets.bottom;
     const flatListRef = useRef<FlatList>(null);
+    const lastScrollY = useRef(0);
+
+    const handleScroll = (e: any) => {
+        const y = e.nativeEvent.contentOffset.y;
+        if (y > lastScrollY.current + 5) tabBarControls.hide();
+        else if (y < lastScrollY.current - 5) tabBarControls.show();
+        lastScrollY.current = y;
+    };
+
     const attData = useAttData((state: any) => state.attData);
     const detailsVisible = useAttData((state: any) => state.detailsVisible);
     const setDetailsVisible = useAttData((state: any) => state.setDetailsVisible);
@@ -107,6 +117,8 @@ export default function Attendance() {
                             data={apiData}
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
+                            onScroll={handleScroll}
+                            scrollEventThrottle={16}
                             renderItem={({ item, index }) => (
                                 <Animated.View entering={FadeInUp.delay(index * 100).springify()}>
                                     <AttendanceCard

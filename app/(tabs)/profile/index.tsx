@@ -1,5 +1,5 @@
 import { View, Text, ToastAndroid, ScrollView, TouchableOpacity } from 'react-native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProfileCard from '@/components/Profile/ProfileCard';
 import { removeData } from '@/utils/storage';
@@ -10,11 +10,20 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+import tabBarControls from '@/utils/tabBarControls';
 
 export default function Profile() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
     const tabBarHeight = 70 + insets.bottom;
+    const lastScrollY = useRef(0);
+
+    const handleScroll = (e: any) => {
+        const y = e.nativeEvent.contentOffset.y;
+        if (y > lastScrollY.current + 5) tabBarControls.hide();
+        else if (y < lastScrollY.current - 5) tabBarControls.show();
+        lastScrollY.current = y;
+    };
 
     // Logout
     const setUserData = useStore((state: any) => state.addUserData);
@@ -40,6 +49,8 @@ export default function Profile() {
                 className='flex-1 px-4'
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
             >
                 <Animated.View entering={FadeInDown.delay(100).duration(500)}>
                     <Text className="text-4xl font-montserratExtraBold text-white my-6 text-left tracking-tighter">

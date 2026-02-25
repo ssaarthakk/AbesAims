@@ -1,5 +1,5 @@
 import { ToastAndroid, View, RefreshControl, ScrollView } from 'react-native'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { getData } from '@/utils/storage';
 import { getSchedule, getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
 import { useApiStore } from '@/utils/store';
@@ -11,6 +11,7 @@ import DashboardHeader from './DashboardHeader';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import Skeleton from '../Skeleton';
+import tabBarControls from '@/utils/tabBarControls';
 
 export default function HomePage() {
   const [userData, setUserData] = useState<StudentData>({} as StudentData);
@@ -24,6 +25,14 @@ export default function HomePage() {
 
   const insets = useSafeAreaInsets();
   const tabBarHeight = 70 + insets.bottom;
+  const lastScrollY = useRef(0);
+
+  const handleScroll = (e: any) => {
+    const y = e.nativeEvent.contentOffset.y;
+    if (y > lastScrollY.current + 5) tabBarControls.hide();
+    else if (y < lastScrollY.current - 5) tabBarControls.show();
+    lastScrollY.current = y;
+  };
 
   const extraAttendance = () => {
     if (!attendance) return;
@@ -161,6 +170,8 @@ export default function HomePage() {
       contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
       className="px-4"
       showsVerticalScrollIndicator={false}
+      onScroll={handleScroll}
+      scrollEventThrottle={16}
     >
       <Animated.View entering={FadeInDown.delay(100).duration(500)}>
         <DashboardHeader userData={userData} />

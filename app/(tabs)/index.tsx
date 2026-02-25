@@ -7,7 +7,8 @@ import Attendance from './attendance/index';
 import Quizzes from './quizzes';
 import Profile from './profile/index';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Animated, { useAnimatedStyle, interpolateColor, useSharedValue, SharedValue } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, interpolateColor, useSharedValue, SharedValue, withTiming } from 'react-native-reanimated';
+import tabBarControls from '@/utils/tabBarControls';
 
 // Driven entirely by scrollPosition SharedValue — runs on UI thread, no JS lag
 const TabButton = ({ tab, index, scrollPosition, onPress }: {
@@ -62,10 +63,20 @@ export default function DashboardTab() {
   const pagerRef = useRef<PagerView>(null);
   const insets = useSafeAreaInsets();
   const scrollPosition = useSharedValue(0);
+  const tabBarTranslateY = useSharedValue(0);
   const [activeTab, setActiveTab] = useState(0);
+
+  // Assign controls so any page's scroll view can call them
+  tabBarControls.show = () => { tabBarTranslateY.value = withTiming(0, { duration: 250 }); };
+  tabBarControls.hide = () => { tabBarTranslateY.value = withTiming(100, { duration: 250 }); };
+
+  const tabBarStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: tabBarTranslateY.value }],
+  }));
 
   const handleTabPress = (index: number) => {
     scrollPosition.value = index; // instant UI update before page animates
+    tabBarControls.show();
     pagerRef.current?.setPage(index);
   };
 
@@ -75,6 +86,7 @@ export default function DashboardTab() {
 
   const onPageSelected = (e: any) => {
     setActiveTab(e.nativeEvent.position);
+    tabBarControls.show();
   };
 
   const tabs = [
@@ -111,7 +123,7 @@ export default function DashboardTab() {
       </PagerView>
 
       {/* Custom Floating Tab Bar Island */}
-      <View style={{
+      <Animated.View style={[tabBarStyle, {
         position: 'absolute',
         bottom: insets.bottom + 10,
         left: 20,
@@ -129,7 +141,7 @@ export default function DashboardTab() {
         shadowOpacity: 0.25,
         shadowRadius: 10,
         elevation: 5,
-      }}>
+      }]}>
         {tabs.map((tab) => (
           <TabButton
             key={tab.index}
@@ -139,7 +151,7 @@ export default function DashboardTab() {
             onPress={() => handleTabPress(tab.index)}
           />
         ))}
-      </View>
+      </Animated.View>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import { View, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useEffect, useState, useMemo, useCallback } from 'react'
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import QuizCard from '@/components/Quiz/QuizCard'
 import { getQuizDetails } from '@/utils/apicalls'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useApiStore } from '@/utils/store'
 import Animated, { FadeInDown, FadeInRight, FadeInUp } from 'react-native-reanimated'
 import Skeleton from '@/components/Skeleton'
+import tabBarControls from '@/utils/tabBarControls'
 
 export default function Quizzes() {
     const [quizData, setQuizData] = useState<Array<any>>([]);
@@ -15,6 +16,14 @@ export default function Quizzes() {
     const tabBarHeight = 70 + insets.bottom;
     const dataApi: any[] = useApiStore((state: any) => state.data);
     const [loading, setLoading] = useState(true);
+    const lastScrollY = useRef(0);
+
+    const handleScroll = (e: any) => {
+        const y = e.nativeEvent.contentOffset.y;
+        if (y > lastScrollY.current + 5) tabBarControls.hide();
+        else if (y < lastScrollY.current - 5) tabBarControls.show();
+        lastScrollY.current = y;
+    };
 
     useEffect(() => {
         const getQuizData = async () => {
@@ -147,6 +156,8 @@ export default function Quizzes() {
                         data={filteredData}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: tabBarHeight + 20, paddingHorizontal: 16 }}
+                        onScroll={handleScroll}
+                        scrollEventThrottle={16}
                         renderItem={({ item, index }) => (
                             <Animated.View entering={FadeInUp.delay(index * 100 + 300).springify()}>
                                 <QuizCard
