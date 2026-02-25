@@ -44,7 +44,7 @@ export default function AttendanceTable({ attendance }: { attendance: { Present:
                 </View>
             </View>
 
-            <CustomButton
+            {/* <CustomButton
                 onPress={() => {
                     // @ts-ignore
                     router.push('/(tabs)/attendance')
@@ -52,7 +52,7 @@ export default function AttendanceTable({ attendance }: { attendance: { Present:
                 title={'View Detailed History'}
                 containerStyles={'mt-6 w-full bg-color_five/20 border border-color_five/50 active:bg-color_five/30 active:scale-95'}
                 textStyles={'text-color_five text-sm'}
-            />
+            /> */}
         </View>
     )
 }

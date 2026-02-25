@@ -110,6 +110,7 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
                     <TouchableOpacity
                         onPress={goToPrev}
                         disabled={!canGoPrev}
+                        activeOpacity={1}
                         className={`p-1.5 rounded-lg border ${
                             canGoPrev ? 'border-white/20 bg-white/5' : 'border-white/5 bg-transparent'
                         }`}
@@ -119,6 +120,7 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
                     <TouchableOpacity
                         onPress={goToNext}
                         disabled={!canGoNext}
+                        activeOpacity={1}
                         className={`p-1.5 rounded-lg border ${
                             canGoNext ? 'border-white/20 bg-white/5' : 'border-white/5 bg-transparent'
                         }`}
@@ -135,7 +137,7 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
             ) : (
                 <View className="pl-2">
                     {/* Vertical Line */}
-                    <View className="absolute left-[29px] top-4 bottom-4 w-[2px] bg-white/10 rounded-full" />
+                    <View className="absolute left-[37px] top-4 bottom-4 w-[2px] bg-white/10 rounded-full" />
 
                     {arrayTimeDetails.map((item, index) => {
                         const timeParts = item.time[0] ? item.time[0].split(' - ')[0] : '00:00';
@@ -143,7 +145,7 @@ export default function TodaySchedule({ scheduleData }: { scheduleData: Array<an
                         return (
                             <View key={index} className="flex-row mb-2 relative">
                                 {/* Time Column */}
-                                <View className="w-16 mr-3 items-end justify-center py-4">
+                                <View className="w-16 mr-3 items-end justify-center py-4 right-[8px]">
                                     <Text className="text-white font-montserratBold text-sm">{timeParts}</Text>
                                     <Text className="text-white/30 font-montserratMedium text-[10px] uppercase">Start</Text>
                                 </View>

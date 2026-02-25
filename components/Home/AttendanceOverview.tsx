@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState } from 'react';
 import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,6 +10,29 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
     const [attendanceThreshold, setAttendanceThreshold] = useState<number>(75);
     const [classesToAttend, setClassesToAttend] = useState<string>('0');
     const [classesToMiss, setClassesToMiss] = useState<string>('0');
+    const [firstEnteredField, setFirstEnteredField] = useState<'attend' | 'miss' | null>(null);
+
+    const handleAttendChange = (val: string) => {
+        const digits = val.replace(/[^0-9]/g, '');
+        setClassesToAttend(digits);
+        const num = parseInt(digits) || 0;
+        if (num > 0 && firstEnteredField === null) {
+            setFirstEnteredField('attend');
+        } else if (num === 0 && firstEnteredField === 'attend') {
+            setFirstEnteredField((parseInt(classesToMiss) || 0) > 0 ? 'miss' : null);
+        }
+    };
+
+    const handleMissChange = (val: string) => {
+        const digits = val.replace(/[^0-9]/g, '');
+        setClassesToMiss(digits);
+        const num = parseInt(digits) || 0;
+        if (num > 0 && firstEnteredField === null) {
+            setFirstEnteredField('miss');
+        } else if (num === 0 && firstEnteredField === 'miss') {
+            setFirstEnteredField((parseInt(classesToAttend) || 0) > 0 ? 'attend' : null);
+        }
+    };
 
     if (!attendance) {
         return (
@@ -39,15 +62,38 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
     const calculateFutureAttendance = (attend: string, miss: string): number => {
         const attendNum = parseInt(attend) || 0;
         const missNum = parseInt(miss) || 0;
-        const currentPresent = attendance.Present;
-        const currentTotal = attendance.Total;
+        const currentPresent = attendance!.Present;
+        const currentTotal = attendance!.Total;
 
-        const newPresent = currentPresent + attendNum;
-        const newTotal = currentTotal + attendNum + missNum;
+        if (currentTotal === 0) return 0;
+        if (attendNum === 0 && missNum === 0) return parseFloat(((currentPresent / currentTotal) * 100).toFixed(2));
 
-        // avoid NaN if total is 0, though unlikely with data
-        if (newTotal === 0) return 0;
-        return parseFloat(((newPresent / newTotal) * 100).toFixed(2));
+        // Only one field has a value — calculate directly
+        if (attendNum === 0) {
+            const newTotal = currentTotal + missNum;
+            return parseFloat(((currentPresent / newTotal) * 100).toFixed(2));
+        }
+        if (missNum === 0) {
+            const newPresent = currentPresent + attendNum;
+            const newTotal = currentTotal + attendNum;
+            return parseFloat(((newPresent / newTotal) * 100).toFixed(2));
+        }
+
+        // Both fields have values — apply the first-entered field first,
+        // then use that intermediate ratio as the base for the second.
+        if (firstEnteredField === 'miss') {
+            // Miss applied first → new ratio after missing
+            const afterMissPresent = currentPresent;
+            const afterMissTotal = currentTotal + missNum;
+            // Then attend on top of that
+            return parseFloat((((afterMissPresent + attendNum) / (afterMissTotal + attendNum)) * 100).toFixed(2));
+        } else {
+            // Attend applied first (default) → new ratio after attending
+            const afterAttendPresent = currentPresent + attendNum;
+            const afterAttendTotal = currentTotal + attendNum;
+            // Then miss on top of that
+            return parseFloat(((afterAttendPresent / (afterAttendTotal + missNum)) * 100).toFixed(2));
+        }
     };
 
     const calculateClassesNeeded = (): { canLeave: boolean, classesNeeded: number } => {
@@ -155,50 +201,59 @@ export default function AttendanceOverview({ attendance, classCount }: { attenda
                     </View>
 
                     {/* What if Calculator */}
-                    <View className="w-full bg-black/20 rounded-2xl p-4 border border-white/5 mt-4">
-                        <View className="flex-row justify-between items-center gap-4 mb-3">
-                            {/* Attend Input */}
-                            <View className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5">
-                                <Text className="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1 text-center">Attend Next</Text>
-                                <View className="flex-row items-center justify-center">
-                                    <TextInput
-                                        value={classesToAttend}
-                                        onChangeText={setClassesToAttend}
-                                        keyboardType="numeric"
-                                        className="text-white font-montserratBold text-xl text-center p-0 min-w-[40px]"
-                                        selectionColor="#a855f7"
-                                    />
-                                    <Text className="text-white/50 text-xs font-montserratMedium ml-1">Classes</Text>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        className="w-full mt-4"
+                    >
+                        <View className="bg-black/20 rounded-2xl p-4 border border-white/5">
+                            <View className="flex-row justify-between items-center gap-4 mb-3">
+                                {/* Attend Input */}
+                                <View className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5">
+                                    <Text className="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1 text-center">Attend Next</Text>
+                                    <View className="flex-row items-center justify-center">
+                                        <TextInput
+                                            value={classesToAttend}
+                                            onChangeText={handleAttendChange}
+                                            onFocus={() => { if (classesToAttend === '0') setClassesToAttend(''); }}
+                                            onBlur={() => { if (!classesToAttend || classesToAttend === '') { setClassesToAttend('0'); if (firstEnteredField === 'attend') setFirstEnteredField((parseInt(classesToMiss) || 0) > 0 ? 'miss' : null); } }}
+                                            keyboardType="numeric"
+                                            className="text-white font-montserratBold text-xl text-center p-0 min-w-[40px]"
+                                            selectionColor="#a855f7"
+                                        />
+                                        <Text className="text-white/50 text-xs font-montserratMedium ml-1">Classes</Text>
+                                    </View>
+                                </View>
+
+                                {/* Miss Input */}
+                                <View className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5">
+                                    <Text className="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1 text-center">Miss Next</Text>
+                                    <View className="flex-row items-center justify-center">
+                                        <TextInput
+                                            value={classesToMiss}
+                                            onChangeText={handleMissChange}
+                                            onFocus={() => { if (classesToMiss === '0') setClassesToMiss(''); }}
+                                            onBlur={() => { if (!classesToMiss || classesToMiss === '') { setClassesToMiss('0'); if (firstEnteredField === 'miss') setFirstEnteredField((parseInt(classesToAttend) || 0) > 0 ? 'attend' : null); } }}
+                                            keyboardType="numeric"
+                                            className="text-white font-montserratBold text-xl text-center p-0 min-w-[40px]"
+                                            selectionColor="#ef4444"
+                                        />
+                                        <Text className="text-white/50 text-xs font-montserratMedium ml-1">Classes</Text>
+                                    </View>
                                 </View>
                             </View>
 
-                            {/* Miss Input */}
-                            <View className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5">
-                                <Text className="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1 text-center">Miss Next</Text>
-                                <View className="flex-row items-center justify-center">
-                                    <TextInput
-                                        value={classesToMiss}
-                                        onChangeText={setClassesToMiss}
-                                        keyboardType="numeric"
-                                        className="text-white font-montserratBold text-xl text-center p-0 min-w-[40px]"
-                                        selectionColor="#ef4444"
-                                    />
-                                    <Text className="text-white/50 text-xs font-montserratMedium ml-1">Classes</Text>
-                                </View>
-                            </View>
+                            <Text className="text-center text-white/70 font-montserratMedium text-xs">
+                                Your attendance will be <Text className={`font-bold text-sm ${calculateFutureAttendance(classesToAttend, classesToMiss) >= attendanceThreshold ? 'text-green-400' : 'text-red-400'}`}>{calculateFutureAttendance(classesToAttend, classesToMiss)}%</Text>
+                            </Text>
                         </View>
-
-                        <Text className="text-center text-white/70 font-montserratMedium text-xs">
-                            Your attendance will be <Text className={`font-bold text-sm ${calculateFutureAttendance(classesToAttend, classesToMiss) >= attendanceThreshold ? 'text-green-400' : 'text-red-400'}`}>{calculateFutureAttendance(classesToAttend, classesToMiss)}%</Text>
-                        </Text>
-                    </View>
+                    </KeyboardAvoidingView>
                 </View>
             </View>
 
             {/* Expander/Table */}
-            <View className="mt-4">
+            {/* <View className="mt-4">
                 <AttendanceTable attendance={attendance} />
-            </View>
+            </View> */}
         </View>
     )
 }
