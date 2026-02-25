@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { getSubjectAttendance } from '@/utils/apicalls'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
-export default function ScheduleCard({ subjectName, faculty, time = [], subjectId }: { subjectName: string, faculty: string, time: Array<string>, subjectId?: string }) {
+export default function ScheduleCard({ subjectName, faculty, time = [], subjectId, date }: { subjectName: string, faculty: string, time: Array<string>, subjectId?: string, date?: Date }) {
     const [attendanceStatus, setAttendanceStatus] = useState<{ [key: string]: 'present' | 'absent' | 'not-marked' }>({});
     const [loading, setLoading] = useState(false);
 
@@ -23,7 +23,7 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
             try {
                 const attendanceData = await getSubjectAttendance(subjectId);
 
-                const today = new Date();
+                const today = date ?? new Date();
                 const todayDateString = today.toDateString();
 
                 const statusMap: { [key: string]: 'present' | 'absent' | 'not-marked' } = {};
@@ -89,7 +89,7 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
         };
 
         fetchAttendance();
-    }, [subjectId, time]);
+    }, [subjectId, time, date]);
 
     const getAttendanceIcon = (status: 'present' | 'absent' | 'not-marked') => {
         switch (status) {
@@ -113,29 +113,30 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
         }
     };
 
-    const returnTime = () => {
-        return time.map((timeSlot, index) => (
-            <View key={index} className="flex-row justify-between items-center py-1">
-                <View className="bg-surface-highlight px-2 py-1 rounded border border-white/10">
-                    <Text className='font-montserratSemiBold text-sm text-sky-400'>{timeSlot}</Text>
-                </View>
-                {subjectId && (
-                    <View className="flex-row items-center gap-1">
-                        {loading ? (
-                            <Text className="text-white/50 text-sm">Loading...</Text>
-                        ) : (
-                            <>
-                                {getAttendanceIcon(attendanceStatus[timeSlot] || 'not-marked')}
-                                <Text className={`text-sm font-montserratMedium text-white`}>
-                                    {getAttendanceText(attendanceStatus[timeSlot] || 'not-marked')}
-                                </Text>
-                            </>
-                        )}
-                    </View>
-                )}
+    const renderTimeSlot = (timeSlot: string, index: number) => (
+        <View key={index} className="flex-row justify-between items-center py-1">
+            <View className="bg-surface-highlight px-2 py-1 rounded border border-white/10">
+                <Text className='font-montserratSemiBold text-sm text-sky-400'>{timeSlot}</Text>
             </View>
-        ));
-    };
+            {subjectId && (
+                <View className="flex-row items-center gap-1">
+                    {loading ? (
+                        <Text className="text-white/50 text-sm font-montserratMedium">Loading...</Text>
+                    ) : (
+                        <>
+                            {getAttendanceIcon(attendanceStatus[timeSlot] || 'not-marked')}
+                            <Text className={`text-sm font-montserratMedium ${
+                                attendanceStatus[timeSlot] === 'present' ? 'text-success' :
+                                attendanceStatus[timeSlot] === 'absent' ? 'text-error' : 'text-text-muted'
+                            }`}>
+                                {getAttendanceText(attendanceStatus[timeSlot] || 'not-marked')}
+                            </Text>
+                        </>
+                    )}
+                </View>
+            )}
+        </View>
+    );
 
     return (
         <View className='bg-surface border border-white/10 rounded-xl p-4 flex gap-2 my-2'>
@@ -150,33 +151,7 @@ export default function ScheduleCard({ subjectName, faculty, time = [], subjectI
             </View>
 
             <View className="mt-2 bg-color_one p-3 rounded-lg border border-white/5">
-                {time?.length === 1 ? (
-                    <View className="flex-row justify-between items-center">
-                        <View className="bg-surface-highlight px-2 py-1 rounded border border-white/10">
-                            <Text className='font-montserratSemiBold text-sm text-sky-400'>{time[0]}</Text>
-                        </View>
-                        {subjectId && (
-                            <View className="flex-row items-center gap-2">
-                                {loading ? (
-                                    <Text className="text-gray-500 text-xs">Syncing...</Text>
-                                ) : (
-                                    <>
-                                        <View className="scale-90">
-                                            {getAttendanceIcon(attendanceStatus[time[0]] || 'not-marked')}
-                                        </View>
-                                        <Text className={`text-xs font-montserratBold uppercase tracking-wide
-                                            ${(attendanceStatus[time[0]] === 'present') ? 'text-success' :
-                                                (attendanceStatus[time[0]] === 'absent') ? 'text-error' : 'text-text-muted'}`}>
-                                            {getAttendanceText(attendanceStatus[time[0]] || 'not-marked')}
-                                        </Text>
-                                    </>
-                                )}
-                            </View>
-                        )}
-                    </View>
-                ) : (
-                    returnTime()
-                )}
+                {time.map((timeSlot, index) => renderTimeSlot(timeSlot, index))}
             </View>
         </View>
     )
