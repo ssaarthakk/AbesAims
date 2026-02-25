@@ -11,6 +11,8 @@ import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Constants from 'expo-constants';
+import UpdateNotification from "@/components/Common/UpdateNotification";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,17 +38,10 @@ export default function Layout() {
             }
         }
 
-        const initializeApp = async () => {
-            await checkLoginStatus();
-            if (isLoggedIn) {
-                import('@/utils/updateManager').then(({ UpdateManager }) => {
-                    UpdateManager.checkAndPromptForUpdate();
-                });
-            }
-        };
+        checkLoginStatus();
+    }, [data]);
 
-        initializeApp();
-    }, [data, isLoggedIn]);
+    const appVersion = Constants.expoConfig?.version ?? '0.0.0';
 
     useEffect(() => {
         if (fontsLoaded) SplashScreen.hideAsync();
@@ -61,9 +56,12 @@ export default function Layout() {
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <StatusBar style="light" backgroundColor='#0f172a' />
                 {isLoggedIn ? (
-                    <Stack screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name="(tabs)" />
-                    </Stack>
+                    <>
+                        <Stack screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name="(tabs)" />
+                        </Stack>
+                        <UpdateNotification currentVersion={appVersion} />
+                    </>
                 ) : (
                     <LinearGradient className='flex-1 justify-center items-center' colors={['#0f172a', '#1e293b']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} >
                         <Login />
