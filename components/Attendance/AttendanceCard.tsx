@@ -4,13 +4,12 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import CustomButton from '@/components/Common/CustomButton';
 import { getSubjectAttendance } from '@/utils/apicalls';
 import { useAttData } from '@/utils/store';
-import { useRouter } from 'expo-router';
 
 export default function AttendanceCard({ id, subjectName, subjectCode, present, absent, leave, exempt, total, percent }: { subjectName: string, present: number, absent: number, leave: number, exempt: number, total: number, percent: string, id: number, subjectCode: string }) {
 
     const [isLoading, setIsLoading] = useState(false);
-    const setAttData = useAttData((state: any) => state.setAttData)
-    const router = useRouter();
+    const setAttData = useAttData((state: any) => state.setAttData);
+    const setDetailsVisible = useAttData((state: any) => state.setDetailsVisible);
 
     const handlePress = async () => {
         setIsLoading(true);
@@ -19,10 +18,7 @@ export default function AttendanceCard({ id, subjectName, subjectCode, present, 
             ToastAndroid.show('No Data to show', ToastAndroid.SHORT);
         } else {
             setAttData(data);
-            setAttData(data);
-            setAttData(data);
-            // @ts-ignore
-            router.push('/(tabs)/attendance/details')
+            setDetailsVisible(true);
             setIsLoading(false);
         }
     }

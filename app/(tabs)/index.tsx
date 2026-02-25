@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import PagerView from 'react-native-pager-view';
@@ -8,6 +8,8 @@ import Quizzes from './quizzes';
 import Profile from './profile/index';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { FadeInDown, useAnimatedStyle, withTiming, withSpring, interpolateColor, useSharedValue } from 'react-native-reanimated';
+import { useFocusEffect } from 'expo-router';
+import { usePagerStore } from '@/utils/store';
 
 // Separate TabButton Component for proper hook usage
 const TabButton = ({ tab, isActive, onPress }: { tab: any, isActive: boolean, onPress: () => void }) => {
@@ -56,15 +58,32 @@ export default function DashboardTab() {
   const [activeTab, setActiveTab] = useState(0);
   const pagerRef = useRef<PagerView>(null);
   const insets = useSafeAreaInsets();
+  const activePagerPage = usePagerStore((state: any) => state.activePagerPage);
+  const setActivePagerPage = usePagerStore((state: any) => state.setActivePagerPage);
 
   const handleTabPress = (index: number) => {
     setActiveTab(index);
+    setActivePagerPage(index);
     pagerRef.current?.setPage(index);
   };
 
   const onPageSelected = (e: any) => {
-    setActiveTab(e.nativeEvent.position);
+    const page = e.nativeEvent.position;
+    setActiveTab(page);
+    setActivePagerPage(page);
   };
+
+  // Restore the pager page when navigating back from a stack screen (e.g. details)
+  useFocusEffect(
+    useCallback(() => {
+      if (activePagerPage !== activeTab) {
+        setActiveTab(activePagerPage);
+        setTimeout(() => {
+          pagerRef.current?.setPage(activePagerPage);
+        }, 0);
+      }
+    }, [activePagerPage])
+  );
 
   const tabs = [
     { name: 'Dashboard', icon: 'home-outline', index: 0 },

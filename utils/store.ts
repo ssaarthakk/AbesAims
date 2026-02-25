@@ -13,7 +13,16 @@ export const useApiStore = create((set) => ({
 
 export const useAttData = create((set) => ({
     attData: [],
-    setAttData: (newData: any) => set({ attData: newData })
+    setAttData: (newData: any) => set({ attData: newData }),
+    attScrollOffset: 0,
+    setAttScrollOffset: (offset: number) => set({ attScrollOffset: offset }),
+    detailsVisible: false,
+    setDetailsVisible: (visible: boolean) => set({ detailsVisible: visible }),
+}));
+
+export const usePagerStore = create((set) => ({
+    activePagerPage: 0,
+    setActivePagerPage: (page: number) => set({ activePagerPage: page }),
 }));
 
 export default useStore;
