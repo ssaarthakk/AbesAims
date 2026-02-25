@@ -21,12 +21,6 @@ export default function AttendanceLayout() {
                     headerShown: false,
                 }}
             />
-            <Stack.Screen
-                name="details"
-                options={{
-                    headerShown: false,
-                }}
-            />
         </Stack>
     );
 }

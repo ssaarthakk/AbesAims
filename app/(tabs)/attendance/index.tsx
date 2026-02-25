@@ -1,13 +1,11 @@
 import { View, FlatList, Text, Modal, TouchableOpacity } from 'react-native'
-import React, { useEffect, useRef, useCallback, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AttendanceCard from '@/components/Attendance/AttendanceCard'
 import { useApiStore, useAttData } from '@/utils/store'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated'
 import Skeleton from '@/components/Skeleton'
-import { useFocusEffect } from 'expo-router'
 import AttendanceDetailCard from '@/components/Attendance/AttendanceDetailCard'
-import Ionicons from '@expo/vector-icons/Ionicons'
 
 export default function Attendance() {
     const dataApi: [any] = useApiStore((state: any) => state.data);
@@ -15,8 +13,6 @@ export default function Attendance() {
     const insets = useSafeAreaInsets();
     const tabBarHeight = 70 + insets.bottom;
     const flatListRef = useRef<FlatList>(null);
-    const attScrollOffset = useAttData((state: any) => state.attScrollOffset);
-    const setAttScrollOffset = useAttData((state: any) => state.setAttScrollOffset);
     const attData = useAttData((state: any) => state.attData);
     const detailsVisible = useAttData((state: any) => state.detailsVisible);
     const setDetailsVisible = useAttData((state: any) => state.setDetailsVisible);
@@ -36,16 +32,6 @@ export default function Attendance() {
             setApiData(dataApi.slice(0, -1))
         }
     }, [dataApi])
-
-    useFocusEffect(
-        useCallback(() => {
-            if (attScrollOffset > 0 && flatListRef.current) {
-                setTimeout(() => {
-                    flatListRef.current?.scrollToOffset({ offset: attScrollOffset, animated: false });
-                }, 50);
-            }
-        }, [attScrollOffset])
-    );
 
     return (
         <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
@@ -121,8 +107,6 @@ export default function Attendance() {
                             data={apiData}
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={{ paddingBottom: tabBarHeight + 20 }}
-                            onScroll={(e) => setAttScrollOffset(e.nativeEvent.contentOffset.y)}
-                            scrollEventThrottle={16}
                             renderItem={({ item, index }) => (
                                 <Animated.View entering={FadeInUp.delay(index * 100).springify()}>
                                     <AttendanceCard

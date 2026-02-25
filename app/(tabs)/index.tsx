@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import PagerView from 'react-native-pager-view';
@@ -7,83 +7,75 @@ import Attendance from './attendance/index';
 import Quizzes from './quizzes';
 import Profile from './profile/index';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Animated, { FadeInDown, useAnimatedStyle, withTiming, withSpring, interpolateColor, useSharedValue } from 'react-native-reanimated';
-import { useFocusEffect } from 'expo-router';
-import { usePagerStore } from '@/utils/store';
+import Animated, { useAnimatedStyle, interpolateColor, useSharedValue, SharedValue } from 'react-native-reanimated';
 
-// Separate TabButton Component for proper hook usage
-const TabButton = ({ tab, isActive, onPress }: { tab: any, isActive: boolean, onPress: () => void }) => {
-  const animatedValue = useSharedValue(isActive ? 1 : 0);
-
-  useEffect(() => {
-    animatedValue.value = withTiming(isActive ? 1 : 0, { duration: 300 });
-  }, [isActive]);
-
+// Driven entirely by scrollPosition SharedValue — runs on UI thread, no JS lag
+const TabButton = ({ tab, index, scrollPosition, onPress }: {
+  tab: any,
+  index: number,
+  scrollPosition: SharedValue<number>,
+  onPress: () => void
+}) => {
   const animatedStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      animatedValue.value,
-      [0, 1],
-      ['transparent', 'rgba(168, 85, 247, 0.2)'] // Transparent to Purple/20
-    );
-
-    const scale = 0.9 + (0.1 * animatedValue.value); // Scale from 0.9 to 1.0
-
+    const distance = Math.abs(scrollPosition.value - index);
+    const progress = Math.max(0, 1 - distance);
     return {
-      backgroundColor,
-      transform: [{ scale }],
+      backgroundColor: interpolateColor(progress, [0, 1], ['transparent', 'rgba(168, 85, 247, 0.2)']),
+      transform: [{ scale: 0.9 + 0.1 * progress }],
     };
+  });
+
+  // Cross-fade between inactive and active icon entirely on UI thread
+  const activeIconStyle = useAnimatedStyle(() => {
+    const distance = Math.abs(scrollPosition.value - index);
+    return { opacity: Math.max(0, 1 - distance), position: 'absolute' as const };
+  });
+
+  const inactiveIconStyle = useAnimatedStyle(() => {
+    const distance = Math.abs(scrollPosition.value - index);
+    return { opacity: Math.min(1, distance) };
   });
 
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
-      activeOpacity={0.7}
+      activeOpacity={1}
     >
       <Animated.View
-        className={`px-6 py-2 rounded-full items-center justify-center`}
-        style={animatedStyle}
+        style={[animatedStyle, { paddingHorizontal: 24, paddingVertical: 8, borderRadius: 999, alignItems: 'center', justifyContent: 'center' }]}
       >
-        <Ionicons
-          name={isActive ? (tab.icon as any).replace('-outline', '') : tab.icon as any}
-          size={24}
-          color={isActive ? '#a855f7' : '#64748b'}
-        />
+        <View style={{ width: 24, height: 24 }}>
+          <Animated.View style={inactiveIconStyle}>
+            <Ionicons name={tab.icon} size={24} color="#64748b" />
+          </Animated.View>
+          <Animated.View style={activeIconStyle}>
+            <Ionicons name={tab.icon.replace('-outline', '')} size={24} color="#a855f7" />
+          </Animated.View>
+        </View>
       </Animated.View>
     </TouchableOpacity>
   );
 };
 
 export default function DashboardTab() {
-  const [activeTab, setActiveTab] = useState(0);
   const pagerRef = useRef<PagerView>(null);
   const insets = useSafeAreaInsets();
-  const activePagerPage = usePagerStore((state: any) => state.activePagerPage);
-  const setActivePagerPage = usePagerStore((state: any) => state.setActivePagerPage);
+  const scrollPosition = useSharedValue(0);
+  const [activeTab, setActiveTab] = useState(0);
 
   const handleTabPress = (index: number) => {
-    setActiveTab(index);
-    setActivePagerPage(index);
+    scrollPosition.value = index; // instant UI update before page animates
     pagerRef.current?.setPage(index);
   };
 
-  const onPageSelected = (e: any) => {
-    const page = e.nativeEvent.position;
-    setActiveTab(page);
-    setActivePagerPage(page);
+  const onPageScroll = (e: any) => {
+    scrollPosition.value = e.nativeEvent.position + e.nativeEvent.offset;
   };
 
-  // Restore the pager page when navigating back from a stack screen (e.g. details)
-  useFocusEffect(
-    useCallback(() => {
-      if (activePagerPage !== activeTab) {
-        setActiveTab(activePagerPage);
-        setTimeout(() => {
-          pagerRef.current?.setPage(activePagerPage);
-        }, 0);
-      }
-    }, [activePagerPage])
-  );
+  const onPageSelected = (e: any) => {
+    setActiveTab(e.nativeEvent.position);
+  };
 
   const tabs = [
     { name: 'Dashboard', icon: 'home-outline', index: 0 },
@@ -98,7 +90,9 @@ export default function DashboardTab() {
         ref={pagerRef}
         style={{ flex: 1 }}
         initialPage={0}
+        onPageScroll={onPageScroll}
         onPageSelected={onPageSelected}
+        overdrag
       >
         <View key="0" style={{ flex: 1, backgroundColor: '#020617' }} collapsable={false}>
           <SafeAreaView className='flex-1 bg-background' edges={['top', 'left', 'right']}>
@@ -140,7 +134,8 @@ export default function DashboardTab() {
           <TabButton
             key={tab.index}
             tab={tab}
-            isActive={activeTab === tab.index}
+            index={tab.index}
+            scrollPosition={scrollPosition}
             onPress={() => handleTabPress(tab.index)}
           />
         ))}
