@@ -3,9 +3,10 @@ import React, { useCallback, useState, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProfileCard from '@/components/Profile/ProfileCard';
 import { removeData } from '@/utils/storage';
-import { useApiStore } from '@/utils/store';
+import { useApiStore, useAttData } from '@/utils/store';
 import useStore from '@/utils/store';
 import * as Updates from 'expo-updates';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -28,17 +29,26 @@ export default function Profile() {
     // Logout
     const setUserData = useStore((state: any) => state.addUserData);
     const setApiData = useApiStore((state: any) => state.addData);
+    const setAttData = useAttData((state: any) => state.setAttData);
 
     const handleLogout = async () => {
         try {
-            await removeData('userData');
+            // Clear ALL persisted data from AsyncStorage
+            await AsyncStorage.clear();
+            // Reset every in-memory store so the root layout re-evaluates immediately
             setUserData(null);
             setApiData([]);
-            // router.replace('/');
-            await Updates.reloadAsync();
+            setAttData([]);
         } catch (error) {
-            console.log("Error in Logout", error);
-            // ToastAndroid.show("Error logging out", ToastAndroid.SHORT);
+            console.log("Error clearing storage on logout", error);
+        }
+        // Reload the JS bundle for a fully clean start.
+        // In Expo Go / dev mode this may be a no-op; the store reset above
+        // is the reliable fallback that shows the login screen in that case.
+        try {
+            await Updates.reloadAsync();
+        } catch (_) {
+            // reloadAsync is unavailable in development — store reset above is enough
         }
     }
 

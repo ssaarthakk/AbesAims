@@ -7,7 +7,7 @@ import Attendance from './attendance/index';
 import Quizzes from './quizzes';
 import Profile from './profile/index';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Animated, { useAnimatedStyle, interpolateColor, useSharedValue, SharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, interpolateColor, useSharedValue, SharedValue, withTiming, cancelAnimation, runOnJS } from 'react-native-reanimated';
 import tabBarControls from '@/utils/tabBarControls';
 
 // Driven entirely by scrollPosition SharedValue — runs on UI thread, no JS lag
@@ -75,17 +75,24 @@ export default function DashboardTab() {
   }));
 
   const handleTabPress = (index: number) => {
-    scrollPosition.value = index; // instant UI update before page animates
+    // Do NOT pre-set scrollPosition here — onPageScroll will drive it naturally
+    // as PagerView animates, avoiding reverse-animation artifacts.
     tabBarControls.show();
     pagerRef.current?.setPage(index);
   };
 
   const onPageScroll = (e: any) => {
-    scrollPosition.value = e.nativeEvent.position + e.nativeEvent.offset;
+    // Update shared value from JS thread — drives the tab indicator during drag/animation
+    const next = e.nativeEvent.position + e.nativeEvent.offset;
+    cancelAnimation(scrollPosition);
+    scrollPosition.value = next;
   };
 
   const onPageSelected = (e: any) => {
-    setActiveTab(e.nativeEvent.position);
+    const page = e.nativeEvent.position;
+    // Snap to exact integer so the indicator never lingers after the page lands
+    scrollPosition.value = withTiming(page, { duration: 120 });
+    setActiveTab(page);
     tabBarControls.show();
   };
 

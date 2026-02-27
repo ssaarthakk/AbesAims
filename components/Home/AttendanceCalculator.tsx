@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput, Platform } from 'react-native';
 
 interface AttendanceCalculatorProps {
     attendance: { Present: number; Total: number; Percent: string };
@@ -7,6 +7,7 @@ interface AttendanceCalculatorProps {
 
 export default function AttendanceCalculator({ attendance }: AttendanceCalculatorProps) {
     const [classesToAttend, setClassesToAttend] = useState<number>(1);
+    const [inputValue, setInputValue] = useState<string>('1');
     const [futureAttendance, setFutureAttendance] = useState<number>(0);
     const [hypotheticalPercentage, setHypotheticalPercentage] = useState<number>(Math.round(parseFloat(attendance.Percent)));
     const [targetPercentage, setTargetPercentage] = useState<number>(75);
@@ -53,13 +54,39 @@ export default function AttendanceCalculator({ attendance }: AttendanceCalculato
 
     const incrementClasses = () => {
         if (classesToAttend < 999) {
-            setClassesToAttend(classesToAttend + 1);
+            const next = classesToAttend + 1;
+            setClassesToAttend(next);
+            setInputValue(String(next));
         }
     };
 
     const decrementClasses = () => {
         if (classesToAttend > 0) {
-            setClassesToAttend(classesToAttend - 1);
+            const next = classesToAttend - 1;
+            setClassesToAttend(next);
+            setInputValue(String(next));
+        }
+    };
+
+    const handleInputChange = (text: string) => {
+        // Allow only digits
+        const cleaned = text.replace(/[^0-9]/g, '');
+        setInputValue(cleaned);
+        const parsed = parseInt(cleaned, 10);
+        if (!isNaN(parsed) && parsed >= 0 && parsed <= 999) {
+            setClassesToAttend(parsed);
+        } else if (cleaned === '') {
+            setClassesToAttend(0);
+        }
+    };
+
+    const handleInputBlur = () => {
+        // Normalize to valid number on blur
+        if (inputValue === '' || isNaN(parseInt(inputValue, 10))) {
+            setInputValue('0');
+            setClassesToAttend(0);
+        } else {
+            setInputValue(String(classesToAttend));
         }
     };
 
@@ -110,10 +137,18 @@ export default function AttendanceCalculator({ attendance }: AttendanceCalculato
                         </Text>
                     </TouchableOpacity>
                     
-                    <View className='px-4 py-3 min-w-[60px]'>
-                        <Text className='font-montserratSemiBold text-lg text-center text-black'>
-                            {classesToAttend}
-                        </Text>
+                    <View className='px-2 py-1 min-w-[60px] items-center justify-center'>
+                        <TextInput
+                            value={inputValue}
+                            onChangeText={handleInputChange}
+                            onBlur={handleInputBlur}
+                            keyboardType="number-pad"
+                            returnKeyType="done"
+                            maxLength={3}
+                            selectTextOnFocus
+                            className='font-montserratSemiBold text-lg text-center text-black min-w-[50px]'
+                            style={{ paddingVertical: Platform.OS === 'android' ? 4 : 8 }}
+                        />
                     </View>
                     
                     <TouchableOpacity

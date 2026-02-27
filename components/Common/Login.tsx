@@ -1,4 +1,4 @@
-import { Text, TextInput, View, ToastAndroid, TouchableOpacity, Image } from 'react-native'
+import { Text, TextInput, View, ToastAndroid, TouchableOpacity, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import CustomButton from '@/components/Common/CustomButton';
 import { forgotPassoword, StudentData } from '@/utils/apicalls';
@@ -52,7 +52,11 @@ export default function Login() {
   }
 
   return (
-    <View className="flex-1 justify-center items-center w-full">
+    <KeyboardAvoidingView
+      className="flex-1 w-full"
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 24}
+    >
       {/* Background Elements */}
       <View className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden">
         <LinearGradient
@@ -66,7 +70,12 @@ export default function Login() {
         <View className="absolute top-[40%] -right-[20%] w-[250px] h-[250px] bg-secondary/20 rounded-full blur-[90px]" />
       </View>
 
-      <View className='w-[90vw] max-w-sm'>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 32 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View className='w-[90vw] max-w-sm'>
         <View>
           {
             loggingIn && (
@@ -138,7 +147,8 @@ export default function Login() {
             </TouchableOpacity>
           </Animated.View>
         </View>
-      </View>
+        </View>
+      </ScrollView>
 
       <Modal isOpen={modalOpen}>
         <View className="bg-[#0f172a] border border-white/10 rounded-3xl p-6 w-[85vw]">
@@ -183,6 +193,6 @@ export default function Login() {
           {/* </LinearGradient> */}
         </View>
       </Modal>
-    </View>
+    </KeyboardAvoidingView>
   )
 }

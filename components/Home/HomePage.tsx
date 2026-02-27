@@ -1,4 +1,4 @@
-import { ToastAndroid, View, RefreshControl, ScrollView } from 'react-native'
+import { ToastAndroid, View, RefreshControl, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { getData } from '@/utils/storage';
 import { getSchedule, getSubjectDetailsAndAttendance, StudentData } from '@/utils/apicalls';
@@ -158,6 +158,10 @@ export default function HomePage() {
   }, [scheduleData, refreshing]);
 
   return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
     <ScrollView
       refreshControl={
         <RefreshControl
@@ -172,6 +176,7 @@ export default function HomePage() {
       showsVerticalScrollIndicator={false}
       onScroll={handleScroll}
       scrollEventThrottle={16}
+      keyboardShouldPersistTaps="handled"
     >
       <Animated.View entering={FadeInDown.delay(100).duration(500)}>
         <DashboardHeader userData={userData} />
@@ -211,5 +216,6 @@ export default function HomePage() {
         </Animated.View>
       </View>
     </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
