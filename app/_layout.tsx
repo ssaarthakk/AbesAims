@@ -1,78 +1,23 @@
-import "./global.css";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Stack } from 'expo-router';
-import React, { useEffect, useState } from "react";
-import useStore from "@/utils/store";
-import { StudentData } from "@/utils/apicalls";
-import { getData } from "@/utils/storage";
-import Login from "@/components/Common/Login";
-import { LinearGradient } from "expo-linear-gradient";
-import { useFonts } from "expo-font";
+import { useEffect } from "react";
 import { SplashScreen } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Text } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-
-    const [fontsLoaded] = useFonts({
-        "Montserrat": require("../assets/fonts/Montserrat-Regular.ttf"),
-        'Montserrat-ExtraBold': require('../assets/fonts/Montserrat-ExtraBold.ttf'),
-        'Montserrat-Bold': require('../assets/fonts/Montserrat-Bold.ttf'),
-        'Montserrat-Medium': require('../assets/fonts/Montserrat-Medium.ttf'),
-        'Montserrat-SemiBold': require('../assets/fonts/Montserrat-SemiBold.ttf'),
-    });
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const data = useStore((state: any) => state.userData);
-    React.useEffect(() => {
-        const checkLoginStatus = async () => {
-            const userData: StudentData | null = await getData('userData');
-            if (!userData) {
-                setIsLoggedIn(false);
-            } else {
-                setIsLoggedIn(true);
-            }
-        }
-
-        const initializeApp = async () => {
-            await checkLoginStatus();
-            if (isLoggedIn) {
-                import('@/utils/updateManager').then(({ UpdateManager }) => {
-                    UpdateManager.checkAndPromptForUpdate();
-                });
-            }
-        };
-
-        initializeApp();
-    }, [data, isLoggedIn]);
-
     useEffect(() => {
-        if (fontsLoaded) SplashScreen.hideAsync();
-    }, [fontsLoaded]);
-
-    if (!fontsLoaded) {
-        return null;
-    }
+        SplashScreen.hideAsync();
+    }, []);
 
     return (
         <SafeAreaProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <StatusBar style="light" backgroundColor='#0f172a' />
-                {isLoggedIn ? (
-                    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#020617' } }}>
-                        <Stack.Screen name="(tabs)" />
-                    </Stack>
-                ) : (
-                    <>
-                        <StatusBar style="light" backgroundColor='#0f172a' />
-                        <LinearGradient className='flex-1 justify-center items-center' colors={['#0f172a', '#1e293b']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} >
-                            <Login />
-                        </LinearGradient>
-                    </>
-                )}
+            <GestureHandlerRootView style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#0f172a" }}>
+                <Text style={{ color: "white", fontSize: 24, fontWeight: "bold", textAlign: "center", padding: 20 }}>
+                    Thank you for using our app, It's time to say goodbye!
+                </Text>
             </GestureHandlerRootView>
         </SafeAreaProvider>
-    )
+    );
 }
